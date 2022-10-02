@@ -15,6 +15,11 @@ class Factorial {
 
         int argument;
         argument = Integer.parseInt(args[0]);
+
+        String my_string = "abc\jxdxd";
+
         System.out.print(factorial(argument));
+        
+
     }
 }
