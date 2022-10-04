@@ -123,7 +123,7 @@ while {printf("WHILE\n");col_num+=yyleng;}
 \"    {col_num+=yyleng;BEGIN STRING;}
 <STRING>{newline}   {printf("Line %d, col %d: unterminated string literal\n",line_num,col_num);line_num++;col_num=1;BEGIN 0;}
 <STRING>[^("\r"|"\n"|\")]*\\[^(f|n|r|t|\|"\"")][^("\r"|"\n"|\")]*(\")? {yyless(0);BEGIN STRING_ERROR;}
-<STRING>[^("\r"|"\n"|\")]*\" {printf("STRLIT (%s)\n",yytext);col_num+=yyleng;BEGIN 0;}
+<STRING>[^("\r"|"\n"|\")]*\" {printf("STRLIT (\"%s)\n",yytext);col_num+=yyleng;BEGIN 0;}
 <STRING>[^("\r"|"\n"|\")]*"\n"? {yyless(0);BEGIN STRING_ERROR;}
 
 <STRING_ERROR>\"    {BEGIN 0;}

@@ -1295,7 +1295,11 @@ YY_RULE_SETUP
 case 58:
 YY_RULE_SETUP
 #line 126 "jucompiler.l"
+<<<<<<< Updated upstream
 {printf("STRLIT (%s)\n",yytext);col_num+=yyleng;BEGIN 0;}
+=======
+{printf("STRLIT (\"%s)\n",yytext);col_num+=yyleng;BEGIN 0;}
+>>>>>>> Stashed changes
 	YY_BREAK
 case 59:
 /* rule 59 can match eol */
