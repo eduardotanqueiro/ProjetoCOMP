@@ -24,7 +24,7 @@ scape \\[f|n|r|t|\|"\""]
 <COMMENT><<EOF>>               {col_num+=yyleng;printf("Line %d, col %d: unterminated comment\n",start_comment,col_num);BEGIN 0;}
 <COMMENT>.               {col_num+=yyleng;}
 
-true|false  {printf("BOOLLIT\n");col_num+=yyleng;}
+true|false  {printf("BOOLLIT(%s)\n",yytext);col_num+=yyleng;}
 
 "&""&"  {printf("AND\n");col_num+=yyleng;}
 
@@ -110,7 +110,7 @@ void {printf("VOID\n");col_num+=yyleng;}
 
 while {printf("WHILE\n");col_num+=yyleng;}
 
-"+""+"|"-""-"|null|Integer|System|reserved_words {printf("RESERVED\n");col_num+=yyleng;}
+"+""+"|"-""-"|null|Integer|System|{reserved_words} {printf("RESERVED(%s)\n",yytext);col_num+=yyleng;}
 
 ([a-z]|[A-Z]|"_"|"$")([a-z]|[A-Z]|[0-9]|"_"|"$")*   {printf("ID(%s)\n",yytext);}col_num+=yyleng;
 
