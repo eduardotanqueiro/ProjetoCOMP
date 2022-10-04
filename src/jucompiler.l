@@ -7,7 +7,7 @@
     int start_comment = 1;
 %}
 
-expoente [eE]["+""-"]?(([0-9])|([0-9][0-9|"_"]*[0-9]))+
+expoente [eE]["+""-"]?([0-9])|([1-9]([0-9|"_"])*[0-9])
 newline \r?\n
 reserved_words private|protected|abstract|extends|final|implements|interface|native|new|strictfp|synchronized|transient|volatile|break|case|continue|default|do|for|instanceof|switch|assert|catch|finally|throw|throws|try|import|package|byte|char|float|short|super|this|const|goto
 scape \\[f|n|r|t|\|"\""]
@@ -114,9 +114,9 @@ while {printf("WHILE\n");col_num+=yyleng;}
 
 ([a-z]|[A-Z]|"_"|"$")([a-z]|[A-Z]|[0-9]|"_"|"$")*   {printf("ID(%s)\n",yytext);}col_num+=yyleng;
 
-0|([1-9](0|[0-9]+|"_")*[0-9]*)  {printf("INTLIT(%s)\n",yytext);col_num+=yyleng;}
+[0-9]|([1-9]([0-9|"_"])*[0-9])  {printf("INTLIT(%s)\n",yytext);col_num+=yyleng;}   
 
-(([0-9])|([0-9][0-9|"_"]*[0-9]))"."(([0-9])|([0-9][0-9|"_"]*[0-9]))*{expoente}  {printf("REALLIT\n");col_num+=yyleng;}
+(([0-9])|([0-9][0-9|"_"]*[0-9]))"."(([0-9])|([0-9][0-9|"_"]*[0-9])){expoente}  {printf("REALLIT\n");col_num+=yyleng;}
 
 #("\""[^("\r"|"\n"|"\"")]+"\"")|("\""["\f"|"\n"|"\r"|"\t"|"\\""\\"|"\\""\""]+"\"") {printf("STRLIT (%s)\n",yytext);col_num+=yyleng;}
 
