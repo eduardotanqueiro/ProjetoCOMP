@@ -5,11 +5,12 @@
     int line_num = 1;
     int col_num = 1;
     int start_comment = 1;
+    int flag_tokens = 0;
 %}
 
 expoente [eE]["+"-]?[0-9]([0-9_]*[0-9])?
 newline \r?\n
-reserved_words private|protected|abstract|extends|final|implements|interface|native|new|strictfp|synchronized|transient|volatile|break|case|continue|default|do|for|instanceof|switch|assert|catch|finally|throw|throws|try|import|package|byte|char|float|short|super|this|const|goto
+reserved_words private|protected|abstract|extends|final|implements|interface|native|new|strictfp|synchronized|transient|volatile|break|case|continue|default|do|for|instanceof|switch|assert|catch|finally|throw|throws|try|import|package|byte|char|float|short|super|this|const|goto|enum|long
 scape \\[f|n|r|t|\|"\""]
 
 %X STRING COMMENT STRING_ERROR
@@ -24,106 +25,106 @@ scape \\[f|n|r|t|\|"\""]
 <COMMENT><<EOF>>               {col_num+=yyleng;printf("Line %d, col %d: unterminated comment\n",start_comment,col_num);BEGIN 0;}
 <COMMENT>.               {col_num+=yyleng;}
 
-true|false  {printf("BOOLLIT(%s)\n",yytext);col_num+=yyleng;}
+true|false  {if(flag_tokens) printf("BOOLLIT(%s)\n",yytext);col_num+=yyleng;}
 
-"&""&"  {printf("AND\n");col_num+=yyleng;}
+"&""&"  {if(flag_tokens) printf("AND\n");col_num+=yyleng;}
 
-"=" {printf("ASSIGN\n");col_num+=yyleng;}
+"=" {if(flag_tokens) printf("ASSIGN\n");col_num+=yyleng;}
 
-"*" {printf("STAR\n");col_num+=yyleng;}
+"*" {if(flag_tokens) printf("STAR\n");col_num+=yyleng;}
 
-"," {printf("COMMA\n");col_num+=yyleng;}
+"," {if(flag_tokens) printf("COMMA\n");col_num+=yyleng;}
 
-"/" {printf("DIV\n");col_num+=yyleng;}
+"/" {if(flag_tokens) printf("DIV\n");col_num+=yyleng;}
 
-"=""=" {printf("EQ\n");col_num+=yyleng;}
+"=""=" {if(flag_tokens) printf("EQ\n");col_num+=yyleng;}
 
-">=" {printf("GE\n");col_num+=yyleng;}
+">=" {if(flag_tokens) printf("GE\n");col_num+=yyleng;}
 
-">" {printf("GT\n");col_num+=yyleng;}
+">" {if(flag_tokens) printf("GT\n");col_num+=yyleng;}
 
-"{" {printf("LBRACE\n");col_num+=yyleng;}
+"{" {if(flag_tokens) printf("LBRACE\n");col_num+=yyleng;}
 
-"<=" {printf("LE\n");col_num+=yyleng;}
+"<=" {if(flag_tokens) printf("LE\n");col_num+=yyleng;}
 
-"(" {printf("LPAR\n");col_num+=yyleng;}
+"(" {if(flag_tokens) printf("LPAR\n");col_num+=yyleng;}
 
-"[" {printf("LSQ\n");col_num+=yyleng;}
+"[" {if(flag_tokens) printf("LSQ\n");col_num+=yyleng;}
 
-"<" {printf("LT\n");col_num+=yyleng;}
+"<" {if(flag_tokens) printf("LT\n");col_num+=yyleng;}
 
-"-" {printf("MINUS\n");col_num+=yyleng;}
+- {if(flag_tokens) printf("MINUS\n");col_num+=yyleng;}
 
-"%" {printf("MOD\n");col_num+=yyleng;}
+"%" {if(flag_tokens) printf("MOD\n");col_num+=yyleng;}
 
-"!""=" {printf("NE\n");col_num+=yyleng;}
+"!""=" {if(flag_tokens) printf("NE\n");col_num+=yyleng;}
 
-"!" {printf("NOT\n");col_num+=yyleng;}
+"!" {if(flag_tokens) printf("NOT\n");col_num+=yyleng;}
 
-"|""|" {printf("OR\n");col_num+=yyleng;}
+"|""|" {if(flag_tokens) printf("OR\n");col_num+=yyleng;}
 
-"+" {printf("PLUS\n");col_num+=yyleng;}
+"+" {if(flag_tokens) printf("PLUS\n");col_num+=yyleng;}
 
-"}" {printf("RBRACE\n");col_num+=yyleng;}
+"}" {if(flag_tokens) printf("RBRACE\n");col_num+=yyleng;}
 
-")" {printf("RPAR\n");col_num+=yyleng;}
+")" {if(flag_tokens) printf("RPAR\n");col_num+=yyleng;}
 
-"]" {printf("RSQ\n");col_num+=yyleng;}
+"]" {if(flag_tokens) printf("RSQ\n");col_num+=yyleng;}
 
-";" {printf("SEMICOLON\n");col_num+=yyleng;}
+";" {if(flag_tokens) printf("SEMICOLON\n");col_num+=yyleng;}
 
-"-"">" {printf("ARROW\n");col_num+=yyleng;}
+-">" {if(flag_tokens) printf("ARROW\n");col_num+=yyleng;}
 
-"<""<" {printf("LSHIFT\n");col_num+=yyleng;}
+"<""<" {if(flag_tokens) printf("LSHIFT\n");col_num+=yyleng;}
 
-">"">" {printf("RSHIFT\n");col_num+=yyleng;}
+">"">" {if(flag_tokens) printf("RSHIFT\n");col_num+=yyleng;}
 
-"^" {printf("XOR\n");col_num+=yyleng;}
+"^" {if(flag_tokens) printf("XOR\n");col_num+=yyleng;}
 
-boolean {printf("BOOL\n");col_num+=yyleng;}
+boolean {if(flag_tokens) printf("BOOL\n");col_num+=yyleng;}
 
-class {printf("CLASS\n");col_num+=yyleng;}
+class {if(flag_tokens) printf("CLASS\n");col_num+=yyleng;}
 
-"."length {printf("DOTLENGTH\n");col_num+=yyleng;}
+"."length {if(flag_tokens) printf("DOTLENGTH\n");col_num+=yyleng;}
 
-double {printf("DOUBLE\n");col_num+=yyleng;}
+double {if(flag_tokens) printf("DOUBLE\n");col_num+=yyleng;}
 
-else {printf("ELSE\n");col_num+=yyleng;}
+else {if(flag_tokens) printf("ELSE\n");col_num+=yyleng;}
 
-if {printf("IF\n");col_num+=yyleng;}
+if {if(flag_tokens) printf("IF\n");col_num+=yyleng;}
 
-int {printf("INT\n");col_num+=yyleng;}
+int {if(flag_tokens) printf("INT\n");col_num+=yyleng;}
 
-System"."out"."print {printf("PRINT\n");col_num+=yyleng;}
+System"."out"."print {if(flag_tokens) printf("PRINT\n");col_num+=yyleng;}
 
-Integer"."parseInt {printf("PARSEINT\n");col_num+=yyleng;}
+Integer"."parseInt {if(flag_tokens) printf("PARSEINT\n");col_num+=yyleng;}
 
-public {printf("PUBLIC\n");col_num+=yyleng;}
+public {if(flag_tokens) printf("PUBLIC\n");col_num+=yyleng;}
 
-return {printf("RETURN\n");col_num+=yyleng;}
+return {if(flag_tokens) printf("RETURN\n");col_num+=yyleng;}
 
-static {printf("STATIC\n");col_num+=yyleng;}
+static {if(flag_tokens) printf("STATIC\n");col_num+=yyleng;}
 
-String {printf("STRING\n");col_num+=yyleng;}
+String {if(flag_tokens) printf("STRING\n");col_num+=yyleng;}
 
-void {printf("VOID\n");col_num+=yyleng;}
+void {if(flag_tokens) printf("VOID\n");col_num+=yyleng;}
 
-while {printf("WHILE\n");col_num+=yyleng;}
+while {if(flag_tokens) printf("WHILE\n");col_num+=yyleng;}
 
-"+""+"|"-""-"|null|Integer|System|{reserved_words} {printf("RESERVED(%s)\n",yytext);col_num+=yyleng;}
+"+""+"|--|null|Integer|System|{reserved_words} {if(flag_tokens) printf("RESERVED(%s)\n",yytext);col_num+=yyleng;}
 
-([a-z]|[A-Z]|"_"|"$")([a-z]|[A-Z]|[0-9]|"_"|"$")*   {printf("ID(%s)\n",yytext);}col_num+=yyleng;
+([a-z]|[A-Z]|"_"|"$")([a-z]|[A-Z]|[0-9]|"_"|"$")*   {if(flag_tokens) printf("ID(%s)\n",yytext);col_num+=yyleng;}  
 
-[1-9]([0-9_]*[0-9])?"."[0-9]([0-9_]*[0-9])?{expoente}  {printf("REALLIT(%s)\n",yytext);col_num+=yyleng;}
+([0-9]([0-9_]*[0-9])?"."(([0-9]([0-9_]*[0-9])?{expoente}?)|{expoente})?)|((".")([0-9]([0-9_]*[0-9])?{expoente}?))|([0-9]([0-9_]*[0-9])?{expoente}) {if(flag_tokens) printf("REALLIT(%s)\n",yytext);col_num+=yyleng;}
 
-[0-9]|([1-9]([0-9|"_"])*[0-9])  {printf("INTLIT(%s)\n",yytext);col_num+=yyleng;}   
+[0-9]|([1-9]([0-9|"_"])*[0-9])  {if(flag_tokens) printf("INTLIT(%s)\n",yytext);col_num+=yyleng;} 
 
-#("\""[^("\r"|"\n"|"\"")]+"\"")|("\""["\f"|"\n"|"\r"|"\t"|"\\""\\"|"\\""\""]+"\"") {printf("STRLIT (%s)\n",yytext);col_num+=yyleng;}
+#("\""[^("\r"|"\n"|"\"")]+"\"")|("\""["\f"|"\n"|"\r"|"\t"|"\\""\\"|"\\""\""]+"\"") {if(flag_tokens) printf("STRLIT (%s)\n",yytext);col_num+=yyleng;}
 
 \"    {col_num+=yyleng;BEGIN STRING;}
 <STRING>{newline}   {printf("Line %d, col %d: unterminated string literal\n",line_num,col_num);line_num++;col_num=1;BEGIN 0;}
 <STRING>[^("\r"|"\n"|\")]*\\[^(f|n|r|t|\|"\"")][^("\r"|"\n"|\")]*(\")? {yyless(0);BEGIN STRING_ERROR;}
-<STRING>[^("\r"|"\n"|\")]*\" {printf("STRLIT (\"%s)\n",yytext);col_num+=yyleng;BEGIN 0;}
+<STRING>[^("\r"|"\n"|\")]*\" {if(flag_tokens) printf("STRLIT(\"%s)\n",yytext);col_num+=yyleng;BEGIN 0;}
 <STRING>[^("\r"|"\n"|\")]*"\n"? {yyless(0);BEGIN STRING_ERROR;}
 
 <STRING_ERROR>\"    {BEGIN 0;}
@@ -140,8 +141,24 @@ while {printf("WHILE\n");col_num+=yyleng;}
 
 %%
 
-int main()
+void flag_checker(int argc, char *argv[]) {
+    for (int i = 1; i < argc; i++) {
+        if (argv[i][0]=='-'){
+            if (!strcmp(argv[i], "-l")){
+                flag_tokens = 1;}
+            else if (!strcmp(argv[i], "-e1")){
+                flag_tokens = 0;}
+            else{
+                printf("Undefined flag!\n");
+                exit(1);
+            }
+        }
+    }
+}
+
+int main(int argc, char *argv[])
 {
+flag_checker(argc,argv);
 yylex();
 //printf("\n");
 //printf("%d",line_num);
