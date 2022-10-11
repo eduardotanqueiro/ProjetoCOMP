@@ -6,19 +6,19 @@
     int col_num = 1;
     int start_comment = 1;
     int flag_tokens = 0;
+    int start_string = 1;
 %}
 
 expoente [eE]["+"-]?[0-9]([0-9_]*[0-9])?
-newline \r?\n
+newline (\r)?\n
 reserved_words private|protected|abstract|extends|final|implements|interface|native|new|strictfp|synchronized|transient|volatile|break|case|continue|default|do|for|instanceof|switch|assert|catch|finally|throw|throws|try|import|package|byte|char|float|short|super|this|const|goto|enum|long
 scape \\[f|n|r|t|\|"\""]
 
 %X STRING COMMENT STRING_ERROR
 
-%%   
+%%
 
-"/""/".*{newline}                {line_num++;col_num+=yyleng;};
-#"/""*".*             {start_comment = line_num; BEGIN COMMENT;col_num+=yyleng;}
+"/""/".*{newline}                {line_num++;col_num+=yyleng;}
 "/""*"             {start_comment = line_num; BEGIN COMMENT;col_num+=yyleng;}
 <COMMENT>{newline}              {line_num++;col_num = 1;}
 <COMMENT>"*""/"             {col_num+=yyleng;;BEGIN 0;}
@@ -119,18 +119,22 @@ while {if(flag_tokens) printf("WHILE\n");col_num+=yyleng;}
 
 [0-9]|([1-9]([0-9|"_"])*[0-9])  {if(flag_tokens) printf("INTLIT(%s)\n",yytext);col_num+=yyleng;} 
 
-#("\""[^("\r"|"\n"|"\"")]+"\"")|("\""["\f"|"\n"|"\r"|"\t"|"\\""\\"|"\\""\""]+"\"") {if(flag_tokens) printf("STRLIT (%s)\n",yytext);col_num+=yyleng;}
+
 
 \"    {col_num+=yyleng;BEGIN STRING;}
 <STRING>{newline}   {printf("Line %d, col %d: unterminated string literal\n",line_num,col_num);line_num++;col_num=1;BEGIN 0;}
-<STRING>[^("\r"|"\n"|\")]*\\[^(f|n|r|t|\|"\"")][^("\r"|"\n"|\")]*(\")? {yyless(0);BEGIN STRING_ERROR;}
-<STRING>[^("\r"|"\n"|\")]*\" {if(flag_tokens) printf("STRLIT(\"%s)\n",yytext);col_num+=yyleng;BEGIN 0;}
-<STRING>[^("\r"|"\n"|\")]*"\n"? {yyless(0);BEGIN STRING_ERROR;}
+<STRING>[^("\r"|"\n"|\")]*\\[^(f|n|r|t|\\|\")][^("\r"|"\n"|\")]*(\")? {start_string = col_num-1;yyless(0);BEGIN STRING_ERROR;}
+<STRING>[^("\r"|"\n"|\")]*\\\" {start_string = col_num-1;yyless(0);BEGIN STRING_ERROR;}
+<STRING>(\\\"|[^("\r"|"\n"|\")])*\" {if(flag_tokens) printf("STRLIT(\"%s)\n",yytext);col_num+=yyleng;BEGIN 0;}
+<STRING>[^("\r"|"\n"|\")]*{newline}? {start_string = col_num-1;yyless(0);BEGIN STRING_ERROR;}
 
-<STRING_ERROR>\"    {BEGIN 0;}
-<STRING_ERROR>{newline}   {printf("Line %d, col %d: unterminated string literal\n",line_num,col_num);line_num++;col_num=1;}
-<STRING_ERROR>\\[^{(f|n|r|t|\\|"\"")}] {printf("Line %d, col %d: invalid escape sequence (%s)\n",line_num,col_num,yytext);col_num+=yyleng;}
-<STRING_ERROR><<EOF>>   {printf("Line %d, col %d: unterminated string literal\n",line_num,col_num);col_num=1;BEGIN 0;}
+
+<STRING_ERROR>\"    {col_num=+yyleng;BEGIN 0;}
+<STRING_ERROR>{newline}   {printf("Line %d, col %d: unterminated string literal\n",line_num,start_string);line_num++;col_num=1;BEGIN 0;}
+<STRING_ERROR>\\(f|n|r|t|\\|\") {col_num=+yyleng;}
+<STRING_ERROR>\\[^(\n|\r|\\|\"|f|n|r|t)] {printf("Line %d, col %d: invalid escape sequence (%s)\n",line_num,col_num,yytext);col_num+=yyleng;}
+<STRING_ERROR>\\ {printf("Line %d, col %d: invalid escape sequence (%s)\n",line_num,col_num,yytext);col_num+=yyleng;}
+<STRING_ERROR><<EOF>>   {printf("Line %d, col %d: unterminated string literal\n",line_num,start_string);col_num=1;BEGIN 0;}
 <STRING_ERROR>. {col_num+=yyleng;}
 
 " "|"\t"   {col_num+=yyleng;}
