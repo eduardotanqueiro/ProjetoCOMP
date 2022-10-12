@@ -5,6 +5,7 @@
     int line_num = 1;
     int col_num = 1;
     int start_comment = 1;
+    int start_comment_col = 1;
     int flag_tokens = 0;
     int start_string = 1;
 %}
@@ -14,16 +15,24 @@ newline ((\r)?\n)|\r
 reserved_words private|protected|abstract|extends|final|implements|interface|native|new|strictfp|synchronized|transient|volatile|break|case|continue|default|do|for|instanceof|switch|assert|catch|finally|throw|throws|try|import|package|byte|char|float|short|super|this|const|goto|enum|long
 scape \\[f|n|r|t|\\|\"]
 
-%X STRING COMMENT STRING_ERROR
+%X STRING COMMENT1 COMMENT2 STRING_ERROR EOF_TEST
 
 %%
 
-"/""/".*{newline}                {line_num++;col_num=1;}
-"/""*"             {start_comment = line_num; BEGIN COMMENT;col_num+=yyleng;}
-<COMMENT>{newline}              {line_num++;col_num = 1;}
-<COMMENT>"*""/"             {col_num+=yyleng;;BEGIN 0;}
-<COMMENT><<EOF>>               {col_num+=yyleng;printf("Line %d, col %d: unterminated comment\n",start_comment,col_num);BEGIN 0;}
-<COMMENT>.               {col_num+=yyleng;}
+"/""/"                {col_num +=yyleng;BEGIN COMMENT1;}
+<COMMENT1>{newline} {line_num++;col_num = 1;BEGIN 0;}
+<COMMENT1><<EOF>>   {printf("Line %d, col %d: unterminated comment\n",start_comment,col_num);col_num+=yyleng;BEGIN 0;}
+<COMMENT1>. {col_num+=yyleng;}
+
+"/""*"             {start_comment = line_num; start_comment_col = col_num;BEGIN COMMENT2;col_num+=yyleng;}
+<COMMENT2>{newline}              {line_num++;col_num = 1;}
+<COMMENT2>"*""/"             {col_num+=yyleng;;BEGIN 0;}
+<COMMENT2><<EOF>>               {col_num+=yyleng;printf("Line %d, col %d: unterminated comment\n",start_comment,start_comment_col);BEGIN EOF_TEST;}
+<COMMENT2>.               {col_num+=yyleng;}
+
+<EOF_TEST><<EOF>>   {return 0;}
+<EOF_TEST>.   {BEGIN 0;}
+
 
 true|false  {if(flag_tokens) printf("BOOLLIT(%s)\n",yytext);col_num+=yyleng;}
 
@@ -126,6 +135,7 @@ while {if(flag_tokens) printf("WHILE\n");col_num+=yyleng;}
 <STRING>({scape}|[^("\r"|"\n"|\"|\\)])*\" {if(flag_tokens) printf("STRLIT(\"%s)\n",yytext);col_num+=yyleng;BEGIN 0;}
 <STRING>[^("\r"|"\n"|\")]*\\[^(f|n|r|t|\\|\")][^("\r"|"\n"|\")]*\" {start_string = col_num-1;yyless(0);BEGIN STRING_ERROR;}
 <STRING>[^("\r"|"\n"|\")]*{newline}? {start_string = col_num-1;yyless(0);BEGIN STRING_ERROR;}
+<STRING><<EOF>> {printf("Line %d, col %d: unterminated string literal\n",line_num,start_string);yyless(0);BEGIN EOF_TEST;}
 
 
 <STRING_ERROR>\"    {col_num=+yyleng;BEGIN 0;}
