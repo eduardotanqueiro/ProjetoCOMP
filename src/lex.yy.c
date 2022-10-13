@@ -1363,7 +1363,7 @@ YY_RULE_SETUP
 case 63:
 YY_RULE_SETUP
 #line 143 "jucompiler.l"
-{col_num=+yyleng;}
+{col_num+=yyleng;}
 	YY_BREAK
 case 64:
 YY_RULE_SETUP
