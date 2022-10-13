@@ -745,12 +745,13 @@ char *yytext;
     int line_num = 1;
     int col_num = 1;
     int start_comment = 1;
-    int start_comment_col = 1;
+    int comment_line = 1;
+    int comment_col = 1;
     int flag_tokens = 0;
     int start_string = 1;
-#line 752 "lex.yy.c"
+#line 753 "lex.yy.c"
 
-#line 754 "lex.yy.c"
+#line 755 "lex.yy.c"
 
 #define INITIAL 0
 #define STRING 1
@@ -972,10 +973,10 @@ YY_DECL
 		}
 
 	{
-#line 20 "jucompiler.l"
+#line 21 "jucompiler.l"
 
 
-#line 979 "lex.yy.c"
+#line 980 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -1034,18 +1035,14 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 22 "jucompiler.l"
-{col_num +=yyleng;BEGIN COMMENT1;}
+#line 23 "jucompiler.l"
+{col_num += yyleng;BEGIN COMMENT1;}
 	YY_BREAK
 case 2:
 /* rule 2 can match eol */
 YY_RULE_SETUP
-#line 23 "jucompiler.l"
-{line_num++;col_num = 1;BEGIN 0;}
-	YY_BREAK
-case YY_STATE_EOF(COMMENT1):
 #line 24 "jucompiler.l"
-{printf("Line %d, col %d: unterminated comment\n",start_comment,col_num);col_num+=yyleng;BEGIN EOF_TEST;}
+{line_num++;col_num = 1;BEGIN 0;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
@@ -1055,27 +1052,27 @@ YY_RULE_SETUP
 case 4:
 YY_RULE_SETUP
 #line 27 "jucompiler.l"
-{start_comment = line_num; start_comment_col = col_num;col_num+=yyleng;BEGIN COMMENT2;}
+{comment_line = line_num; comment_col = col_num + yyleng;BEGIN COMMENT2;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
 #line 28 "jucompiler.l"
-{col_num+=yyleng;;BEGIN 0;}
+{line_num = comment_line; col_num = comment_col + yyleng;BEGIN 0;}
 	YY_BREAK
 case 6:
 /* rule 6 can match eol */
 YY_RULE_SETUP
 #line 29 "jucompiler.l"
-{line_num++;col_num = 1;}
+{comment_line++;comment_col = 1;}
 	YY_BREAK
 case YY_STATE_EOF(COMMENT2):
 #line 30 "jucompiler.l"
-{col_num+=yyleng;printf("Line %d, col %d: unterminated comment\n",start_comment,start_comment_col);BEGIN EOF_TEST;}
+{comment_col+=yyleng;printf("Line %d, col %d: unterminated comment\n",line_num,col_num);BEGIN EOF_TEST;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
 #line 31 "jucompiler.l"
-{col_num+=yyleng;}
+{comment_col+=yyleng;}
 	YY_BREAK
 case YY_STATE_EOF(EOF_TEST):
 #line 33 "jucompiler.l"
@@ -1409,8 +1406,9 @@ YY_RULE_SETUP
 #line 155 "jucompiler.l"
 ECHO;
 	YY_BREAK
-#line 1413 "lex.yy.c"
+#line 1410 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
+case YY_STATE_EOF(COMMENT1):
 	yyterminate();
 
 	case YY_END_OF_BUFFER:
@@ -2436,8 +2434,6 @@ int main(int argc, char *argv[])
 {
 flag_checker(argc,argv);
 yylex();
-//printf("\n");
-//printf("%d",line_num);
 return 0;
 }
 

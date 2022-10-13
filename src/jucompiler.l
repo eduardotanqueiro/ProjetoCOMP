@@ -5,13 +5,14 @@
     int line_num = 1;
     int col_num = 1;
     int start_comment = 1;
-    int start_comment_col = 1;
+    int comment_line = 1;
+    int comment_col = 1;
     int flag_tokens = 0;
     int start_string = 1;
 %}
 
 expoente [eE]["+"-]?[0-9]([0-9_]*[0-9])?
-newline ((\r)?\n)|\r
+newline (\r?\n)|\r
 reserved_words private|protected|abstract|extends|final|implements|interface|native|new|strictfp|synchronized|transient|volatile|break|case|continue|default|do|for|instanceof|switch|assert|catch|finally|throw|throws|try|import|package|byte|char|float|short|super|this|const|goto|enum|long
 scape \\[fnrt\\\"]
 
@@ -19,16 +20,15 @@ scape \\[fnrt\\\"]
 
 %%
 
-"/""/"                {col_num +=yyleng;BEGIN COMMENT1;}
+"//"                {col_num += yyleng;BEGIN COMMENT1;}
 <COMMENT1>{newline} {line_num++;col_num = 1;BEGIN 0;}
-<COMMENT1><<EOF>>   {printf("Line %d, col %d: unterminated comment\n",start_comment,col_num);col_num+=yyleng;BEGIN EOF_TEST;}
 <COMMENT1>. {col_num+=yyleng;}
 
-"/""*"             {start_comment = line_num; start_comment_col = col_num;col_num+=yyleng;BEGIN COMMENT2;}
-<COMMENT2>"*""/"             {col_num+=yyleng;;BEGIN 0;}
-<COMMENT2>{newline}              {line_num++;col_num = 1;}
-<COMMENT2><<EOF>>               {col_num+=yyleng;printf("Line %d, col %d: unterminated comment\n",start_comment,start_comment_col);BEGIN EOF_TEST;}
-<COMMENT2>.               {col_num+=yyleng;}
+"/*"             {comment_line = line_num; comment_col = col_num + yyleng;BEGIN COMMENT2;}
+<COMMENT2>"*/"             {line_num = comment_line; col_num = comment_col + yyleng;BEGIN 0;}
+<COMMENT2>{newline}              {comment_line++;comment_col = 1;}
+<COMMENT2><<EOF>>               {comment_col+=yyleng;printf("Line %d, col %d: unterminated comment\n",line_num,col_num);BEGIN EOF_TEST;}
+<COMMENT2>.               {comment_col+=yyleng;}
 
 <EOF_TEST><<EOF>>   {return 0;}
 <EOF_TEST>.   {BEGIN 0;}
@@ -173,8 +173,6 @@ int main(int argc, char *argv[])
 {
 flag_checker(argc,argv);
 yylex();
-//printf("\n");
-//printf("%d",line_num);
 return 0;
 }
 
