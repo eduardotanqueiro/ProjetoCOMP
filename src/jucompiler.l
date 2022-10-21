@@ -146,7 +146,7 @@ while {if(flag_tokens) printf("WHILE\n");col_num+=yyleng;}
 <STRING_ERROR><<EOF>>   {printf("Line %d, col %d: unterminated string literal\n",line_num,start_string);col_num=1;BEGIN 0;}
 <STRING_ERROR>. {col_num+=yyleng;}
 
-" "|"\t"|""   {col_num+=yyleng;}
+" "|"\t"|""|"\f"   {col_num+=yyleng;}
 
 {newline}               {line_num++;col_num = 1;}
 
@@ -155,6 +155,7 @@ while {if(flag_tokens) printf("WHILE\n");col_num+=yyleng;}
 %%
 
 void flag_checker(int argc, char *argv[]) {
+
     for (int i = 1; i < argc; i++) {
         if (argv[i][0]=='-'){
             if (!strcmp(argv[i], "-l")){
