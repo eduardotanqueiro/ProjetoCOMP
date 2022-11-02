@@ -13,7 +13,7 @@
 %}
 
 expoente [eE]["+"-]?[0-9]([0-9_]*[0-9])?
-newline (\r?\n)|\r|\r
+newline (\r?\n)|\r
 reserved_words private|protected|abstract|extends|final|implements|interface|native|new|strictfp|synchronized|transient|volatile|break|case|continue|default|do|for|instanceof|switch|assert|catch|finally|throw|throws|try|import|package|byte|char|float|short|super|this|const|goto|enum|long
 scape \\[fnrt\\\"]
 
