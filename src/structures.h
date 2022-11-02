@@ -8,7 +8,7 @@ typedef enum {d_and, d_or, d_xor} logical_bitwise_type;
 typedef enum {d_lshift, d_rshift} shift_type;
 typedef enum {d_eq, d_ge, d_gt, d_le, d_lt, d_ne} comparation_type;
 
-typedef enum {d_par, d_if, d_while, d_return, d_print} statement_type;
+typedef enum {d_par, d_if, d_while, d_return, d_print, d_method, d_assign, d_parse} statement_type;
 
 typedef struct _s{
         is_expr* expr1;
@@ -80,7 +80,7 @@ typedef struct _s{
 
 typedef struct _s{
         is_expr* expr;
-        is_commaexpr_rep* cmr;
+        is_commaexpr_rep* cer;
         char* id;
 } is_methodinvocation;
 

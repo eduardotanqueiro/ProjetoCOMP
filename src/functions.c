@@ -20,7 +20,7 @@ is_methodfield_rep* insert_methoddecl_methodfield(is_methoddecl* imd, is_methodf
     mfr->data_methodfield_rep.u_methoddecl = (is_methoddecl*)malloc(sizeof(is_methoddecl));
     mfr->data_methodfield_rep.u_methoddecl = imd;
 
-    mfr->next = (is_methodfield_rep*)malloc(sizeof(is_methodfield_rep));
+    // mfr->next = (is_methodfield_rep*)malloc(sizeof(is_methodfield_rep));
     mfr->next = imfr;
 
     return mfr;
@@ -33,7 +33,7 @@ is_methodfield_rep* insert_fielddecl_methodfield(is_fielddecl* imd, is_methodfie
     mfr->data_methodfield_rep.u_fielddecl = (is_fielddecl*)malloc(sizeof(is_fielddecl));
     mfr->data_methodfield_rep.u_fielddecl = imd;
 
-    mfr->next = (is_methodfield_rep*)malloc(sizeof(is_methodfield_rep));
+    // mfr->next = (is_methodfield_rep*)malloc(sizeof(is_methodfield_rep));
     mfr->next = imfr;
 
     return mfr;
@@ -43,7 +43,7 @@ is_methodfield_rep* insert_semicolon_methodfield(is_methodfield_rep* imfr){
     //TODO ?!?!?!?
     is_methodfield_rep* mfr = (is_methodfield_rep*)malloc(sizeof(is_methodfield_rep));
 
-    mfr->next = (is_methodfield_rep*)malloc(sizeof(is_methodfield_rep));
+    // mfr->next = (is_methodfield_rep*)malloc(sizeof(is_methodfield_rep));
     mfr->next = imfr;
 
     return mfr;
@@ -77,7 +77,7 @@ is_commaid_rep* insert_comma_id_rep(char* id,is_commaid_rep* icir){
 
     cir->id = (char*)strdup(id);
     
-    cir->next = (is_commaid_rep*)malloc(sizeof(is_commaid_rep));
+    // cir->next = (is_commaid_rep*)malloc(sizeof(is_commaid_rep));
     cir->next = icir; 
 
     return cir;
@@ -125,7 +125,7 @@ is_commatypeid_rep* insert_commatype_id_rep(is_type* type,char* id, is_commatype
     ctir->type = type;
     ctir->id = (char*)strdup(id);
     
-    ctir->next = (is_commatypeid_rep*)malloc(sizeof(is_commatypeid_rep));
+    // ctir->next = (is_commatypeid_rep*)malloc(sizeof(is_commatypeid_rep));
     ctir->next = ictir;
 
     return ctir;
@@ -146,7 +146,7 @@ is_statementvar_rep* insert_statementvar_rep(is_statement* statement, is_stateme
 
     svr->data_statementvarrep.statement = statement;
 
-    svr->next = (is_statementvar_rep*)malloc(sizeof(is_statementvar_rep));
+    // svr->next = (is_statementvar_rep*)malloc(sizeof(is_statementvar_rep));
     svr->next = isvr;
 
     return svr;
@@ -158,7 +158,7 @@ is_statementvar_rep* insert_vardecl_statement(is_vardecl* ivd, is_statementvar_r
 
     svr->data_statementvarrep.vardecl = ivd;
 
-    svr->next = (is_statementvar_rep*)malloc(sizeof(is_statementvar_rep));
+    // svr->next = (is_statementvar_rep*)malloc(sizeof(is_statementvar_rep));
     svr->next = isvr;
 
     return svr;
@@ -251,7 +251,99 @@ is_statement* insert_print_expr_statement(is_expr* expr){
     return st;
 }
 
+//TODO INSERT PRINT STRING STATEMENT
+
 is_statement* insert_method_statement(is_methodinvocation* imi){
-    
+	
+    is_statement* st = (is_statement*)malloc(sizeof(is_statement));
+
+    st->stat_type = d_method;
+	
+	method_statement* mt_st = (method_statement*)malloc(sizeof(method_statement));
+	mt_st->mi = imi;
+
+	st->data_statement.u_method_statement = mt_st;
+
+	return st;
+}
+
+is_statement* insert_assign_statement(is_assign* assign){
+
+	is_statement* st = (is_statement*)malloc(sizeof(is_statement));
+
+    st->stat_type = d_assign;
+
+	assign_statement* agn_st = (assign_statement*)malloc(sizeof(assign_statement));
+	agn_st->assign = assign;
+
+	st->data_statement.u_assign_statement = agn_st;
+
+	return st;
+}
+
+is_statement* insert_parseargs_statement(is_parseargs* parseargs){
+
+	is_statement* st = (is_statement*)malloc(sizeof(is_statement));
+
+    st->stat_type = d_parse;
+
+	parseargs_statement* prs_st = (parseargs_statement*)malloc(sizeof(parseargs_statement));
+	prs_st->parse->expr = parseargs->expr;
+	prs_st->parse->id = (char*)strdup(parseargs->id);
+
+	st->data_statement.u_parseargs_statement = prs_st;
+
+	return st;
+}
+
+is_statement_rep* insert_statement_rep(is_statement* statement, is_statement_rep* statement_rep){
+
+	is_statement_rep* stat_rep = (is_statement_rep*)malloc(sizeof(is_statement_rep));
+
+	stat_rep->statement = statement;
+	stat_rep->next = statement_rep;
+
+	return stat_rep;
+}
+
+is_methodinvocation* insert_methodinvocation(char* id, is_expr* expr, is_commaexpr_rep* icer){
+
+	is_methodinvocation* mi = (is_methodinvocation*)malloc(sizeof(is_methodinvocation));
+
+	mi->expr = expr;
+	mi->cer = icer;
+	mi->id = (char*)strdup(id);
+
+	return mi;
+}
+
+is_commaexpr_rep* insert_comma_expr_rep(is_expr* expr, is_commaexpr_rep* cmr){
+
+	is_commaexpr_rep* cep = (is_commaexpr_rep*)malloc(sizeof(is_commaexpr_rep));
+
+	cep->expr = expr;
+	cep->cer = cmr;
+
+	return cep;
+}
+
+is_assign* insert_assign(char* id, is_expr* expr){
+
+	is_assign* assgn = (is_assign*)malloc(sizeof(is_assign));
+
+	assgn->expr = expr;
+	assgn->id = (char*)strdup(id);
+
+	return assgn;
+}
+
+is_parseargs* insert_parse_args(char* id, is_expr* expr){
+
+	is_parseargs* prs = (is_parseargs*)malloc(sizeof(is_parseargs));
+
+	prs->expr = expr;
+	prs->id = (char*)strdup(id);
+
+	return prs;
 }
 

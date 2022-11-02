@@ -43,7 +43,7 @@ is_statement* insert_parseargs_statement(is_parseargs* parseargs);
 
 is_statement_rep* insert_statement_rep(is_statement* statement, is_statement_rep* statement_rep);
 
-is_methodinvocation* insert_methodinvocation(is_expr* expr, is_commaexpr_rep* cer);
+is_methodinvocation* insert_methodinvocation(char* id, is_expr* expr, is_commaexpr_rep* icer);
 
 is_commaexpr_rep* insert_comma_expr_rep(is_expr* expr, is_commaexpr_rep* cmr);
 
