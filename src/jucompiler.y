@@ -1,4 +1,6 @@
 %{
+    //  Eduardo Carneiro - 2020240332
+    //  Ricardo Silva - 2020
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -15,6 +17,9 @@ int yylex (void);
 void yyerror(char* s);
 is_program* myprogram;
 
+extern int line_num;
+extern int col_num;
+extern int flag_tree;
 %}
 
 /* --------------------------------------------------- */
@@ -85,6 +90,8 @@ is_program* myprogram;
 
 %%
 
+// EBNF, com a qual [...] significa “opcional” e {...} significa “zero ou mais repetições”
+
 Program:  CLASS ID LBRACE MethodFieldSemicolonRep RBRACE {$$=myprogram=insert_program($2,$4);}
 
 
@@ -99,6 +106,7 @@ MethodDecl: PUBLIC STATIC MethodHeader MethodBody {$$=insert_methoddecl($3,$4);}
 
 
 FieldDecl: PUBLIC STATIC Type ID CommaIdRep SEMICOLON {$$=insert_fielddecl($3,$4,$5);}
+        | error SEMICOLON {flag_tree=0;}
 
 CommaIdRep: COMMA ID CommaIdRep {$$=insert_comma_id_rep($2,$3);}
           |                     {$$=NULL;}
@@ -144,6 +152,7 @@ Statement: LBRACE StatementRep RBRACE                 {$$=insert_statement_brace
          | Assignment SEMICOLON                       {$$=insert_assign_statement($1);}
          | ParseArgs SEMICOLON                        {$$=insert_parseargs_statement($1);}
          | SEMICOLON                                  {;} //TODO ????????!?!?!?!?!?
+         | error SEMICOLON                            {flag_tree=0;}
 
 StatementRep: Statement StatementRep {$$=insert_statement_rep($1,$2);}
             |                        {$$=NULL;}
@@ -151,6 +160,7 @@ StatementRep: Statement StatementRep {$$=insert_statement_rep($1,$2);}
 
 MethodInvocation: ID LPAR RPAR                   {$$=insert_methodinvocation(d_none,d_none);}
                 | ID LPAR Expr CommaExprRep RPAR {$$=insert_mehthodinvocation($3,$4);}
+                | ID LPAR error RPAR    {flag_tree=0;}
 
 
 
@@ -162,6 +172,7 @@ CommaExprRep: COMMA Expr CommaExprRep {$$=insert_comma_expr_rep($2,$3);}
 Assignment: ID ASSIGN Expr {$$=insert_assign($1,$3);}
 
 ParseArgs: PARSEINT LPAR ID LSQ Expr RSQ RPAR {$$=insert_parse_args($3,$5);}
+        | PARSEINT LPAR error RPAR  {flag_tree=0;}
 
 Expr: LPAR Expr RPAR {$$=insert_expr_brace($2);}
     | MethodInvocation {$$=insert_expr_methodinvocation($1);}
@@ -191,9 +202,10 @@ Expr: LPAR Expr RPAR {$$=insert_expr_brace($2);}
     | Expr LE Expr {$$=insert_expr_op($1,$2,$3);}
     | Expr LT Expr {$$=insert_expr_op($1,$2,$3);}
     | Expr NE Expr {$$=insert_expr_op($1,$2,$3);}
+    | LPAR error RPAR {flag_tree=0;}
 
 %%
 
 void yyerror (char *s) { 
-    printf ("Line␣%d,␣col␣%d:␣%s:␣%s\n", <num linha >, <num coluna >, s, yytext );
+    printf ("Line %d, col %d: %s: %s\n", line_num, col_num, s, yytext );
 }
