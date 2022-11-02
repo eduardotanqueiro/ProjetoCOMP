@@ -18,8 +18,15 @@ is_program* myprogram;
 %}
 
 /* --------------------------------------------------- */
+%token <id> ID
+%token <id> INTLIT
+%token <id> REALLIT
+%token <id> BOOLLIT
+%token <id> STRLIT
 
-%token AND ASSIGN BOOL STAR COMMA DIV EQ GE GT LBRACE LE LPAR LSQ LT MINUS MOD NE NOT OR PLUS RBRACE RPAR RSQ SEMICOLON ARROW LSHIFT RSHIFT XOR CLASS DOTLENGHT DOUBLE ELSE IF INT PRINT PARSEINT PUBLIC RETURN STATIC STRING VOID WHILE RESERVED ID INTLIT STRLIT REALLIT BOOLLIT
+%token AND ASSIGN BOOL STAR COMMA DIV EQ GE GT LBRACE LE LPAR LSQ LT MINUS MOD NE NOT OR PLUS RBRACE RPAR RSQ SEMICOLON ARROW LSHIFT RSHIFT XOR CLASS DOTLENGHT DOUBLE ELSE IF INT PRINT PARSEINT PUBLIC RETURN STATIC STRING VOID WHILE RESERVED
+
+
 
 /* --------------------------------------------------- */
 
@@ -110,7 +117,7 @@ Type: BOOL  {;} //TODO ?!?!?!?!?!?!?!?!?!?
     | DOUBLE {;}
 
 MethodHeader: Type ID LPAR FormalParams RPAR    {$$=insert_methodheader($1,$2,$4);}
-            | VOID ID LPAR FormalParams RPAR    {$$=insert_methodheader(d_void,$1,$4);}
+            | VOID ID LPAR FormalParams RPAR    {$$=insert_methodheader(d_void,$2,$4);}
             | Type ID LPAR RPAR                 {$$=insert_methodheader($1,$2,d_none);}
             | VOID ID LPAR RPAR                 {$$=insert_methodheader(d_void,$2,d_none);}
 
@@ -136,10 +143,10 @@ Statement: LBRACE StatementRep RBRACE                 {$$=insert_statement_brace
          | IF LPAR Expr RPAR Statement ELSE Statement {$$=insert_if_statement($3,$5,$7);}
          | IF LPAR Expr RPAR Statement                {$$=insert_if_statement($3,$5,d_none);}
          | WHILE LPAR Expr RPAR Statement             {$$=insert_while_statement($3,$5);}
-         | RETURN Expr SEMICOLON;                     {$$=insert_return_statement($2);}
-         | RETURN SEMICOLON;                          {$$=insert_return_statement(d_none);}
-         | PRINT LPAR Expr RPAR SEMICOLON;            {$$=insert_print_expr_statement($3);}
-         | PRINT LPAR STRLIT RPAR SEMICOLON;          {$$=insert_print_string_statement($3);}
+         | RETURN Expr SEMICOLON                     {$$=insert_return_statement($2);}
+         | RETURN SEMICOLON                          {$$=insert_return_statement(d_none);}
+         | PRINT LPAR Expr RPAR SEMICOLON            {$$=insert_print_expr_statement($3);}
+         | PRINT LPAR STRLIT RPAR SEMICOLON          {$$=insert_print_string_statement($3);}
          | MethodInvocation SEMICOLON                 {$$=insert_method_statement($1);}
          | Assignment SEMICOLON                       {$$=insert_assign_statement($1);}
          | ParseArgs SEMICOLON                        {$$=insert_parseargs_statement($1);}

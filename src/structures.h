@@ -102,8 +102,10 @@ typedef struct _s{
 } is_statement_rep;
 
 typedef struct _s17{
-        is_expr *expr;
-        
+        union{
+                is_expr *u_expr;
+                char* u_str;
+        }data_print;
 } print_statement;
 
 typedef struct _s16{
@@ -124,11 +126,11 @@ typedef struct _s14{
 typedef struct _s13{
         statement_type stat_type;
         union {
+                is_statement_rep* u_statement_braces;
                 if_statement* u_if;
                 while_statement* u_while;
                 return_statement* u_return;
                 print_statement* u_print;
-                is_statement_rep* u_statement_rep;
                 method_statement* u_method_statement;
                 assign_statement* u_assign_statement;
                 parseargs_statement* u_parseargs_statement;
@@ -139,6 +141,7 @@ typedef struct _s13{
 typedef struct _s12{
         is_type* type;
         is_commaid_rep* cir;
+        char* id;
 } is_vardecl;
 
 typedef struct _s11{
@@ -180,7 +183,7 @@ typedef struct _s5{
         char* id;
 } is_commaid_rep;
 
-typedef enum {d_bool,d_int,d_double,d_void} disc_type;
+typedef enum {d_bool,d_int,d_double,d_void,d_none} disc_type;
 
 typedef struct _s4{
         is_type* type;

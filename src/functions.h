@@ -3,7 +3,7 @@
 #include <string.h>
 #include <stdio.h>
 
-is_program* insert_program(is_methodfield_rep* imfr);
+is_program* insert_program(char* id, is_methodfield_rep* imfr);
 
 is_methodfield_rep* insert_methoddecl_methodfield(is_methoddecl* imd, is_methodfield_rep* imfr);
 is_methodfield_rep* insert_fielddecl_methodfield(is_fielddecl* imd, is_methodfield_rep* imfr);
@@ -11,9 +11,9 @@ is_methodfield_rep* insert_semicolon_methodfield(is_methodfield_rep* imfr);
 
 is_methoddecl* insert_methoddecl(is_methodheader* imd, is_methodbody* imb);
 
-is_fielddecl* insert_fielddecl(is_type* type, is_commaid_rep* icir);
+is_fielddecl* insert_fielddecl(is_type* type, char* id, is_commaid_rep* icir);
 
-is_commaid_rep* insert_comma_id_rep(is_commaid_rep* icir);
+is_commaid_rep* insert_comma_id_rep(char* id, is_commaid_rep* icir);
 
 //TODO TYPE
 
