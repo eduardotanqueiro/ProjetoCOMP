@@ -1,6 +1,6 @@
 %{
     //  Eduardo Carneiro - 2020240332
-    //  Ricardo Silva - 2020
+    //  Ricardo Silva - 2020227184
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
