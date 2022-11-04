@@ -1,6 +1,6 @@
 %{
     //  Eduardo Carneiro - 2020240332
-    //  Ricardo Silva - 2020
+    //  Ricardo Silva - 2020227184
 
     int line_num = 1;
     int col_num = 1;
@@ -140,7 +140,7 @@ while {if(flag_tokens) printf("WHILE\n");col_num+=yyleng;}
 <STRING_ERROR>\"    {col_num=+yyleng;BEGIN 0;}
 <STRING_ERROR>{newline}   {printf("Line %d, col %d: unterminated string literal\n",line_num,start_string);line_num++;col_num=1;BEGIN 0;}
 <STRING_ERROR>{scape} {col_num+=yyleng;}
-<STRING_ERROR>\\[^\r\\\"fnrt] {printf("Line %d, col %d: invalid escape sequence (%s)\n",line_num,col_num,yytext);col_num+=yyleng;}
+<STRING_ERROR>\\[^\n\r\\\"fnrt] {printf("Line %d, col %d: invalid escape sequence (%s)\n",line_num,col_num,yytext);col_num+=yyleng;}
 <STRING_ERROR>\\ {printf("Line %d, col %d: invalid escape sequence (%s)\n",line_num,col_num,yytext);col_num+=yyleng;}
 <STRING_ERROR><<EOF>>   {printf("Line %d, col %d: unterminated string literal\n",line_num,start_string);col_num=1;BEGIN 0;}
 <STRING_ERROR>. {col_num+=yyleng;}

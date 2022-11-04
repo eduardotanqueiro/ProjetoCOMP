@@ -1,8 +1,6 @@
 %{
     //  Eduardo Carneiro - 2020240332
-    //  Ricardo Silva - 2020
-    #include "structures.h"
-    #include "functions.h"
+    //  Ricardo Silva - 2020227184
     #include "y.tab.h"
     #include "print_AST.c"
 
