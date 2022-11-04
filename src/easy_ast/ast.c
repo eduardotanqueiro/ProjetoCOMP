@@ -23,3 +23,6 @@ void adicionar_irmao(no* n1, no* n2){
     tmp->irmao = n2;
 }
 
+void print_AST(no* raiz){
+    
+}

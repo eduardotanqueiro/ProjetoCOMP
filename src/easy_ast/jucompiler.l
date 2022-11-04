@@ -1,12 +1,10 @@
 %{
     //  Eduardo Carneiro - 2020240332
     //  Ricardo Silva - 2020
-    #include "structures.h"
-    #include "functions.h"
     #include "y.tab.h"
-    #include "print_AST.c"
+    #include "ast.h"
 
-    extern is_program * my_program;
+    extern no* raiz;
 
     int line_num = 1;
     int col_num = 1;
@@ -203,7 +201,7 @@ if (flag_syntactic){
     yyparse();
 }
 if (flag_tree){
-    print_AST(my_program);
+    print_AST(raiz);
 }
 return 0;
 }
@@ -211,4 +209,8 @@ return 0;
 int yywrap()
 {
 return 1;
+}
+
+void yyerror (char *s) { 
+    printf ("Line␣%d,␣col␣%d:␣%s:␣%s\n", line_num, col_num, s, yytext );
 }

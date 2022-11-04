@@ -1,5 +1,8 @@
 #ifndef AST_H
 #define AST_H
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 
 typedef struct No{
         char* tipo;
@@ -10,6 +13,7 @@ typedef struct No{
 
 }no;
 
-no* criar_no(char* tipo);
+no* criar_no(char* tipo,char* val);
 void adicionar_irmao(no* n1, no* n2);
+void print_AST(no* raiz);
 #endif
