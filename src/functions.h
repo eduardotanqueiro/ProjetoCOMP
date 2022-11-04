@@ -15,7 +15,7 @@ is_fielddecl* insert_fielddecl(is_type* type, char* id, is_commaid_rep* icir);
 
 is_commaid_rep* insert_comma_id_rep(char* id, is_commaid_rep* icir);
 
-//TODO TYPE
+is_type* insert_type(char* type);
 
 is_methodheader* insert_methodheader(is_type* type,char* id, is_formalparams* ifp);
 
@@ -36,7 +36,7 @@ is_statement* insert_if_statement(is_expr* expr, is_statement* statement1, is_st
 is_statement* insert_while_statement(is_expr* expr, is_statement* statement);
 is_statement* insert_return_statement(is_expr* expr);
 is_statement* insert_print_expr_statement(is_expr* expr);
-is_statement* insert_print_string_statement(); //TODO QQ RECEBE AQUI???
+is_statement* insert_print_string_statement(char* id);
 is_statement* insert_method_statement(is_methodinvocation* imi);
 is_statement* insert_assign_statement(is_assign* assign);
 is_statement* insert_parseargs_statement(is_parseargs* parseargs);
@@ -55,11 +55,12 @@ is_expr* insert_expr_brace(is_expr* expr);
 is_expr* insert_expr_methodinvocation(is_methodinvocation* mi);
 is_expr* insert_expr_assign(is_assign* assign);
 is_expr* insert_expr_parseargs(is_parseargs* parseargs);
-is_expr* insert_expr_id(char* id); //TODO ?!?!?!?!?!?
-is_expr* insert_expr_intlit(); //TODO ?!?!?!?!?!?
-is_expr* insert_expr_realit(); //TODO ?!?!?!?!?!?
-is_expr* insert_expr_boollit(); //TODO ?!?!?!?!?!?
+is_expr* insert_expr_id(char* id);
+is_expr* insert_expr_dotlenght(char* id);
+is_expr* insert_expr_intlit(char* id);
+is_expr* insert_expr_reallit(char* id);
+is_expr* insert_expr_boollit(char* id);
 is_expr* insert_expr_minus_expr(is_expr* expr);
 is_expr* insert_expr_not_expr(is_expr* expr);
 is_expr* insert_expr_plus_expr(is_expr* expr);
-is_expr* insert_expr_op(is_expr* expr1, ,is_expr* expr2); ////TODO QQ FALTA NO MEIO?!?!?!?
+is_expr* insert_expr_op(is_expr* expr1, char* type, is_expr* expr2);
