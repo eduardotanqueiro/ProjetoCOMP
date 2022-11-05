@@ -15,5 +15,7 @@ typedef struct No{
 
 no* criar_no(char* tipo,char* val);
 void adicionar_irmao(no* n1, no* n2);
-void print_AST(no* raiz);
+void print_AST(no* no, int level);
+int contador_irmaos(no* n);
+void print_level(int level);
 #endif

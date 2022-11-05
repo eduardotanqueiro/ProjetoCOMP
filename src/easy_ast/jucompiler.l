@@ -1,8 +1,8 @@
 %{
     //  Eduardo Carneiro - 2020240332
     //  Ricardo Silva - 2020
-    #include "y.tab.h"
     #include "ast.h"
+    #include "y.tab.h"
 
     extern no* raiz;
 
@@ -40,7 +40,7 @@ scape \\[fnrt\\\"]
 <EOF_TEST>.   {BEGIN 0;}
 
 
-true|false  {if(flag_tokens_lex) printf("BOOLLIT(%s)\n",yytext);col_num+=yyleng; return BOOLLIT;}
+true|false  {if(flag_tokens_lex) printf("BOOLLIT(%s)\n",yytext);col_num+=yyleng; yylval.id = strdup(yytext);return BOOLLIT;}
 
 "&""&"  {if(flag_tokens_lex) printf("AND\n");col_num+=yyleng; return AND;}
 
@@ -201,7 +201,8 @@ if (flag_syntactic){
     yyparse();
 }
 if (flag_tree){
-    print_AST(raiz);
+    printf("===============\nARVORE\n===============\n");
+    print_AST(raiz,0);
 }
 return 0;
 }
@@ -212,5 +213,5 @@ return 1;
 }
 
 void yyerror (char *s) { 
-    printf ("Line␣%d,␣col␣%d:␣%s:␣%s\n", line_num, col_num, s, yytext );
+    printf ("Line %d, col %d: %s: %s\n", line_num, col_num, s, yytext );
 }

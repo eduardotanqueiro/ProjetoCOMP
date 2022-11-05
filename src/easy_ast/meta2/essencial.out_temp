@@ -1,0 +1,11 @@
+===============
+ARVORE
+===============
+Program
+..Id(Teste)
+..MethodDecl
+....MethodHeader
+......Void
+......Id(main)
+......MethodParams
+....MethodBody
