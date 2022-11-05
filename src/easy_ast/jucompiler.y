@@ -38,8 +38,8 @@ extern int flag_tree;
 /* --------------------------------------------------- */
 
 %right ASSIGN
-%left AND
 %left OR
+%left AND
 %left XOR
 %left EQ NE
 %left GE GT LT LE
@@ -47,8 +47,9 @@ extern int flag_tree;
 %left PLUS MINUS 
 %left STAR DIV MOD
 %right NOT
-%left LPAR RPAR
-%nonassoc ELSE
+%left LPAR RPAR LSQ RSQ
+
+%right ELSE
 
 /* --------------------------------------------------- */
 
@@ -96,8 +97,8 @@ MethodFieldSemicolonRep: MethodDecl MethodFieldSemicolonRep {if(DEBUG)printf("me
 MethodDecl: PUBLIC STATIC MethodHeader MethodBody {if(DEBUG)printf("method dcl solo\n");$$= criar_no("MethodDecl",""), $$->filho=$3; adicionar_irmao($3,$4);}
 
 
-FieldDecl: PUBLIC STATIC Type ID CommaIdRep SEMICOLON {if(DEBUG)printf("field decl solo \n");$$=criar_no("FieldDecl",""), $$->irmao=$3; adicionar_irmao($3,criar_no("Id",$4)); adicionar_irmao($3->irmao,$5);}
-        | error SEMICOLON {$$=NULL;printf("fielddecl error \n");flag_tree=0;}
+FieldDecl: PUBLIC STATIC Type ID CommaIdRep SEMICOLON {if(DEBUG)printf("field decl solo \n");$$=criar_no("FieldDecl",""), $$->filho=$3; adicionar_irmao($3,criar_no("Id",$4)); adicionar_irmao($3->irmao,$5);}
+        | error SEMICOLON {$$=NULL;if(DEBUG)printf("fielddecl error \n");flag_tree=0;}
 
 CommaIdRep: COMMA ID CommaIdRep {if(DEBUG)printf("commma id rep \n");$$=criar_no("Id",$2); adicionar_irmao($$,$3);}
           |                     {if(DEBUG)printf("comma id rep empty \n");$$=NULL;}
@@ -128,9 +129,9 @@ StatementVarRep: Statement StatementVarRep {if(DEBUG)printf("statementvarrep sta
                |                           {if(DEBUG)printf("statementvarrep empty \n");$$=NULL;}
                ;
 
-VarDecl: Type ID CommaIdRep SEMICOLON {if(DEBUG)printf("vardecl solo \n");$$=criar_no("VarDecl",""); $$->filho=$1; adicionar_irmao($1, criar_no("Id",$2)); adicionar_irmao($1->irmao,$3);}
+VarDecl: Type ID CommaIdRep SEMICOLON {if(DEBUG)printf("vardecl solo \n");$$=criar_no("VarDecl",""); $$->filho=$1; adicionar_irmao($1, criar_no("Id",$2)); if($3!=NULL){tmp = $3; while(tmp != NULL){ no* tmp1 = criar_no("VarDecl","");no* tmp2 = criar_no($1->tipo,$1->val); tmp1->filho= tmp2; adicionar_irmao(tmp2,criar_no("Id",tmp->val)); adicionar_irmao($$,tmp1); tmp = tmp->irmao;} } ;}
 
-Statement: LBRACE StatementRep RBRACE                 {if(DEBUG)printf("statement block\n");if( ($$ != NULL) && (contador_irmaos($2)>1 )){$$=criar_no("Block","");$$->filho=$2; }} //TODO block checking
+Statement: LBRACE StatementRep RBRACE                 {if(DEBUG)printf("statement block\n");if( contador_irmaos($2)>1){$$=criar_no("Block","");$$->filho=$2;}else{$$=$2;}} //TODO block checking
          | IF LPAR Expr RPAR Statement ELSE Statement {if(DEBUG)printf("statement if full\n");$$=criar_no("If",""); $$->filho=$3; tmp = criar_no("Block","");
                                                                                                                         if ($5 != NULL && contador_irmaos($5) == 1) {
                                                                                                                             adicionar_irmao($3, $5);
@@ -176,7 +177,7 @@ MethodInvocation: ID LPAR RPAR                   {if(DEBUG)printf("methodinvocat
 
 
 
-CommaExprRep: COMMA Expr CommaExprRep {if(DEBUG)printf("commaexprrep \n");$$=$2;adicionar_irmao($$,$3);}
+CommaExprRep: COMMA Expr CommaExprRep {if(DEBUG)printf("commaexprrep \n");if($2!=NULL){$$=$2;adicionar_irmao($$,$3);}else $$=$2;}
             |                         {if(DEBUG)printf("commmaexprrep empty \n");$$=NULL;}
             ;
 
@@ -191,7 +192,7 @@ Expr: LPAR Expr RPAR        {if(DEBUG)printf("expr brace\n");$$=$2;}
     | Assignment            {if(DEBUG)printf("expr agn\n");$$=$1;}
     | ParseArgs             {if(DEBUG)printf("expr pa\n");$$=$1;}
     | ID                    {if(DEBUG)printf("expr id\n");$$=criar_no("Id",$1);}
-    | ID DOTLENGTH          {if(DEBUG)printf("expr dotlenght\n");$$=criar_no("Lenght",""); $$->filho = criar_no("Id",$1);}
+    | ID DOTLENGTH          {if(DEBUG)printf("expr dotlenght\n");$$=criar_no("Length",""); $$->filho = criar_no("Id",$1);}
     | INTLIT                {if(DEBUG)printf("expr intlit\n");$$=criar_no("DecLit",$1);}
     | REALLIT               {if(DEBUG)printf("expr reallit\n");$$=criar_no("RealLit",$1);}
     | BOOLLIT               {if(DEBUG)printf("expr boollit\n");$$=criar_no("BoolLit",$1);}

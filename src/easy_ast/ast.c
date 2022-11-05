@@ -32,7 +32,7 @@ int contador_irmaos(no *n)
     int contador = 0;
     no *aux = n;
 
-    while (aux->irmao != NULL)
+    while (aux != NULL)
     {
         contador++;
         aux = aux->irmao;
@@ -52,12 +52,18 @@ void print_AST(no *no, int level)
 {
     print_level(level);
 
+    // if(no == NULL){
+    //     //printf("null\n");
+    //     return;
+    // }
+
     if (strcmp(no->val,"") )
     {
         printf("%s(%s)\n", no->tipo, no->val);
     }
-    else
+    else{
         printf("%s\n", no->tipo);
+    }
 
     if (no->filho)
         print_AST(no->filho, level + 1);

@@ -2101,7 +2101,6 @@ State 139
     MINUS   shift, and go to state 115
     MOD     shift, and go to state 116
     NE      shift, and go to state 117
-    OR      shift, and go to state 118
     PLUS    shift, and go to state 119
     LSHIFT  shift, and go to state 121
     RSHIFT  shift, and go to state 122
@@ -2420,6 +2419,7 @@ State 150
    76     | Expr • LT Expr
    77     | Expr • NE Expr
 
+    AND     shift, and go to state 107
     STAR    shift, and go to state 108
     DIV     shift, and go to state 109
     EQ      shift, and go to state 110

@@ -1,6 +1,3 @@
-===============
-ARVORE
-===============
 Program
 ..Id(Factorial)
 ..MethodDecl
@@ -21,7 +18,11 @@ Program
 ......VarDecl
 ........Int
 ........Id(okds)
+......VarDecl
+........Int
 ........Id(oti)
+......VarDecl
+........Int
 ........Id(rrr)
 ......VarDecl
 ........Bool

@@ -1,11 +1,8 @@
-===============
-ARVORE
-===============
 Program
 ..Id(Factorial)
 ..FieldDecl
-..Bool
-..Id(b)
+....Bool
+....Id(b)
 ..MethodDecl
 ....MethodHeader
 ......Int
@@ -36,6 +33,8 @@ Program
 ......VarDecl
 ........Int
 ........Id(argument)
+......VarDecl
+........Int
 ........Id(teste)
 ......VarDecl
 ........Int

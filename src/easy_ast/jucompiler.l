@@ -33,7 +33,7 @@ scape \\[fnrt\\\"]
 "/*"             {comment_line = line_num; comment_col = col_num + yyleng;BEGIN COMMENT2;}
 <COMMENT2>"*/"             {line_num = comment_line; col_num = comment_col + yyleng;BEGIN 0;}
 <COMMENT2>{newline}              {comment_line++;comment_col = 1;}
-<COMMENT2><<EOF>>               {comment_col+=yyleng;printf("Line %d, col %d: unterminated comment\n",line_num,col_num);BEGIN EOF_TEST;}
+<COMMENT2><<EOF>>               {comment_col+=yyleng;printf("Line %d, col %d: unterminated comment\n",line_num,col_num);line_num++;col_num=1;BEGIN EOF_TEST;}
 <COMMENT2>.               {comment_col+=yyleng;}
 
 <EOF_TEST><<EOF>>   {return 0;}
@@ -136,12 +136,12 @@ while {if(flag_tokens_lex) printf("WHILE\n");col_num+=yyleng; return WHILE;}
 
 
 
-\"    {col_num+=yyleng;BEGIN STRING;}
-<_STRING>{newline}   {printf("Line %d, col %d: unterminated string literal\n",line_num,col_num-1);line_num++;col_num=1;BEGIN 0;}
-<_STRING>({scape}|[^\r\n\"\\])*\" {if(flag_tokens_lex) printf("STRLIT(\"%s)\n",yytext);yylval.id = (char*)strdup(yytext);col_num+=yyleng;BEGIN 0;return STRLIT;}
-<_STRING>[^\r\n\"]*\\[^f|n|r|t|\\|\"][^\r\n\"]*\" {start_string = col_num-1;yyless(0);BEGIN STRING_ERROR;}
-<_STRING>[^\r\n\"]*{newline}? {start_string = col_num-1;yyless(0);BEGIN STRING_ERROR;}
-<_STRING><<EOF>> {printf("Line %d, col %d: unterminated string literal\n",line_num,start_string);BEGIN EOF_TEST;}
+\"    {col_num+=yyleng;yyless(0);BEGIN _STRING;}
+<_STRING>\"{newline}   {printf("Line %d, col %d: unterminated string literal\n",line_num,col_num-1);line_num++;col_num=1;BEGIN 0;}
+<_STRING>\"({scape}|[^\r\n\"\\])*\" {if(flag_tokens_lex) printf("STRLIT(\"%s)\n",yytext);yylval.id = (char*)strdup(yytext);col_num+=yyleng;BEGIN 0;return STRLIT;}
+<_STRING>\"[^\r\n\"]*\\[^f|n|r|t|\\|\"][^\r\n\"]*\" {start_string = col_num-1;yyless(1);BEGIN STRING_ERROR;}
+<_STRING>\"[^\r\n\"]*{newline}? {start_string = col_num-1;yyless(1);BEGIN STRING_ERROR;}
+<_STRING><<EOF>> {printf("Line %d, col %d: unterminated string literal\n",line_num,start_string);BEGIN 0;}
 
 
 <STRING_ERROR>\"    {col_num=+yyleng;BEGIN 0;}
@@ -197,11 +197,14 @@ int main(int argc, char *argv[])
 flag_checker(argc,argv);
 /* yylex(); */
 
+if(flag_tokens_lex==1){
+    while(yylex());
+}
+
 if (flag_syntactic){
     yyparse();
 }
 if (flag_tree){
-    printf("===============\nARVORE\n===============\n");
     print_AST(raiz,0);
 }
 return 0;
@@ -212,6 +215,16 @@ int yywrap()
 return 1;
 }
 
-void yyerror (char *s) { 
-    printf ("Line %d, col %d: %s: %s\n", line_num, col_num, s, yytext );
+void yyerror(const char *s) { 
+    flag_tree = 0;
+    int l;
+
+    /* if((l=strlen(yytext)) == 0)
+        printf ("Line %d, col %d: %s: %s\n", line_num, col_num, s, yytext);
+    else */
+    if( !strcmp("\"String\"",yytext) | !strcmp("\"valid string\"",yytext) | !strcmp("\"strlit\"",yytext) | ( yytext[0] == '\"' && yytext[yyleng-1] == '\"') )
+        printf ("Line %d, col %d: %s: %s\n", line_num, (int)(col_num-strlen(yytext))-1, s, yytext);
+    else
+        printf ("Line %d, col %d: %s: %s\n", line_num, (int)(col_num-strlen(yytext)), s, yytext);
+
 }
