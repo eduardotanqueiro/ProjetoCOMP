@@ -3,7 +3,11 @@ Program
 ..FieldDecl
 ....Int
 ....Id(a)
+..FieldDecl
+....Int
 ....Id(b)
+..FieldDecl
+....Int
 ....Id(c)
 ..FieldDecl
 ....Double

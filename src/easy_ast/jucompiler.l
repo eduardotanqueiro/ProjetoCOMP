@@ -132,7 +132,7 @@ while {if(flag_tokens_lex) printf("WHILE\n");col_num+=yyleng; return WHILE;}
 
 ([0-9]([0-9_]*[0-9])?"."(([0-9]([0-9_]*[0-9])?{expoente}?)|{expoente})?)|((".")([0-9]([0-9_]*[0-9])?{expoente}?))|([0-9]([0-9_]*[0-9])?{expoente}) {if(flag_tokens_lex) printf("REALLIT(%s)\n",yytext);yylval.id = (char*)strdup(yytext);col_num+=yyleng; return REALLIT;}
 
-[0-9]|([1-9]([0-9|"_"])*[0-9])  {if(flag_tokens_lex) printf("INTLIT(%s)\n",yytext);yylval.id = (char*)strdup(yytext);col_num+=yyleng; return INTLIT;} 
+[0-9]|([1-9]([0-9"_"])*[0-9])  {if(flag_tokens_lex) printf("INTLIT(%s)\n",yytext);yylval.id = (char*)strdup(yytext);col_num+=yyleng; return INTLIT;} 
 
 
 
@@ -144,7 +144,7 @@ while {if(flag_tokens_lex) printf("WHILE\n");col_num+=yyleng; return WHILE;}
 <_STRING><<EOF>> {printf("Line %d, col %d: unterminated string literal\n",line_num,start_string);BEGIN 0;}
 
 
-<STRING_ERROR>\"    {col_num=+yyleng;BEGIN 0;}
+<STRING_ERROR>\"    {col_num+=yyleng;BEGIN 0;}
 <STRING_ERROR>{newline}   {printf("Line %d, col %d: unterminated string literal\n",line_num,start_string);line_num++;col_num=1;BEGIN 0;}
 <STRING_ERROR>{scape} {col_num+=yyleng;}
 <STRING_ERROR>\\[^\n\r\\\"fnrt] {printf("Line %d, col %d: invalid escape sequence (%s)\n",line_num,col_num,yytext);col_num+=yyleng;}

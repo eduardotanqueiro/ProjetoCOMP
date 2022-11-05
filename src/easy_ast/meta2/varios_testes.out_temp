@@ -3,8 +3,14 @@ Program
 ..FieldDecl
 ....Int
 ....Id(a)
+..FieldDecl
+....Int
 ....Id(b)
+..FieldDecl
+....Int
 ....Id(c)
+..FieldDecl
+....Int
 ....Id(d)
 ..MethodDecl
 ....MethodHeader

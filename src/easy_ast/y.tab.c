@@ -1527,7 +1527,7 @@ yyreduce:
 
   case 8: /* FieldDecl: PUBLIC STATIC Type ID CommaIdRep SEMICOLON  */
 #line 100 "jucompiler.y"
-                                                      {if(DEBUG)printf("field decl solo \n");(yyval.node)=criar_no("FieldDecl",""), (yyval.node)->filho=(yyvsp[-3].node); adicionar_irmao((yyvsp[-3].node),criar_no("Id",(yyvsp[-2].id))); adicionar_irmao((yyvsp[-3].node)->irmao,(yyvsp[-1].node));}
+                                                      {if(DEBUG)printf("field decl solo \n");(yyval.node)=criar_no("FieldDecl",""), (yyval.node)->filho=(yyvsp[-3].node); adicionar_irmao((yyvsp[-3].node),criar_no("Id",(yyvsp[-2].id))); if((yyvsp[-1].node)!=NULL){tmp = (yyvsp[-1].node); while(tmp != NULL){ no* tmp1 = criar_no("FieldDecl","");no* tmp2 = criar_no((yyvsp[-3].node)->tipo,(yyvsp[-3].node)->val); tmp1->filho= tmp2; adicionar_irmao(tmp2,criar_no("Id",tmp->val)); adicionar_irmao((yyval.node),tmp1); tmp = tmp->irmao;} } ;}
 #line 1532 "y.tab.c"
     break;
 

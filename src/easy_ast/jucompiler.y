@@ -97,7 +97,7 @@ MethodFieldSemicolonRep: MethodDecl MethodFieldSemicolonRep {if(DEBUG)printf("me
 MethodDecl: PUBLIC STATIC MethodHeader MethodBody {if(DEBUG)printf("method dcl solo\n");$$= criar_no("MethodDecl",""), $$->filho=$3; adicionar_irmao($3,$4);}
 
 
-FieldDecl: PUBLIC STATIC Type ID CommaIdRep SEMICOLON {if(DEBUG)printf("field decl solo \n");$$=criar_no("FieldDecl",""), $$->filho=$3; adicionar_irmao($3,criar_no("Id",$4)); adicionar_irmao($3->irmao,$5);}
+FieldDecl: PUBLIC STATIC Type ID CommaIdRep SEMICOLON {if(DEBUG)printf("field decl solo \n");$$=criar_no("FieldDecl",""), $$->filho=$3; adicionar_irmao($3,criar_no("Id",$4)); if($5!=NULL){tmp = $5; while(tmp != NULL){ no* tmp1 = criar_no("FieldDecl","");no* tmp2 = criar_no($3->tipo,$3->val); tmp1->filho= tmp2; adicionar_irmao(tmp2,criar_no("Id",tmp->val)); adicionar_irmao($$,tmp1); tmp = tmp->irmao;} } ;}
         | error SEMICOLON {$$=NULL;if(DEBUG)printf("fielddecl error \n");flag_tree=0;}
 
 CommaIdRep: COMMA ID CommaIdRep {if(DEBUG)printf("commma id rep \n");$$=criar_no("Id",$2); adicionar_irmao($$,$3);}

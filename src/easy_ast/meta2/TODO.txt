@@ -2,6 +2,4 @@ all errors
 assign error
 exprAndMore AST
 MethodFieldError5: LINHAS/COLUNAS
-Miscellaneous
-
 
