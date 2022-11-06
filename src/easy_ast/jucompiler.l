@@ -1,6 +1,6 @@
 %{
     //  Eduardo Carneiro - 2020240332
-    //  Ricardo Silva - 2020
+    //  Ricardo Silva - 2020227184
     #include "ast.h"
     #include "y.tab.h"
 
@@ -33,7 +33,7 @@ scape \\[fnrt\\\"]
 "/*"             {comment_line = line_num; comment_col = col_num + yyleng;BEGIN COMMENT2;}
 <COMMENT2>"*/"             {line_num = comment_line; col_num = comment_col + yyleng;BEGIN 0;}
 <COMMENT2>{newline}              {comment_line++;comment_col = 1;}
-<COMMENT2><<EOF>>               {comment_col+=yyleng;printf("Line %d, col %d: unterminated comment\n",line_num,col_num);line_num++;col_num=1;BEGIN EOF_TEST;}
+<COMMENT2><<EOF>>               {comment_col+=yyleng;printf("Line %d, col %d: unterminated comment\n",line_num,col_num);line_num = comment_line;col_num=1;BEGIN 0;}
 <COMMENT2>.               {comment_col+=yyleng;}
 
 <EOF_TEST><<EOF>>   {return 0;}
@@ -217,7 +217,6 @@ return 1;
 
 void yyerror(const char *s) { 
     flag_tree = 0;
-    int l;
 
     /* if((l=strlen(yytext)) == 0)
         printf ("Line %d, col %d: %s: %s\n", line_num, col_num, s, yytext);

@@ -1069,7 +1069,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case YY_STATE_EOF(COMMENT2):
 #line 36 "jucompiler.l"
-{comment_col+=yyleng;printf("Line %d, col %d: unterminated comment\n",line_num,col_num);line_num++;col_num=1;BEGIN EOF_TEST;}
+{comment_col+=yyleng;printf("Line %d, col %d: unterminated comment\n",line_num,col_num);line_num = comment_line;col_num=1;BEGIN 0;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
@@ -2474,7 +2474,6 @@ return 1;
 
 void yyerror(const char *s) { 
     flag_tree = 0;
-    int l;
 
     /* if((l=strlen(yytext)) == 0)
         printf ("Line %d, col %d: %s: %s\n", line_num, col_num, s, yytext);
