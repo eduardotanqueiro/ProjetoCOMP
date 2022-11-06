@@ -201,9 +201,9 @@ ExprOp: LPAR Expr RPAR        {if(DEBUG)printf("ExprOp brace\n");$$=$2;}
     | INTLIT                {if(DEBUG)printf("ExprOp intlit\n");$$=criar_no("DecLit",$1);}
     | REALLIT               {if(DEBUG)printf("ExprOp reallit\n");$$=criar_no("RealLit",$1);}
     | BOOLLIT               {if(DEBUG)printf("ExprOp boollit\n");$$=criar_no("BoolLit",$1);}
-    | MINUS ExprOp %prec NOT           {if(DEBUG)printf("ExprOp self minus\n");$$=criar_no("Minus",""); $$->filho=$2;} // DAR A MESMA PRECEDENCIA AO MINUS QUE O NOT, POIS NESTE CASO O MINUS IGUALA-SE AO NOT
-    | NOT ExprOp              {if(DEBUG)printf("ExprOp self not\n");$$=criar_no("Not",""); $$->filho=$2;}
-    | PLUS ExprOp             {if(DEBUG)printf("ExprOp self plus\n");$$=criar_no("Plus",""); $$->filho=$2;}
+    | MINUS ExprOp %prec NOT    {if(DEBUG)printf("ExprOp self minus\n");$$=criar_no("Minus",""); $$->filho=$2;} // DAR A MESMA PRECEDENCIA AO MINUS QUE O NOT, POIS NESTE CASO O MINUS IGUALA-SE AO NOT
+    | NOT ExprOp                {if(DEBUG)printf("ExprOp self not\n");$$=criar_no("Not",""); $$->filho=$2;}
+    | PLUS ExprOp %prec NOT    {if(DEBUG)printf("ExprOp self plus\n");$$=criar_no("Plus",""); $$->filho=$2;}
     | ExprOp PLUS ExprOp        {if(DEBUG)printf("ExprOp plus\n");$$=criar_no("Add",""); $$->filho=$1; adicionar_irmao($1, $3);}
     | ExprOp MINUS ExprOp       {if(DEBUG)printf("ExprOp MINUS\n");$$=criar_no("Sub","");$$->filho=$1; adicionar_irmao($1, $3);}
     | ExprOp STAR ExprOp        {if(DEBUG)printf("ExprOp STAR\n");$$=criar_no("Mul","");$$->filho=$1; adicionar_irmao($1, $3);}
@@ -221,7 +221,5 @@ ExprOp: LPAR Expr RPAR        {if(DEBUG)printf("ExprOp brace\n");$$=$2;}
     | ExprOp LT ExprOp          {if(DEBUG)printf("ExprOp LT\n");$$=criar_no("Lt","");$$->filho=$1; adicionar_irmao($1, $3);}
     | ExprOp NE ExprOp          {if(DEBUG)printf("ExprOp NE\n");$$=criar_no("Ne","");$$->filho=$1; adicionar_irmao($1, $3);}
     | LPAR error RPAR       {$$=NULL;if(DEBUG)printf("ExprOp error\n");flag_tree=0;}
-
-
 
 %%

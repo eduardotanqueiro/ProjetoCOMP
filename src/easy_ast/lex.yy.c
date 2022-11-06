@@ -751,9 +751,10 @@ char *yytext;
     int flag_tokens_lex = 0;
     int flag_tree=0;
     int flag_syntactic = 1;
-#line 755 "lex.yy.c"
+    int flag_lexical=1;
+#line 756 "lex.yy.c"
 
-#line 757 "lex.yy.c"
+#line 758 "lex.yy.c"
 
 #define INITIAL 0
 #define _STRING 1
@@ -975,10 +976,10 @@ YY_DECL
 		}
 
 	{
-#line 27 "jucompiler.l"
+#line 28 "jucompiler.l"
 
 
-#line 982 "lex.yy.c"
+#line 983 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -1037,287 +1038,287 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 29 "jucompiler.l"
+#line 30 "jucompiler.l"
 {col_num += yyleng;BEGIN COMMENT1;}
 	YY_BREAK
 case 2:
 /* rule 2 can match eol */
 YY_RULE_SETUP
-#line 30 "jucompiler.l"
+#line 31 "jucompiler.l"
 {line_num++;col_num = 1;BEGIN 0;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 31 "jucompiler.l"
+#line 32 "jucompiler.l"
 {col_num+=yyleng;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 33 "jucompiler.l"
+#line 34 "jucompiler.l"
 {comment_line = line_num; comment_col = col_num + yyleng;BEGIN COMMENT2;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 34 "jucompiler.l"
+#line 35 "jucompiler.l"
 {line_num = comment_line; col_num = comment_col + yyleng;BEGIN 0;}
 	YY_BREAK
 case 6:
 /* rule 6 can match eol */
 YY_RULE_SETUP
-#line 35 "jucompiler.l"
+#line 36 "jucompiler.l"
 {comment_line++;comment_col = 1;}
 	YY_BREAK
 case YY_STATE_EOF(COMMENT2):
-#line 36 "jucompiler.l"
+#line 37 "jucompiler.l"
 {comment_col+=yyleng;printf("Line %d, col %d: unterminated comment\n",line_num,col_num);line_num = comment_line;col_num=1;BEGIN 0;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 37 "jucompiler.l"
+#line 38 "jucompiler.l"
 {comment_col+=yyleng;}
 	YY_BREAK
 case YY_STATE_EOF(EOF_TEST):
-#line 39 "jucompiler.l"
-{return 0;}
+#line 40 "jucompiler.l"
+{col_num+=yyleng;return 0;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 40 "jucompiler.l"
+#line 41 "jucompiler.l"
 {BEGIN 0;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 43 "jucompiler.l"
+#line 44 "jucompiler.l"
 {if(flag_tokens_lex) printf("BOOLLIT(%s)\n",yytext);col_num+=yyleng; yylval.id = strdup(yytext);return BOOLLIT;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 45 "jucompiler.l"
+#line 46 "jucompiler.l"
 {if(flag_tokens_lex) printf("AND\n");col_num+=yyleng; return AND;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 47 "jucompiler.l"
+#line 48 "jucompiler.l"
 {if(flag_tokens_lex) printf("ASSIGN\n");col_num+=yyleng; return ASSIGN;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 49 "jucompiler.l"
+#line 50 "jucompiler.l"
 {if(flag_tokens_lex) printf("STAR\n");col_num+=yyleng; return STAR;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 51 "jucompiler.l"
+#line 52 "jucompiler.l"
 {if(flag_tokens_lex) printf("COMMA\n");col_num+=yyleng; return COMMA;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 53 "jucompiler.l"
+#line 54 "jucompiler.l"
 {if(flag_tokens_lex) printf("DIV\n");col_num+=yyleng; return DIV;}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 55 "jucompiler.l"
+#line 56 "jucompiler.l"
 {if(flag_tokens_lex) printf("EQ\n");col_num+=yyleng; return EQ;}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 57 "jucompiler.l"
+#line 58 "jucompiler.l"
 {if(flag_tokens_lex) printf("GE\n");col_num+=yyleng; return GE;}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 59 "jucompiler.l"
+#line 60 "jucompiler.l"
 {if(flag_tokens_lex) printf("GT\n");col_num+=yyleng; return GT;}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 61 "jucompiler.l"
+#line 62 "jucompiler.l"
 {if(flag_tokens_lex) printf("LBRACE\n");col_num+=yyleng; return LBRACE;}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 63 "jucompiler.l"
+#line 64 "jucompiler.l"
 {if(flag_tokens_lex) printf("LE\n");col_num+=yyleng; return LE;}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 65 "jucompiler.l"
+#line 66 "jucompiler.l"
 {if(flag_tokens_lex) printf("LPAR\n");col_num+=yyleng; return LPAR;}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 67 "jucompiler.l"
+#line 68 "jucompiler.l"
 {if(flag_tokens_lex) printf("LSQ\n");col_num+=yyleng; return LSQ;}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 69 "jucompiler.l"
+#line 70 "jucompiler.l"
 {if(flag_tokens_lex) printf("LT\n");col_num+=yyleng; return LT;}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 71 "jucompiler.l"
+#line 72 "jucompiler.l"
 {if(flag_tokens_lex) printf("MINUS\n");col_num+=yyleng; return MINUS;}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 73 "jucompiler.l"
+#line 74 "jucompiler.l"
 {if(flag_tokens_lex) printf("MOD\n");col_num+=yyleng; return MOD;}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 75 "jucompiler.l"
+#line 76 "jucompiler.l"
 {if(flag_tokens_lex) printf("NE\n");col_num+=yyleng; return NE;}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 77 "jucompiler.l"
+#line 78 "jucompiler.l"
 {if(flag_tokens_lex) printf("NOT\n");col_num+=yyleng; return NOT;}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 79 "jucompiler.l"
+#line 80 "jucompiler.l"
 {if(flag_tokens_lex) printf("OR\n");col_num+=yyleng; return OR;}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 81 "jucompiler.l"
+#line 82 "jucompiler.l"
 {if(flag_tokens_lex) printf("PLUS\n");col_num+=yyleng; return PLUS;}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 83 "jucompiler.l"
+#line 84 "jucompiler.l"
 {if(flag_tokens_lex) printf("RBRACE\n");col_num+=yyleng; return RBRACE;}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 85 "jucompiler.l"
+#line 86 "jucompiler.l"
 {if(flag_tokens_lex) printf("RPAR\n");col_num+=yyleng; return RPAR;}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 87 "jucompiler.l"
+#line 88 "jucompiler.l"
 {if(flag_tokens_lex) printf("RSQ\n");col_num+=yyleng; return RSQ;}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 89 "jucompiler.l"
+#line 90 "jucompiler.l"
 {if(flag_tokens_lex) printf("SEMICOLON\n");col_num+=yyleng; return SEMICOLON;}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 91 "jucompiler.l"
+#line 92 "jucompiler.l"
 {if(flag_tokens_lex) printf("ARROW\n");col_num+=yyleng; return ARROW;}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 93 "jucompiler.l"
+#line 94 "jucompiler.l"
 {if(flag_tokens_lex) printf("LSHIFT\n");col_num+=yyleng; return LSHIFT;}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 95 "jucompiler.l"
+#line 96 "jucompiler.l"
 {if(flag_tokens_lex) printf("RSHIFT\n");col_num+=yyleng; return RSHIFT;}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 97 "jucompiler.l"
+#line 98 "jucompiler.l"
 {if(flag_tokens_lex) printf("XOR\n");col_num+=yyleng; return XOR;}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 99 "jucompiler.l"
+#line 100 "jucompiler.l"
 {if(flag_tokens_lex) printf("BOOL\n");col_num+=yyleng; return BOOL;}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 101 "jucompiler.l"
+#line 102 "jucompiler.l"
 {if(flag_tokens_lex) printf("CLASS\n");col_num+=yyleng; return CLASS;}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 103 "jucompiler.l"
+#line 104 "jucompiler.l"
 {if(flag_tokens_lex) printf("DOTLENGTH\n");col_num+=yyleng; return DOTLENGTH;}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 105 "jucompiler.l"
+#line 106 "jucompiler.l"
 {if(flag_tokens_lex) printf("DOUBLE\n");col_num+=yyleng; return DOUBLE;}
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 107 "jucompiler.l"
+#line 108 "jucompiler.l"
 {if(flag_tokens_lex) printf("ELSE\n");col_num+=yyleng; return ELSE;}
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 109 "jucompiler.l"
+#line 110 "jucompiler.l"
 {if(flag_tokens_lex) printf("IF\n");col_num+=yyleng; return IF;}
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 111 "jucompiler.l"
+#line 112 "jucompiler.l"
 {if(flag_tokens_lex) printf("INT\n");col_num+=yyleng; return INT;}
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 113 "jucompiler.l"
+#line 114 "jucompiler.l"
 {if(flag_tokens_lex) printf("PRINT\n");col_num+=yyleng; return PRINT;}
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 115 "jucompiler.l"
+#line 116 "jucompiler.l"
 {if(flag_tokens_lex) printf("PARSEINT\n");col_num+=yyleng; return PARSEINT;}
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 117 "jucompiler.l"
+#line 118 "jucompiler.l"
 {if(flag_tokens_lex) printf("PUBLIC\n");col_num+=yyleng; return PUBLIC;}
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 119 "jucompiler.l"
+#line 120 "jucompiler.l"
 {if(flag_tokens_lex) printf("RETURN\n");col_num+=yyleng; return RETURN;}
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 121 "jucompiler.l"
+#line 122 "jucompiler.l"
 {if(flag_tokens_lex) printf("STATIC\n");col_num+=yyleng; return STATIC;}
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 123 "jucompiler.l"
+#line 124 "jucompiler.l"
 {if(flag_tokens_lex) printf("STRING\n");col_num+=yyleng; return STRING;}
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 125 "jucompiler.l"
+#line 126 "jucompiler.l"
 {if(flag_tokens_lex) printf("VOID\n");col_num+=yyleng; return VOID;}
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 127 "jucompiler.l"
+#line 128 "jucompiler.l"
 {if(flag_tokens_lex) printf("WHILE\n");col_num+=yyleng; return WHILE;}
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 129 "jucompiler.l"
+#line 130 "jucompiler.l"
 {if(flag_tokens_lex) printf("RESERVED(%s)\n",yytext);col_num+=yyleng; return RESERVED;}
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 131 "jucompiler.l"
+#line 132 "jucompiler.l"
 {if(flag_tokens_lex) printf("ID(%s)\n",yytext);yylval.id = (char*)strdup(yytext);col_num+=yyleng; return ID;}  
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 133 "jucompiler.l"
+#line 134 "jucompiler.l"
 {if(flag_tokens_lex) printf("REALLIT(%s)\n",yytext);yylval.id = (char*)strdup(yytext);col_num+=yyleng; return REALLIT;}
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 135 "jucompiler.l"
+#line 136 "jucompiler.l"
 {if(flag_tokens_lex) printf("INTLIT(%s)\n",yytext);yylval.id = (char*)strdup(yytext);col_num+=yyleng; return INTLIT;} 
 	YY_BREAK
 case 56:
@@ -1408,7 +1409,7 @@ YY_RULE_SETUP
 #line 162 "jucompiler.l"
 ECHO;
 	YY_BREAK
-#line 1412 "lex.yy.c"
+#line 1413 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(COMMENT1):
 	yyterminate();
@@ -2422,21 +2423,25 @@ void flag_checker(int argc, char *argv[]) {
     for (int i = 1; i < argc; i++) {
         if (argv[i][0]=='-'){
             if (!strcmp(argv[i], "-t")){ // árvore SÓ?
+            flag_lexical=0;
                 flag_tokens_lex=0;
                 flag_tree = 1;
                 flag_syntactic= 1;
                 }
             else if(!strcmp(argv[i], "-e2")){ // só erro sintático e lexical
+            flag_lexical=1;
                 flag_tokens_lex=0;
                 flag_tree=0;
                 flag_syntactic=1;
             }
             else if(!strcmp(argv[i], "-l")){ // só lexical com tokens
+            flag_lexical=1;
                 flag_tokens_lex=1;
                 flag_tree=0;
                 flag_syntactic=0;
             }
             else if(!strcmp(argv[i], "-e1")){ // só lexical sem tokens
+            flag_lexical=1;
                 flag_tokens_lex=0;
                 flag_tree=0;
                 flag_syntactic=0;
@@ -2454,7 +2459,7 @@ int main(int argc, char *argv[])
 flag_checker(argc,argv);
 /* yylex(); */
 
-if(flag_tokens_lex==1){
+if(flag_lexical==1){
     while(yylex());
 }
 
@@ -2478,7 +2483,7 @@ void yyerror(const char *s) {
     /* if((l=strlen(yytext)) == 0)
         printf ("Line %d, col %d: %s: %s\n", line_num, col_num, s, yytext);
     else */
-    if( !strcmp("\"String\"",yytext) || !strcmp("\"valid string\"",yytext) || !strcmp("\"strlit\"",yytext) || ( yytext[0] == '\"' && yytext[yyleng-1] == '\"') || yytext[0] == EOF)
+    if( !strcmp("\"String\"",yytext) || !strcmp("\"valid string\"",yytext) || !strcmp("\"strlit\"",yytext) || ( yytext[0] == '\"' && yytext[yyleng-1] == '\"'))
         printf ("Line %d, col %d: %s: %s\n", line_num, (int)(col_num-strlen(yytext))-1, s, yytext);
     else
         printf ("Line %d, col %d: %s: %s\n", line_num, (int)(col_num-strlen(yytext)), s, yytext);

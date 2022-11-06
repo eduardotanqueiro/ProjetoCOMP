@@ -802,7 +802,7 @@ static const yytype_int16 yypact[] =
      244,   244,   -48,   -48,   -48,   -48,   116,   268,   235,   122,
      -48,   -48,   -48,   -48,   -48,   -48,   113,   133,   -48,   -48,
      -48,   -48,   120,   -48,   138,   -48,   -48,   123,   126,   127,
-     128,   139,   -48,   129,   131,    21,   -48,   -48,    37,   -48,
+     128,   139,   -48,   129,   131,    21,   -48,   -48,   -48,   -48,
      244,   244,   244,   244,   244,   244,   244,   244,   244,   244,
      244,   244,   244,   244,   244,   244,   132,   135,   159,    -7,
      -48,   -48,   235,   134,   150,   140,   145,   -48,   235,   -48,
@@ -1838,19 +1838,19 @@ yyreduce:
 
   case 61: /* ExprOp: MINUS ExprOp  */
 #line 204 "jucompiler.y"
-                                       {if(DEBUG)printf("ExprOp self minus\n");(yyval.node)=criar_no("Minus",""); (yyval.node)->filho=(yyvsp[0].node);}
+                                {if(DEBUG)printf("ExprOp self minus\n");(yyval.node)=criar_no("Minus",""); (yyval.node)->filho=(yyvsp[0].node);}
 #line 1843 "y.tab.c"
     break;
 
   case 62: /* ExprOp: NOT ExprOp  */
 #line 205 "jucompiler.y"
-                              {if(DEBUG)printf("ExprOp self not\n");(yyval.node)=criar_no("Not",""); (yyval.node)->filho=(yyvsp[0].node);}
+                                {if(DEBUG)printf("ExprOp self not\n");(yyval.node)=criar_no("Not",""); (yyval.node)->filho=(yyvsp[0].node);}
 #line 1849 "y.tab.c"
     break;
 
   case 63: /* ExprOp: PLUS ExprOp  */
 #line 206 "jucompiler.y"
-                              {if(DEBUG)printf("ExprOp self plus\n");(yyval.node)=criar_no("Plus",""); (yyval.node)->filho=(yyvsp[0].node);}
+                               {if(DEBUG)printf("ExprOp self plus\n");(yyval.node)=criar_no("Plus",""); (yyval.node)->filho=(yyvsp[0].node);}
 #line 1855 "y.tab.c"
     break;
 
@@ -2150,5 +2150,5 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 227 "jucompiler.y"
+#line 225 "jucompiler.y"
 

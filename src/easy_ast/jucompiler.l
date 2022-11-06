@@ -15,6 +15,7 @@
     int flag_tokens_lex = 0;
     int flag_tree=0;
     int flag_syntactic = 1;
+    int flag_lexical=1;
 %}
 
 expoente [eE]["+"-]?[0-9]([0-9_]*[0-9])?
@@ -36,7 +37,7 @@ scape \\[fnrt\\\"]
 <COMMENT2><<EOF>>               {comment_col+=yyleng;printf("Line %d, col %d: unterminated comment\n",line_num,col_num);line_num = comment_line;col_num=1;BEGIN 0;}
 <COMMENT2>.               {comment_col+=yyleng;}
 
-<EOF_TEST><<EOF>>   {return 0;}
+<EOF_TEST><<EOF>>   {col_num+=yyleng;return 0;}
 <EOF_TEST>.   {BEGIN 0;}
 
 
@@ -135,7 +136,6 @@ while {if(flag_tokens_lex) printf("WHILE\n");col_num+=yyleng; return WHILE;}
 [0-9]|([1-9]([0-9"_"])*[0-9])  {if(flag_tokens_lex) printf("INTLIT(%s)\n",yytext);yylval.id = (char*)strdup(yytext);col_num+=yyleng; return INTLIT;} 
 
 
-
 \"    {col_num+=yyleng;yyless(0);BEGIN _STRING;}
 <_STRING>\"{newline}   {printf("Line %d, col %d: unterminated string literal\n",line_num,col_num-1);line_num++;col_num=1;BEGIN 0;}
 <_STRING>\"({scape}|[^\r\n\"\\])*\" {if(flag_tokens_lex) printf("STRLIT(\"%s)\n",yytext);yylval.id = (char*)strdup(yytext);col_num+=yyleng;BEGIN 0;return STRLIT;}
@@ -166,21 +166,25 @@ void flag_checker(int argc, char *argv[]) {
     for (int i = 1; i < argc; i++) {
         if (argv[i][0]=='-'){
             if (!strcmp(argv[i], "-t")){ // árvore SÓ?
+            flag_lexical=0;
                 flag_tokens_lex=0;
                 flag_tree = 1;
                 flag_syntactic= 1;
                 }
             else if(!strcmp(argv[i], "-e2")){ // só erro sintático e lexical
+            flag_lexical=1;
                 flag_tokens_lex=0;
                 flag_tree=0;
                 flag_syntactic=1;
             }
             else if(!strcmp(argv[i], "-l")){ // só lexical com tokens
+            flag_lexical=1;
                 flag_tokens_lex=1;
                 flag_tree=0;
                 flag_syntactic=0;
             }
             else if(!strcmp(argv[i], "-e1")){ // só lexical sem tokens
+            flag_lexical=1;
                 flag_tokens_lex=0;
                 flag_tree=0;
                 flag_syntactic=0;
@@ -198,7 +202,7 @@ int main(int argc, char *argv[])
 flag_checker(argc,argv);
 /* yylex(); */
 
-if(flag_tokens_lex==1){
+if(flag_lexical==1){
     while(yylex());
 }
 
