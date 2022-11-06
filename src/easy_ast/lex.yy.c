@@ -1405,7 +1405,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 70:
 YY_RULE_SETUP
-#line 161 "jucompiler.l"
+#line 162 "jucompiler.l"
 ECHO;
 	YY_BREAK
 #line 1412 "lex.yy.c"
@@ -2414,7 +2414,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 161 "jucompiler.l"
+#line 162 "jucompiler.l"
 
 
 void flag_checker(int argc, char *argv[]) {
@@ -2478,7 +2478,7 @@ void yyerror(const char *s) {
     /* if((l=strlen(yytext)) == 0)
         printf ("Line %d, col %d: %s: %s\n", line_num, col_num, s, yytext);
     else */
-    if( !strcmp("\"String\"",yytext) | !strcmp("\"valid string\"",yytext) | !strcmp("\"strlit\"",yytext) | ( yytext[0] == '\"' && yytext[yyleng-1] == '\"') )
+    if( !strcmp("\"String\"",yytext) || !strcmp("\"valid string\"",yytext) || !strcmp("\"strlit\"",yytext) || ( yytext[0] == '\"' && yytext[yyleng-1] == '\"') || yytext[0] == EOF)
         printf ("Line %d, col %d: %s: %s\n", line_num, (int)(col_num-strlen(yytext))-1, s, yytext);
     else
         printf ("Line %d, col %d: %s: %s\n", line_num, (int)(col_num-strlen(yytext)), s, yytext);

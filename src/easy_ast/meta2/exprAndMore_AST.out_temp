@@ -342,8 +342,8 @@ Program
 ..........BoolLit(true)
 ..........BoolLit(false)
 ......Print
-........Minus
-..........Mul
+........Mul
+..........Minus
 ............Id(xD)
-............Minus
-..............Id($t)
+..........Minus
+............Id($t)

@@ -1376,10 +1376,6 @@ State 106
    77       | ExprOp • LT ExprOp
    78       | ExprOp • NE ExprOp
 
-    STAR  shift, and go to state 111
-    DIV   shift, and go to state 112
-    MOD   shift, and go to state 119
-
     $default  reduce using rule 60 (ExprOp)
 
 

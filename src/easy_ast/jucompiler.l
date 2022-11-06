@@ -158,6 +158,7 @@ while {if(flag_tokens_lex) printf("WHILE\n");col_num+=yyleng; return WHILE;}
 
 .   {printf("Line %d, col %d: illegal character (%s)\n",line_num,col_num,yytext);col_num+=yyleng;BEGIN 0;}
 
+
 %%
 
 void flag_checker(int argc, char *argv[]) {
@@ -221,7 +222,7 @@ void yyerror(const char *s) {
     /* if((l=strlen(yytext)) == 0)
         printf ("Line %d, col %d: %s: %s\n", line_num, col_num, s, yytext);
     else */
-    if( !strcmp("\"String\"",yytext) | !strcmp("\"valid string\"",yytext) | !strcmp("\"strlit\"",yytext) | ( yytext[0] == '\"' && yytext[yyleng-1] == '\"') )
+    if( !strcmp("\"String\"",yytext) || !strcmp("\"valid string\"",yytext) || !strcmp("\"strlit\"",yytext) || ( yytext[0] == '\"' && yytext[yyleng-1] == '\"'))
         printf ("Line %d, col %d: %s: %s\n", line_num, (int)(col_num-strlen(yytext))-1, s, yytext);
     else
         printf ("Line %d, col %d: %s: %s\n", line_num, (int)(col_num-strlen(yytext)), s, yytext);
