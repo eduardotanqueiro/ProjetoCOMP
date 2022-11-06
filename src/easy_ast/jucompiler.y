@@ -1,6 +1,6 @@
 %{
     //  Eduardo Carneiro - 2020240332
-    //  Ricardo Silva - 2020
+    //  Ricardo Silva - 2020227184
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -72,6 +72,7 @@ extern int flag_tree;
 %type<node>Assignment
 %type<node>ParseArgs
 %type<node>Expr
+%type<node>ExprOp
 
 /* --------------------------------------------------- */
 
@@ -187,34 +188,40 @@ Assignment: ID ASSIGN Expr {if(DEBUG)printf("assign \n");$$=criar_no("Assign",""
 ParseArgs: PARSEINT LPAR ID LSQ Expr RSQ RPAR {if(DEBUG)printf("parseargs full \n");$$=criar_no("ParseArgs",""); $$->filho=criar_no("Id",$3); adicionar_irmao($$->filho,$5);}
         | PARSEINT LPAR error RPAR  {$$=NULL;if(DEBUG)printf("parseargs error \n");flag_tree=0;}
 
-Expr: LPAR Expr RPAR        {if(DEBUG)printf("expr brace\n");$$=$2;}
-    | MethodInvocation      {if(DEBUG)printf("expr MI\n");$$=$1;}
-    | Assignment            {if(DEBUG)printf("expr agn\n");$$=$1;}
-    | ParseArgs             {if(DEBUG)printf("expr pa\n");$$=$1;}
-    | ID                    {if(DEBUG)printf("expr id\n");$$=criar_no("Id",$1);}
-    | ID DOTLENGTH          {if(DEBUG)printf("expr dotlenght\n");$$=criar_no("Length",""); $$->filho = criar_no("Id",$1);}
-    | INTLIT                {if(DEBUG)printf("expr intlit\n");$$=criar_no("DecLit",$1);}
-    | REALLIT               {if(DEBUG)printf("expr reallit\n");$$=criar_no("RealLit",$1);}
-    | BOOLLIT               {if(DEBUG)printf("expr boollit\n");$$=criar_no("BoolLit",$1);}
-    | MINUS Expr            {if(DEBUG)printf("expr self minus\n");$$=criar_no("Minus",""); $$->filho=$2;}
-    | NOT Expr              {if(DEBUG)printf("expr self not\n");$$=criar_no("Not",""); $$->filho=$2;}
-    | PLUS Expr             {if(DEBUG)printf("expr self plus\n");$$=criar_no("Plus",""); $$->filho=$2;}
-    | Expr PLUS Expr        {if(DEBUG)printf("expr plus\n");$$=criar_no("Add",""); $$->filho=$1; adicionar_irmao($1, $3);}
-    | Expr MINUS Expr       {if(DEBUG)printf("expr MINUS\n");$$=criar_no("Sub","");$$->filho=$1; adicionar_irmao($1, $3);}
-    | Expr STAR Expr        {if(DEBUG)printf("expr STAR\n");$$=criar_no("Mul","");$$->filho=$1; adicionar_irmao($1, $3);}
-    | Expr DIV Expr         {if(DEBUG)printf("expr DIV\n");$$=criar_no("Div","");$$->filho=$1; adicionar_irmao($1, $3);}
-    | Expr MOD Expr         {if(DEBUG)printf("expr MOD\n");$$=criar_no("Mod","");$$->filho=$1; adicionar_irmao($1, $3);}
-    | Expr AND Expr         {if(DEBUG)printf("expr AND\n");$$=criar_no("And","");$$->filho=$1; adicionar_irmao($1, $3);}
-    | Expr OR Expr          {if(DEBUG)printf("expr OR\n");$$=criar_no("Or","");$$->filho=$1; adicionar_irmao($1, $3);}
-    | Expr XOR Expr         {if(DEBUG)printf("expr XOR\n");$$=criar_no("Xor","");$$->filho=$1; adicionar_irmao($1, $3);}
-    | Expr LSHIFT Expr      {if(DEBUG)printf("expr LSHIFT\n");$$=criar_no("Lshift","");$$->filho=$1; adicionar_irmao($1, $3);}
-    | Expr RSHIFT Expr      {if(DEBUG)printf("expr RSHIFT\n");$$=criar_no("Rshift","");$$->filho=$1; adicionar_irmao($1, $3);}
-    | Expr EQ Expr          {if(DEBUG)printf("expr EQ\n");$$=criar_no("Eq","");$$->filho=$1; adicionar_irmao($1, $3);}
-    | Expr GE Expr          {if(DEBUG)printf("expr GE\n");$$=criar_no("Ge","");$$->filho=$1; adicionar_irmao($1, $3);}
-    | Expr GT Expr          {if(DEBUG)printf("expr GT\n");$$=criar_no("Gt","");$$->filho=$1; adicionar_irmao($1, $3);}
-    | Expr LE Expr          {if(DEBUG)printf("expr LE\n");$$=criar_no("Le","");$$->filho=$1; adicionar_irmao($1, $3);}
-    | Expr LT Expr          {if(DEBUG)printf("expr LT\n");$$=criar_no("Lt","");$$->filho=$1; adicionar_irmao($1, $3);}
-    | Expr NE Expr          {if(DEBUG)printf("expr NE\n");$$=criar_no("Ne","");$$->filho=$1; adicionar_irmao($1, $3);}
-    | LPAR error RPAR       {$$=NULL;if(DEBUG)printf("expr error\n");flag_tree=0;}
+
+Expr: ExprOp                {$$=$1;}//PARA NÃO SE PODER DAR DOIS ASSIGNS SEGUIDOS!!
+    | Assignment            {$$=$1;}
+
+
+ExprOp: LPAR Expr RPAR        {if(DEBUG)printf("ExprOp brace\n");$$=$2;}
+    | MethodInvocation      {if(DEBUG)printf("ExprOp MI\n");$$=$1;}
+    | ParseArgs             {if(DEBUG)printf("ExprOp pa\n");$$=$1;}
+    | ID                    {if(DEBUG)printf("ExprOp id\n");$$=criar_no("Id",$1);}
+    | ID DOTLENGTH          {if(DEBUG)printf("ExprOp dotlenght\n");$$=criar_no("Length",""); $$->filho = criar_no("Id",$1);}
+    | INTLIT                {if(DEBUG)printf("ExprOp intlit\n");$$=criar_no("DecLit",$1);}
+    | REALLIT               {if(DEBUG)printf("ExprOp reallit\n");$$=criar_no("RealLit",$1);}
+    | BOOLLIT               {if(DEBUG)printf("ExprOp boollit\n");$$=criar_no("BoolLit",$1);}
+    | MINUS ExprOp            {if(DEBUG)printf("ExprOp self minus\n");$$=criar_no("Minus",""); $$->filho=$2;}
+    | NOT ExprOp              {if(DEBUG)printf("ExprOp self not\n");$$=criar_no("Not",""); $$->filho=$2;}
+    | PLUS ExprOp             {if(DEBUG)printf("ExprOp self plus\n");$$=criar_no("Plus",""); $$->filho=$2;}
+    | ExprOp PLUS ExprOp        {if(DEBUG)printf("ExprOp plus\n");$$=criar_no("Add",""); $$->filho=$1; adicionar_irmao($1, $3);}
+    | ExprOp MINUS ExprOp       {if(DEBUG)printf("ExprOp MINUS\n");$$=criar_no("Sub","");$$->filho=$1; adicionar_irmao($1, $3);}
+    | ExprOp STAR ExprOp        {if(DEBUG)printf("ExprOp STAR\n");$$=criar_no("Mul","");$$->filho=$1; adicionar_irmao($1, $3);}
+    | ExprOp DIV ExprOp         {if(DEBUG)printf("ExprOp DIV\n");$$=criar_no("Div","");$$->filho=$1; adicionar_irmao($1, $3);}
+    | ExprOp MOD ExprOp         {if(DEBUG)printf("ExprOp MOD\n");$$=criar_no("Mod","");$$->filho=$1; adicionar_irmao($1, $3);}
+    | ExprOp AND ExprOp         {if(DEBUG)printf("ExprOp AND\n");$$=criar_no("And","");$$->filho=$1; adicionar_irmao($1, $3);}
+    | ExprOp OR ExprOp          {if(DEBUG)printf("ExprOp OR\n");$$=criar_no("Or","");$$->filho=$1; adicionar_irmao($1, $3);}
+    | ExprOp XOR ExprOp         {if(DEBUG)printf("ExprOp XOR\n");$$=criar_no("Xor","");$$->filho=$1; adicionar_irmao($1, $3);}
+    | ExprOp LSHIFT ExprOp      {if(DEBUG)printf("ExprOp LSHIFT\n");$$=criar_no("Lshift","");$$->filho=$1; adicionar_irmao($1, $3);}
+    | ExprOp RSHIFT ExprOp      {if(DEBUG)printf("ExprOp RSHIFT\n");$$=criar_no("Rshift","");$$->filho=$1; adicionar_irmao($1, $3);}
+    | ExprOp EQ ExprOp          {if(DEBUG)printf("ExprOp EQ\n");$$=criar_no("Eq","");$$->filho=$1; adicionar_irmao($1, $3);}
+    | ExprOp GE ExprOp          {if(DEBUG)printf("ExprOp GE\n");$$=criar_no("Ge","");$$->filho=$1; adicionar_irmao($1, $3);}
+    | ExprOp GT ExprOp          {if(DEBUG)printf("ExprOp GT\n");$$=criar_no("Gt","");$$->filho=$1; adicionar_irmao($1, $3);}
+    | ExprOp LE ExprOp          {if(DEBUG)printf("ExprOp LE\n");$$=criar_no("Le","");$$->filho=$1; adicionar_irmao($1, $3);}
+    | ExprOp LT ExprOp          {if(DEBUG)printf("ExprOp LT\n");$$=criar_no("Lt","");$$->filho=$1; adicionar_irmao($1, $3);}
+    | ExprOp NE ExprOp          {if(DEBUG)printf("ExprOp NE\n");$$=criar_no("Ne","");$$->filho=$1; adicionar_irmao($1, $3);}
+    | LPAR error RPAR       {$$=NULL;if(DEBUG)printf("ExprOp error\n");flag_tree=0;}
+
+
 
 %%

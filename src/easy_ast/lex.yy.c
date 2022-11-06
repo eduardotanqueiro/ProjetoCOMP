@@ -736,7 +736,7 @@ char *yytext;
 #line 1 "jucompiler.l"
 #line 2 "jucompiler.l"
     //  Eduardo Carneiro - 2020240332
-    //  Ricardo Silva - 2020
+    //  Ricardo Silva - 2020227184
     #include "ast.h"
     #include "y.tab.h"
 
