@@ -5,15 +5,9 @@
 #include <stdio.h>
 #include <string.h>
 #include "ast.h"
-#include "symtab.h"
 #define NSYMS 100
 #define DEBUG 0
 
-symtab tab[NSYMS];
-
-void varlist();
-
-symtab *symlook(char *varname);
 int yylex (void);
 extern void yyerror(char* s);
 no* raiz;

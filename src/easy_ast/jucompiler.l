@@ -23,7 +23,7 @@ newline (\r?\n)|\r
 reserved_words private|protected|abstract|extends|final|implements|interface|native|new|strictfp|synchronized|transient|volatile|break|case|continue|default|do|for|instanceof|switch|assert|catch|finally|throw|throws|try|import|package|byte|char|float|short|super|this|const|goto|enum|long
 scape \\[fnrt\\\"]
 
-%X _STRING COMMENT1 COMMENT2 STRING_ERROR EOF_TEST
+%X _STRING COMMENT1 COMMENT2 STRING_ERROR
 
 %%
 
@@ -34,11 +34,9 @@ scape \\[fnrt\\\"]
 "/*"             {comment_line = line_num; comment_col = col_num + yyleng;BEGIN COMMENT2;}
 <COMMENT2>"*/"             {line_num = comment_line; col_num = comment_col + yyleng;BEGIN 0;}
 <COMMENT2>{newline}              {comment_line++;comment_col = 1;}
-<COMMENT2><<EOF>>               {comment_col+=yyleng;printf("Line %d, col %d: unterminated comment\n",line_num,col_num);line_num = comment_line;col_num=1;BEGIN 0;}
+<COMMENT2><<EOF>>               {comment_col+=yyleng;printf("Line %d, col %d: unterminated comment\n",line_num,col_num);line_num = comment_line;col_num=comment_col;yyterminate();}
 <COMMENT2>.               {comment_col+=yyleng;}
 
-<EOF_TEST><<EOF>>   {col_num+=yyleng;return 0;}
-<EOF_TEST>.   {BEGIN 0;}
 
 
 true|false  {if(flag_tokens_lex) printf("BOOLLIT(%s)\n",yytext);col_num+=yyleng; yylval.id = strdup(yytext);return BOOLLIT;}
@@ -141,7 +139,7 @@ while {if(flag_tokens_lex) printf("WHILE\n");col_num+=yyleng; return WHILE;}
 <_STRING>\"({scape}|[^\r\n\"\\])*\" {if(flag_tokens_lex) printf("STRLIT(\"%s)\n",yytext);yylval.id = (char*)strdup(yytext);col_num+=yyleng;BEGIN 0;return STRLIT;}
 <_STRING>\"[^\r\n\"]*\\[^f|n|r|t|\\|\"][^\r\n\"]*\" {start_string = col_num-1;yyless(1);BEGIN STRING_ERROR;}
 <_STRING>\"[^\r\n\"]*{newline}? {start_string = col_num-1;yyless(1);BEGIN STRING_ERROR;}
-<_STRING><<EOF>> {printf("Line %d, col %d: unterminated string literal\n",line_num,start_string);BEGIN 0;}
+<_STRING><<EOF>> {printf("Line %d, col %d: unterminated string literal\n",line_num,start_string);yyterminate();}
 
 
 <STRING_ERROR>\"    {col_num+=yyleng;BEGIN 0;}
@@ -149,8 +147,11 @@ while {if(flag_tokens_lex) printf("WHILE\n");col_num+=yyleng; return WHILE;}
 <STRING_ERROR>{scape} {col_num+=yyleng;}
 <STRING_ERROR>\\[^\n\r\\\"fnrt] {printf("Line %d, col %d: invalid escape sequence (%s)\n",line_num,col_num,yytext);col_num+=yyleng;}
 <STRING_ERROR>\\ {printf("Line %d, col %d: invalid escape sequence (%s)\n",line_num,col_num,yytext);col_num+=yyleng;}
-<STRING_ERROR><<EOF>>   {printf("Line %d, col %d: unterminated string literal\n",line_num,start_string);col_num=1;BEGIN 0;}
+<STRING_ERROR><<EOF>>   {printf("Line %d, col %d: unterminated string literal\n",line_num,start_string);col_num=1;yyterminate();}
 <STRING_ERROR>. {col_num+=yyleng;}
+
+<<EOF>> {col_num+=yyleng;yyterminate();}
+
 
 " "|"\t"|""|"\f"   {col_num+=yyleng;}
 
@@ -226,7 +227,7 @@ void yyerror(const char *s) {
     /* if((l=strlen(yytext)) == 0)
         printf ("Line %d, col %d: %s: %s\n", line_num, col_num, s, yytext);
     else */
-    if( !strcmp("\"String\"",yytext) || !strcmp("\"valid string\"",yytext) || !strcmp("\"strlit\"",yytext) || ( yytext[0] == '\"' && yytext[yyleng-1] == '\"'))
+    if( !strcmp("\"String\"",yytext) || !strcmp("\"valid string\"",yytext) || !strcmp("\"strlit\"",yytext) || ( yytext[0] == '\"' && yytext[yyleng-1] == '\"') || !strcmp("",yytext) )
         printf ("Line %d, col %d: %s: %s\n", line_num, (int)(col_num-strlen(yytext))-1, s, yytext);
     else
         printf ("Line %d, col %d: %s: %s\n", line_num, (int)(col_num-strlen(yytext)), s, yytext);
