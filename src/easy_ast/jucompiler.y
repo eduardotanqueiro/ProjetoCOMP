@@ -150,8 +150,51 @@ Statement: LBRACE StatementRep RBRACE                 {if(DEBUG)printf("statemen
                                                                                                                                 tmp_aux->filho = $7;
                                                                                                                             }
                                                                                                                         }} //TODO block
-         | IF LPAR Expr RPAR Statement                {if(DEBUG)printf("statement if solo\n");$$=criar_no("If",""); $$->filho=$3;tmp = criar_no("Block","");if($5 != NULL && contador_irmaos($5) == 1 ){adicionar_irmao($3,$5); adicionar_irmao($5, tmp);}else{adicionar_irmao($3,tmp); tmp->filho = $5; adicionar_irmao(tmp,criar_no("Block",""));}} ///TODO block
-         | WHILE LPAR Expr RPAR Statement             {if(DEBUG)printf("statement while\n");$$=criar_no("While",""); $$->filho=$3; if($5 != NULL && contador_irmaos($5) < 2){adicionar_irmao($3,$5);}else{tmp = criar_no("Block",""); adicionar_irmao($3,tmp); tmp->filho = $5;} } //TODO block
+         | IF LPAR Expr RPAR Statement                {if(DEBUG)printf("statement if solo\n");$$=criar_no("If",""); 
+                                                                                              tmp = criar_no("Block","");
+                                                                                            
+                                                                                              if($3!=NULL){
+                                                                                                
+                                                                                                $$->filho=$3;
+                                                                                                if($5 != NULL && contador_irmaos($5) == 1 ){
+                                                                                                    adicionar_irmao($3,$5); 
+                                                                                                    adicionar_irmao($5, tmp);}
+                                                                                                else{
+                                                                                                    adicionar_irmao($3,tmp); 
+                                                                                                    tmp->filho = $5; 
+                                                                                                    adicionar_irmao(tmp,criar_no("Block",""));
+                                                                                                    }
+                                                                                              }else{
+
+                                                                                                if($5 != NULL && contador_irmaos($5) == 1 ){
+                                                                                                    $$->filho = $5; 
+                                                                                                    adicionar_irmao($5, tmp);}
+                                                                                                else{
+                                                                                                    $$->filho = tmp; 
+                                                                                                    tmp->filho = $5; 
+                                                                                                    adicionar_irmao(tmp,criar_no("Block",""));
+                                                                                                    }
+
+                                                                                              }
+                                                                                            }
+         | WHILE LPAR Expr RPAR Statement             {if(DEBUG)printf("statement while\n");$$=criar_no("While","");
+                                                                                            if($3!=NULL){  //VERIFICAR SE O EXPR VEM A NULL (ERROR)
+                                                                                                $$->filho=$3; 
+                                                                                                if($5 != NULL && contador_irmaos($5) < 2){
+                                                                                                    adicionar_irmao($3,$5);}
+                                                                                                else{
+                                                                                                    tmp = criar_no("Block",""); 
+                                                                                                    adicionar_irmao($3,tmp); 
+                                                                                                    tmp->filho = $5;} 
+                                                                                            }
+                                                                                            else{
+                                                                                                if($5 != NULL && contador_irmaos($5) < 2){
+                                                                                                    $$->filho=$5;}
+                                                                                                else{
+                                                                                                    tmp = criar_no("Block",""); 
+                                                                                                    $$->filho = tmp; 
+                                                                                                    tmp->filho = $5;} 
+                                                                                            } }
          | RETURN Expr SEMICOLON                      {if(DEBUG)printf("statement return expr\n");$$=criar_no("Return",""); $$->filho=$2;}
          | RETURN SEMICOLON                           {if(DEBUG)printf("statement return\n");$$=criar_no("Return","");}
          | PRINT LPAR Expr RPAR SEMICOLON             {if(DEBUG)printf("statement print expr\n");$$=criar_no("Print","");$$->filho=$3;}
@@ -167,12 +210,12 @@ StatementRep: Statement StatementRep {if(DEBUG)printf("statementrep \n"); if($1!
             ;
 
 MethodInvocation: ID LPAR RPAR                   {if(DEBUG)printf("methodinvocation \n");$$=criar_no("Call",""); $$->filho = criar_no("Id",$1);}
-                | ID LPAR Expr CommaExprRep RPAR {if(DEBUG)printf("methodinvocation \n");$$=criar_no("Call",""); $$->filho = criar_no("Id",$1); adicionar_irmao($$->filho,$3); adicionar_irmao($3,$4);}
+                | ID LPAR Expr CommaExprRep RPAR {if(DEBUG)printf("methodinvocation \n");$$=criar_no("Call",""); $$->filho = criar_no("Id",$1); if($3 != NULL){adicionar_irmao($$->filho,$3); adicionar_irmao($3,$4);}else adicionar_irmao($$->filho,$4);}
                 | ID LPAR error RPAR    {$$=NULL;if(DEBUG)printf("methodinvocation \n");flag_tree=0;}
 
 
 
-CommaExprRep: COMMA Expr CommaExprRep {if(DEBUG)printf("commaexprrep \n");if($2!=NULL){$$=$2;adicionar_irmao($$,$3);}else $$=$2;}
+CommaExprRep: COMMA Expr CommaExprRep {if(DEBUG)printf("commaexprrep \n");if($2!=NULL){$$=$2;adicionar_irmao($$,$3);}else $$=$2;} //TODO ????
             |                         {if(DEBUG)printf("commmaexprrep empty \n");$$=NULL;}
             ;
 
