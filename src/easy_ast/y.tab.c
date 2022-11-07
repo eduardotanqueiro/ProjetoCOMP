@@ -727,15 +727,15 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,    82,    82,    85,    86,    87,    88,    92,    95,    96,
-      98,    99,   103,   104,   105,   107,   108,   109,   110,   113,
-     114,   116,   117,   120,   122,   123,   124,   127,   129,   130,
-     153,   180,   198,   199,   200,   201,   202,   203,   204,   205,
-     206,   208,   209,   212,   213,   214,   218,   219,   223,   225,
-     226,   229,   230,   233,   234,   235,   236,   237,   238,   239,
-     240,   241,   242,   243,   244,   245,   246,   247,   248,   249,
-     250,   251,   252,   253,   254,   255,   256,   257,   258,   259,
-     260
+       0,    81,    81,    84,    85,    86,    87,    91,    94,   107,
+     109,   110,   114,   115,   116,   118,   119,   120,   121,   124,
+     125,   127,   128,   131,   133,   134,   135,   138,   140,   141,
+     198,   225,   243,   244,   245,   246,   247,   248,   249,   250,
+     251,   253,   254,   257,   258,   259,   263,   264,   268,   270,
+     271,   274,   275,   278,   279,   280,   281,   282,   283,   284,
+     285,   286,   287,   288,   289,   290,   291,   292,   293,   294,
+     295,   296,   297,   298,   299,   300,   301,   302,   303,   304,
+     305
 };
 #endif
 
@@ -1455,197 +1455,243 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* Program: CLASS ID LBRACE MethodFieldSemicolonRep RBRACE  */
-#line 82 "jucompiler.y"
-                                                         {if(DEBUG)printf("program\n");(yyval.node)=raiz=criar_no("Program",""); (yyval.node)->filho = criar_no("Id",(yyvsp[-3].id)); adicionar_irmao((yyval.node)->filho, (yyvsp[-1].node));}
+#line 81 "jucompiler.y"
+                                                         {(yyval.node)=raiz=criar_no("Program",""); (yyval.node)->filho = criar_no("Id",(yyvsp[-3].id)); adicionar_irmao((yyval.node)->filho, (yyvsp[-1].node));}
 #line 1461 "y.tab.c"
     break;
 
   case 3: /* MethodFieldSemicolonRep: MethodDecl MethodFieldSemicolonRep  */
-#line 85 "jucompiler.y"
-                                                            {if(DEBUG)printf("method dcl prog\n");(yyval.node)=(yyvsp[-1].node); adicionar_irmao((yyval.node),(yyvsp[0].node));}
+#line 84 "jucompiler.y"
+                                                            {(yyval.node)=(yyvsp[-1].node); adicionar_irmao((yyval.node),(yyvsp[0].node));}
 #line 1467 "y.tab.c"
     break;
 
   case 4: /* MethodFieldSemicolonRep: FieldDecl MethodFieldSemicolonRep  */
-#line 86 "jucompiler.y"
-                                                            {if(DEBUG)printf("field decl prog\n"); if((yyvsp[-1].node)!=NULL){(yyval.node)=(yyvsp[-1].node); adicionar_irmao((yyval.node),(yyvsp[0].node));}else (yyval.node)=(yyvsp[0].node);}
+#line 85 "jucompiler.y"
+                                                            {if((yyvsp[-1].node)!=NULL){(yyval.node)=(yyvsp[-1].node); adicionar_irmao((yyval.node),(yyvsp[0].node));}else (yyval.node)=(yyvsp[0].node);}
 #line 1473 "y.tab.c"
     break;
 
   case 5: /* MethodFieldSemicolonRep: SEMICOLON MethodFieldSemicolonRep  */
-#line 87 "jucompiler.y"
-                                                            {if(DEBUG)printf("semicolon \n");(yyval.node)=(yyvsp[0].node);}
+#line 86 "jucompiler.y"
+                                                            {(yyval.node)=(yyvsp[0].node);}
 #line 1479 "y.tab.c"
     break;
 
   case 6: /* MethodFieldSemicolonRep: %empty  */
-#line 88 "jucompiler.y"
-                                                            {if(DEBUG)printf("method dcl prog rep empty \n");(yyval.node)=NULL;}
+#line 87 "jucompiler.y"
+                                                            {(yyval.node)=NULL;}
 #line 1485 "y.tab.c"
     break;
 
   case 7: /* MethodDecl: PUBLIC STATIC MethodHeader MethodBody  */
-#line 92 "jucompiler.y"
-                                                  {if(DEBUG)printf("method dcl solo\n");(yyval.node)= criar_no("MethodDecl",""), (yyval.node)->filho=(yyvsp[-1].node); adicionar_irmao((yyvsp[-1].node),(yyvsp[0].node));}
+#line 91 "jucompiler.y"
+                                                  {(yyval.node)= criar_no("MethodDecl",""), (yyval.node)->filho=(yyvsp[-1].node); adicionar_irmao((yyvsp[-1].node),(yyvsp[0].node));}
 #line 1491 "y.tab.c"
     break;
 
   case 8: /* FieldDecl: PUBLIC STATIC Type ID CommaIdRep SEMICOLON  */
-#line 95 "jucompiler.y"
-                                                      {if(DEBUG)printf("field decl solo \n");(yyval.node)=criar_no("FieldDecl",""), (yyval.node)->filho=(yyvsp[-3].node); adicionar_irmao((yyvsp[-3].node),criar_no("Id",(yyvsp[-2].id))); if((yyvsp[-1].node)!=NULL){tmp = (yyvsp[-1].node); while(tmp != NULL){ no* tmp1 = criar_no("FieldDecl","");no* tmp2 = criar_no((yyvsp[-3].node)->tipo,(yyvsp[-3].node)->val); tmp1->filho= tmp2; adicionar_irmao(tmp2,criar_no("Id",tmp->val)); adicionar_irmao((yyval.node),tmp1); tmp = tmp->irmao;} } ;}
-#line 1497 "y.tab.c"
-    break;
-
-  case 9: /* FieldDecl: error SEMICOLON  */
-#line 96 "jucompiler.y"
-                          {(yyval.node)=NULL;if(DEBUG)printf("fielddecl error \n");flag_tree=0;}
-#line 1503 "y.tab.c"
-    break;
-
-  case 10: /* CommaIdRep: COMMA ID CommaIdRep  */
-#line 98 "jucompiler.y"
-                                {if(DEBUG)printf("commma id rep \n");(yyval.node)=criar_no("Id",(yyvsp[-1].id)); adicionar_irmao((yyval.node),(yyvsp[0].node));}
+#line 94 "jucompiler.y"
+                                                      {(yyval.node)=criar_no("FieldDecl",""), (yyval.node)->filho=(yyvsp[-3].node); 
+                                                                                    adicionar_irmao((yyvsp[-3].node),criar_no("Id",(yyvsp[-2].id))); 
+                                                                                    if((yyvsp[-1].node)!=NULL){ //Verificar se há argumentos e, se sim, ir criar um nó fielddecl para cada arguento
+                                                                                        tmp = (yyvsp[-1].node); 
+                                                                                        while(tmp != NULL){ 
+                                                                                            no* tmp1 = criar_no("FieldDecl","");
+                                                                                            no* tmp2 = criar_no((yyvsp[-3].node)->tipo,(yyvsp[-3].node)->val); 
+                                                                                            tmp1->filho= tmp2; 
+                                                                                            adicionar_irmao(tmp2,criar_no("Id",tmp->val)); 
+                                                                                            adicionar_irmao((yyval.node),tmp1); 
+                                                                                            tmp = tmp->irmao;
+                                                                                        } 
+                                                                                    };}
 #line 1509 "y.tab.c"
     break;
 
-  case 11: /* CommaIdRep: %empty  */
-#line 99 "jucompiler.y"
-                                {if(DEBUG)printf("comma id rep empty \n");(yyval.node)=NULL;}
+  case 9: /* FieldDecl: error SEMICOLON  */
+#line 107 "jucompiler.y"
+                          {(yyval.node)=NULL;flag_tree=0;}
 #line 1515 "y.tab.c"
     break;
 
-  case 12: /* Type: BOOL  */
-#line 103 "jucompiler.y"
-            {if(DEBUG)printf("bool \n");(yyval.node)=criar_no("Bool","");}
+  case 10: /* CommaIdRep: COMMA ID CommaIdRep  */
+#line 109 "jucompiler.y"
+                                {if(DEBUG)printf("commma id rep \n");(yyval.node)=criar_no("Id",(yyvsp[-1].id)); adicionar_irmao((yyval.node),(yyvsp[0].node));}
 #line 1521 "y.tab.c"
     break;
 
-  case 13: /* Type: INT  */
-#line 104 "jucompiler.y"
-          {if(DEBUG)printf("int \n");(yyval.node)=criar_no("Int","");}
+  case 11: /* CommaIdRep: %empty  */
+#line 110 "jucompiler.y"
+                                {if(DEBUG)printf("comma id rep empty \n");(yyval.node)=NULL;}
 #line 1527 "y.tab.c"
     break;
 
-  case 14: /* Type: DOUBLE  */
-#line 105 "jucompiler.y"
-             {if(DEBUG)printf("double \n");(yyval.node)=criar_no("Double","");}
+  case 12: /* Type: BOOL  */
+#line 114 "jucompiler.y"
+            {if(DEBUG)printf("bool \n");(yyval.node)=criar_no("Bool","");}
 #line 1533 "y.tab.c"
     break;
 
-  case 15: /* MethodHeader: Type ID LPAR FormalParams RPAR  */
-#line 107 "jucompiler.y"
-                                                {if(DEBUG)printf("method header full \n");(yyval.node)=criar_no("MethodHeader",""); (yyval.node)->filho=(yyvsp[-4].node); adicionar_irmao((yyvsp[-4].node), criar_no("Id",(yyvsp[-3].id))); adicionar_irmao((yyvsp[-4].node), criar_no("MethodParams","")); (yyvsp[-4].node)->irmao->irmao->filho=(yyvsp[-1].node);}
+  case 13: /* Type: INT  */
+#line 115 "jucompiler.y"
+          {if(DEBUG)printf("int \n");(yyval.node)=criar_no("Int","");}
 #line 1539 "y.tab.c"
     break;
 
-  case 16: /* MethodHeader: VOID ID LPAR FormalParams RPAR  */
-#line 108 "jucompiler.y"
-                                                {if(DEBUG)printf("method header void params \n");(yyval.node)=criar_no("MethodHeader",""); (yyval.node)->filho=criar_no("Void",""); adicionar_irmao((yyval.node)->filho, criar_no("Id",(yyvsp[-3].id))); adicionar_irmao((yyval.node)->filho,criar_no("MethodParams","")); (yyval.node)->filho->irmao->irmao->filho=(yyvsp[-1].node);}
+  case 14: /* Type: DOUBLE  */
+#line 116 "jucompiler.y"
+             {if(DEBUG)printf("double \n");(yyval.node)=criar_no("Double","");}
 #line 1545 "y.tab.c"
     break;
 
-  case 17: /* MethodHeader: Type ID LPAR RPAR  */
-#line 109 "jucompiler.y"
-                                                {if(DEBUG)printf("method header type no params \n");(yyval.node)=criar_no("MethodHeader",""); (yyval.node)->filho=(yyvsp[-3].node); adicionar_irmao((yyvsp[-3].node), criar_no("Id",(yyvsp[-2].id))); adicionar_irmao((yyvsp[-3].node), criar_no("MethodParams",""));}
+  case 15: /* MethodHeader: Type ID LPAR FormalParams RPAR  */
+#line 118 "jucompiler.y"
+                                                {if(DEBUG)printf("method header full \n");(yyval.node)=criar_no("MethodHeader",""); (yyval.node)->filho=(yyvsp[-4].node); adicionar_irmao((yyvsp[-4].node), criar_no("Id",(yyvsp[-3].id))); adicionar_irmao((yyvsp[-4].node), criar_no("MethodParams","")); (yyvsp[-4].node)->irmao->irmao->filho=(yyvsp[-1].node);}
 #line 1551 "y.tab.c"
     break;
 
-  case 18: /* MethodHeader: VOID ID LPAR RPAR  */
-#line 110 "jucompiler.y"
-                                                {if(DEBUG)printf("method header void no params \n");(yyval.node)=criar_no("MethodHeader",""); (yyval.node)->filho=criar_no("Void",""); adicionar_irmao((yyval.node)->filho, criar_no("Id",(yyvsp[-2].id))); adicionar_irmao((yyval.node)->filho,criar_no("MethodParams",""));}
+  case 16: /* MethodHeader: VOID ID LPAR FormalParams RPAR  */
+#line 119 "jucompiler.y"
+                                                {if(DEBUG)printf("method header void params \n");(yyval.node)=criar_no("MethodHeader",""); (yyval.node)->filho=criar_no("Void",""); adicionar_irmao((yyval.node)->filho, criar_no("Id",(yyvsp[-3].id))); adicionar_irmao((yyval.node)->filho,criar_no("MethodParams","")); (yyval.node)->filho->irmao->irmao->filho=(yyvsp[-1].node);}
 #line 1557 "y.tab.c"
     break;
 
-  case 19: /* FormalParams: Type ID CommaTypeIdRep  */
-#line 113 "jucompiler.y"
-                                     {if(DEBUG)printf("formalsparams type \n");(yyval.node)=criar_no("ParamDecl",""); (yyval.node)->filho=(yyvsp[-2].node);adicionar_irmao((yyvsp[-2].node), criar_no("Id",(yyvsp[-1].id)));adicionar_irmao((yyval.node),(yyvsp[0].node));}
+  case 17: /* MethodHeader: Type ID LPAR RPAR  */
+#line 120 "jucompiler.y"
+                                                {if(DEBUG)printf("method header type no params \n");(yyval.node)=criar_no("MethodHeader",""); (yyval.node)->filho=(yyvsp[-3].node); adicionar_irmao((yyvsp[-3].node), criar_no("Id",(yyvsp[-2].id))); adicionar_irmao((yyvsp[-3].node), criar_no("MethodParams",""));}
 #line 1563 "y.tab.c"
     break;
 
-  case 20: /* FormalParams: STRING LSQ RSQ ID  */
-#line 114 "jucompiler.y"
-                                {if(DEBUG)printf("formalparams string \n");(yyval.node)=criar_no("ParamDecl",""); (yyval.node)->filho=criar_no("StringArray",""); adicionar_irmao((yyval.node)->filho, criar_no("Id",(yyvsp[0].id)));}
+  case 18: /* MethodHeader: VOID ID LPAR RPAR  */
+#line 121 "jucompiler.y"
+                                                {if(DEBUG)printf("method header void no params \n");(yyval.node)=criar_no("MethodHeader",""); (yyval.node)->filho=criar_no("Void",""); adicionar_irmao((yyval.node)->filho, criar_no("Id",(yyvsp[-2].id))); adicionar_irmao((yyval.node)->filho,criar_no("MethodParams",""));}
 #line 1569 "y.tab.c"
     break;
 
-  case 21: /* CommaTypeIdRep: COMMA Type ID CommaTypeIdRep  */
-#line 116 "jucompiler.y"
-                                             {if(DEBUG)printf("commatypeidrep \n"); (yyval.node) = criar_no("ParamDecl",""); (yyval.node)->filho=(yyvsp[-2].node); adicionar_irmao((yyvsp[-2].node),criar_no("Id",(yyvsp[-1].id))); adicionar_irmao((yyval.node),(yyvsp[0].node));}
+  case 19: /* FormalParams: Type ID CommaTypeIdRep  */
+#line 124 "jucompiler.y"
+                                     {if(DEBUG)printf("formalsparams type \n");(yyval.node)=criar_no("ParamDecl",""); (yyval.node)->filho=(yyvsp[-2].node);adicionar_irmao((yyvsp[-2].node), criar_no("Id",(yyvsp[-1].id)));adicionar_irmao((yyval.node),(yyvsp[0].node));}
 #line 1575 "y.tab.c"
     break;
 
-  case 22: /* CommaTypeIdRep: %empty  */
-#line 117 "jucompiler.y"
-                                             {if(DEBUG)printf("commatypeidrep empty \n");(yyval.node)=NULL;}
+  case 20: /* FormalParams: STRING LSQ RSQ ID  */
+#line 125 "jucompiler.y"
+                                {if(DEBUG)printf("formalparams string \n");(yyval.node)=criar_no("ParamDecl",""); (yyval.node)->filho=criar_no("StringArray",""); adicionar_irmao((yyval.node)->filho, criar_no("Id",(yyvsp[0].id)));}
 #line 1581 "y.tab.c"
     break;
 
-  case 23: /* MethodBody: LBRACE StatementVarRep RBRACE  */
-#line 120 "jucompiler.y"
-                                          {if(DEBUG)printf("methodbody \n");(yyval.node)=criar_no("MethodBody","");(yyval.node)->filho=(yyvsp[-1].node);}
+  case 21: /* CommaTypeIdRep: COMMA Type ID CommaTypeIdRep  */
+#line 127 "jucompiler.y"
+                                             {if(DEBUG)printf("commatypeidrep \n"); (yyval.node) = criar_no("ParamDecl",""); (yyval.node)->filho=(yyvsp[-2].node); adicionar_irmao((yyvsp[-2].node),criar_no("Id",(yyvsp[-1].id))); adicionar_irmao((yyval.node),(yyvsp[0].node));}
 #line 1587 "y.tab.c"
     break;
 
-  case 24: /* StatementVarRep: Statement StatementVarRep  */
-#line 122 "jucompiler.y"
-                                           {if(DEBUG)printf("statementvarrep stat \n"); if((yyvsp[-1].node) != NULL){(yyval.node)=(yyvsp[-1].node); adicionar_irmao((yyval.node),(yyvsp[0].node));}else (yyval.node)=(yyvsp[0].node);}
+  case 22: /* CommaTypeIdRep: %empty  */
+#line 128 "jucompiler.y"
+                                             {if(DEBUG)printf("commatypeidrep empty \n");(yyval.node)=NULL;}
 #line 1593 "y.tab.c"
     break;
 
-  case 25: /* StatementVarRep: VarDecl StatementVarRep  */
-#line 123 "jucompiler.y"
-                                           {if(DEBUG)printf("statementvarrep vardecl \n");(yyval.node)=(yyvsp[-1].node); adicionar_irmao((yyval.node),(yyvsp[0].node));}
+  case 23: /* MethodBody: LBRACE StatementVarRep RBRACE  */
+#line 131 "jucompiler.y"
+                                          {if(DEBUG)printf("methodbody \n");(yyval.node)=criar_no("MethodBody","");(yyval.node)->filho=(yyvsp[-1].node);}
 #line 1599 "y.tab.c"
     break;
 
-  case 26: /* StatementVarRep: %empty  */
-#line 124 "jucompiler.y"
-                                           {if(DEBUG)printf("statementvarrep empty \n");(yyval.node)=NULL;}
+  case 24: /* StatementVarRep: Statement StatementVarRep  */
+#line 133 "jucompiler.y"
+                                           {if(DEBUG)printf("statementvarrep stat \n"); if((yyvsp[-1].node) != NULL){(yyval.node)=(yyvsp[-1].node); adicionar_irmao((yyval.node),(yyvsp[0].node));}else (yyval.node)=(yyvsp[0].node);}
 #line 1605 "y.tab.c"
     break;
 
-  case 27: /* VarDecl: Type ID CommaIdRep SEMICOLON  */
-#line 127 "jucompiler.y"
-                                      {if(DEBUG)printf("vardecl solo \n");(yyval.node)=criar_no("VarDecl",""); (yyval.node)->filho=(yyvsp[-3].node); adicionar_irmao((yyvsp[-3].node), criar_no("Id",(yyvsp[-2].id))); if((yyvsp[-1].node)!=NULL){tmp = (yyvsp[-1].node); while(tmp != NULL){ no* tmp1 = criar_no("VarDecl","");no* tmp2 = criar_no((yyvsp[-3].node)->tipo,(yyvsp[-3].node)->val); tmp1->filho= tmp2; adicionar_irmao(tmp2,criar_no("Id",tmp->val)); adicionar_irmao((yyval.node),tmp1); tmp = tmp->irmao;} } ;}
+  case 25: /* StatementVarRep: VarDecl StatementVarRep  */
+#line 134 "jucompiler.y"
+                                           {if(DEBUG)printf("statementvarrep vardecl \n");(yyval.node)=(yyvsp[-1].node); adicionar_irmao((yyval.node),(yyvsp[0].node));}
 #line 1611 "y.tab.c"
     break;
 
-  case 28: /* Statement: LBRACE StatementRep RBRACE  */
-#line 129 "jucompiler.y"
-                                                      {if(DEBUG)printf("statement block\n");if( contador_irmaos((yyvsp[-1].node))>1){(yyval.node)=criar_no("Block","");(yyval.node)->filho=(yyvsp[-1].node);}else{(yyval.node)=(yyvsp[-1].node);}}
+  case 26: /* StatementVarRep: %empty  */
+#line 135 "jucompiler.y"
+                                           {if(DEBUG)printf("statementvarrep empty \n");(yyval.node)=NULL;}
 #line 1617 "y.tab.c"
     break;
 
+  case 27: /* VarDecl: Type ID CommaIdRep SEMICOLON  */
+#line 138 "jucompiler.y"
+                                      {if(DEBUG)printf("vardecl solo \n");(yyval.node)=criar_no("VarDecl",""); (yyval.node)->filho=(yyvsp[-3].node); adicionar_irmao((yyvsp[-3].node), criar_no("Id",(yyvsp[-2].id))); if((yyvsp[-1].node)!=NULL){tmp = (yyvsp[-1].node); while(tmp != NULL){ no* tmp1 = criar_no("VarDecl","");no* tmp2 = criar_no((yyvsp[-3].node)->tipo,(yyvsp[-3].node)->val); tmp1->filho= tmp2; adicionar_irmao(tmp2,criar_no("Id",tmp->val)); adicionar_irmao((yyval.node),tmp1); tmp = tmp->irmao;} } ;}
+#line 1623 "y.tab.c"
+    break;
+
+  case 28: /* Statement: LBRACE StatementRep RBRACE  */
+#line 140 "jucompiler.y"
+                                                      {if(DEBUG)printf("statement block\n");if( contador_irmaos((yyvsp[-1].node))>1){(yyval.node)=criar_no("Block","");(yyval.node)->filho=(yyvsp[-1].node);}else{(yyval.node)=(yyvsp[-1].node);}}
+#line 1629 "y.tab.c"
+    break;
+
   case 29: /* Statement: IF LPAR Expr RPAR Statement ELSE Statement  */
-#line 130 "jucompiler.y"
-                                                      {if(DEBUG)printf("statement if full\n");(yyval.node)=criar_no("If",""); (yyval.node)->filho=(yyvsp[-4].node); tmp = criar_no("Block","");
-                                                                                                                        if ((yyvsp[-2].node) != NULL && contador_irmaos((yyvsp[-2].node)) == 1) {
-                                                                                                                            adicionar_irmao((yyvsp[-4].node), (yyvsp[-2].node));
-                                                                                                                            if ((yyvsp[0].node) != NULL && contador_irmaos((yyvsp[0].node)) == 1) {
-                                                                                                                                adicionar_irmao((yyvsp[-2].node), (yyvsp[0].node));
-                                                                                                                            }
-                                                                                                                            else {
-                                                                                                                                adicionar_irmao((yyvsp[-2].node), tmp);
-                                                                                                                                tmp->filho = (yyvsp[0].node);
-                                                                                                                            }
-                                                                                                                        }
-                                                                                                                        else {
-                                                                                                                            adicionar_irmao((yyvsp[-4].node), tmp);
-                                                                                                                            tmp->filho = (yyvsp[-2].node);
-                                                                                                                            if ((yyvsp[0].node) != NULL && contador_irmaos((yyvsp[0].node)) == 1 ) {
-                                                                                                                                adicionar_irmao(tmp, (yyvsp[0].node));
-                                                                                                                            }
-                                                                                                                            else {
-                                                                                                                                no* tmp_aux = criar_no("Block","");
-                                                                                                                                adicionar_irmao(tmp, tmp_aux);
-                                                                                                                                tmp_aux->filho = (yyvsp[0].node);
-                                                                                                                            }
-                                                                                                                        }}
-#line 1645 "y.tab.c"
+#line 141 "jucompiler.y"
+                                                      {if(DEBUG)printf("statement if full\n");(yyval.node)=criar_no("If",""); 
+                                                                                                
+                                                                                            if((yyvsp[-4].node) != NULL){  
+                                                                                                (yyval.node)->filho=(yyvsp[-4].node); 
+                                                                                                tmp = criar_no("Block","");
+                                                                                                if ((yyvsp[-2].node) != NULL && contador_irmaos((yyvsp[-2].node)) == 1) {
+                                                                                                    adicionar_irmao((yyvsp[-4].node), (yyvsp[-2].node));
+                                                                                                    if ((yyvsp[0].node) != NULL && contador_irmaos((yyvsp[0].node)) == 1) {
+                                                                                                        adicionar_irmao((yyvsp[-2].node), (yyvsp[0].node));
+                                                                                                    }
+                                                                                                    else {
+                                                                                                        adicionar_irmao((yyvsp[-2].node), tmp);
+                                                                                                        tmp->filho = (yyvsp[0].node);
+                                                                                                    }
+                                                                                                }
+                                                                                                else {
+                                                                                                    adicionar_irmao((yyvsp[-4].node), tmp);
+                                                                                                    tmp->filho = (yyvsp[-2].node);
+                                                                                                    if ((yyvsp[0].node) != NULL && contador_irmaos((yyvsp[0].node)) == 1 ) {
+                                                                                                        adicionar_irmao(tmp, (yyvsp[0].node));
+                                                                                                    }
+                                                                                                    else {
+                                                                                                        no* tmp_aux = criar_no("Block","");
+                                                                                                        adicionar_irmao(tmp, tmp_aux);
+                                                                                                        tmp_aux->filho = (yyvsp[0].node);
+                                                                                                    }
+                                                                                                }
+                                                                                            }else{
+
+                                                                                                tmp = criar_no("Block","");
+                                                                                                if ((yyvsp[-2].node) != NULL && contador_irmaos((yyvsp[-2].node)) == 1) {
+                                                                                                    (yyval.node)->filho = (yyvsp[-2].node);
+                                                                                                    if ((yyvsp[0].node) != NULL && contador_irmaos((yyvsp[0].node)) == 1) {
+                                                                                                        adicionar_irmao((yyvsp[-2].node), (yyvsp[0].node));
+                                                                                                    }
+                                                                                                    else {
+                                                                                                        adicionar_irmao((yyvsp[-2].node), tmp);
+                                                                                                        tmp->filho = (yyvsp[0].node);
+                                                                                                    }
+                                                                                                }
+                                                                                                else {
+                                                                                                    (yyval.node)->filho = tmp;
+                                                                                                    tmp->filho = (yyvsp[-2].node);
+                                                                                                    if ((yyvsp[0].node) != NULL && contador_irmaos((yyvsp[0].node)) == 1 ) {
+                                                                                                        adicionar_irmao(tmp, (yyvsp[0].node));
+                                                                                                    }
+                                                                                                    else {
+                                                                                                        no* tmp_aux = criar_no("Block","");
+                                                                                                        adicionar_irmao(tmp, tmp_aux);
+                                                                                                        tmp_aux->filho = (yyvsp[0].node);
+                                                                                                    }
+                                                                                                }   
+                                                                                                    
+                                                                                                    
+                                                                                            }
+                                                                                                
+                                                                                                }
+#line 1691 "y.tab.c"
     break;
 
   case 30: /* Statement: IF LPAR Expr RPAR Statement  */
-#line 153 "jucompiler.y"
+#line 198 "jucompiler.y"
                                                       {if(DEBUG)printf("statement if solo\n");(yyval.node)=criar_no("If",""); 
                                                                                               tmp = criar_no("Block","");
                                                                                             
@@ -1673,11 +1719,11 @@ yyreduce:
 
                                                                                               }
                                                                                             }
-#line 1677 "y.tab.c"
+#line 1723 "y.tab.c"
     break;
 
   case 31: /* Statement: WHILE LPAR Expr RPAR Statement  */
-#line 180 "jucompiler.y"
+#line 225 "jucompiler.y"
                                                       {if(DEBUG)printf("statement while\n");(yyval.node)=criar_no("While","");
                                                                                             if((yyvsp[-2].node)!=NULL){  //VERIFICAR SE O EXPR VEM A NULL (ERROR)
                                                                                                 (yyval.node)->filho=(yyvsp[-2].node); 
@@ -1696,305 +1742,305 @@ yyreduce:
                                                                                                     (yyval.node)->filho = tmp; 
                                                                                                     tmp->filho = (yyvsp[0].node);} 
                                                                                             } }
-#line 1700 "y.tab.c"
+#line 1746 "y.tab.c"
     break;
 
   case 32: /* Statement: RETURN Expr SEMICOLON  */
-#line 198 "jucompiler.y"
+#line 243 "jucompiler.y"
                                                       {if(DEBUG)printf("statement return expr\n");(yyval.node)=criar_no("Return",""); (yyval.node)->filho=(yyvsp[-1].node);}
-#line 1706 "y.tab.c"
+#line 1752 "y.tab.c"
     break;
 
   case 33: /* Statement: RETURN SEMICOLON  */
-#line 199 "jucompiler.y"
+#line 244 "jucompiler.y"
                                                       {if(DEBUG)printf("statement return\n");(yyval.node)=criar_no("Return","");}
-#line 1712 "y.tab.c"
+#line 1758 "y.tab.c"
     break;
 
   case 34: /* Statement: PRINT LPAR Expr RPAR SEMICOLON  */
-#line 200 "jucompiler.y"
+#line 245 "jucompiler.y"
                                                       {if(DEBUG)printf("statement print expr\n");(yyval.node)=criar_no("Print","");(yyval.node)->filho=(yyvsp[-2].node);}
-#line 1718 "y.tab.c"
+#line 1764 "y.tab.c"
     break;
 
   case 35: /* Statement: PRINT LPAR STRLIT RPAR SEMICOLON  */
-#line 201 "jucompiler.y"
+#line 246 "jucompiler.y"
                                                       {if(DEBUG)printf("statement print str\n");(yyval.node)=criar_no("Print","");(yyval.node)->filho=criar_no("StrLit",(yyvsp[-2].id));}
-#line 1724 "y.tab.c"
+#line 1770 "y.tab.c"
     break;
 
   case 36: /* Statement: MethodInvocation SEMICOLON  */
-#line 202 "jucompiler.y"
+#line 247 "jucompiler.y"
                                                       {if(DEBUG)printf("statement MI\n");(yyval.node)=(yyvsp[-1].node);}
-#line 1730 "y.tab.c"
+#line 1776 "y.tab.c"
     break;
 
   case 37: /* Statement: Assignment SEMICOLON  */
-#line 203 "jucompiler.y"
+#line 248 "jucompiler.y"
                                                       {if(DEBUG)printf("statement agn\n");(yyval.node)=(yyvsp[-1].node);}
-#line 1736 "y.tab.c"
+#line 1782 "y.tab.c"
     break;
 
   case 38: /* Statement: ParseArgs SEMICOLON  */
-#line 204 "jucompiler.y"
+#line 249 "jucompiler.y"
                                                       {if(DEBUG)printf("statement pa\n");(yyval.node)=(yyvsp[-1].node);}
-#line 1742 "y.tab.c"
+#line 1788 "y.tab.c"
     break;
 
   case 39: /* Statement: SEMICOLON  */
-#line 205 "jucompiler.y"
+#line 250 "jucompiler.y"
                                                       {if(DEBUG)printf("statement semicolon\n");(yyval.node)=NULL;}
-#line 1748 "y.tab.c"
+#line 1794 "y.tab.c"
     break;
 
   case 40: /* Statement: error SEMICOLON  */
-#line 206 "jucompiler.y"
+#line 251 "jucompiler.y"
                                                       {(yyval.node)=NULL;if(DEBUG)printf("statement error\n");flag_tree=0;}
-#line 1754 "y.tab.c"
+#line 1800 "y.tab.c"
     break;
 
   case 41: /* StatementRep: Statement StatementRep  */
-#line 208 "jucompiler.y"
+#line 253 "jucompiler.y"
                                      {if(DEBUG)printf("statementrep \n"); if((yyvsp[-1].node)!=NULL){(yyval.node)=(yyvsp[-1].node);adicionar_irmao((yyval.node),(yyvsp[0].node));} else { (yyval.node)=(yyvsp[0].node);}}
-#line 1760 "y.tab.c"
+#line 1806 "y.tab.c"
     break;
 
   case 42: /* StatementRep: %empty  */
-#line 209 "jucompiler.y"
+#line 254 "jucompiler.y"
                                      {if(DEBUG)printf("statement rep empty \n");(yyval.node)=NULL;}
-#line 1766 "y.tab.c"
+#line 1812 "y.tab.c"
     break;
 
   case 43: /* MethodInvocation: ID LPAR RPAR  */
-#line 212 "jucompiler.y"
+#line 257 "jucompiler.y"
                                                  {if(DEBUG)printf("methodinvocation \n");(yyval.node)=criar_no("Call",""); (yyval.node)->filho = criar_no("Id",(yyvsp[-2].id));}
-#line 1772 "y.tab.c"
+#line 1818 "y.tab.c"
     break;
 
   case 44: /* MethodInvocation: ID LPAR Expr CommaExprRep RPAR  */
-#line 213 "jucompiler.y"
+#line 258 "jucompiler.y"
                                                  {if(DEBUG)printf("methodinvocation \n");(yyval.node)=criar_no("Call",""); (yyval.node)->filho = criar_no("Id",(yyvsp[-4].id)); if((yyvsp[-2].node) != NULL){adicionar_irmao((yyval.node)->filho,(yyvsp[-2].node)); adicionar_irmao((yyvsp[-2].node),(yyvsp[-1].node));}else adicionar_irmao((yyval.node)->filho,(yyvsp[-1].node));}
-#line 1778 "y.tab.c"
+#line 1824 "y.tab.c"
     break;
 
   case 45: /* MethodInvocation: ID LPAR error RPAR  */
-#line 214 "jucompiler.y"
+#line 259 "jucompiler.y"
                                         {(yyval.node)=NULL;if(DEBUG)printf("methodinvocation \n");flag_tree=0;}
-#line 1784 "y.tab.c"
+#line 1830 "y.tab.c"
     break;
 
   case 46: /* CommaExprRep: COMMA Expr CommaExprRep  */
-#line 218 "jucompiler.y"
+#line 263 "jucompiler.y"
                                       {if(DEBUG)printf("commaexprrep \n");if((yyvsp[-1].node)!=NULL){(yyval.node)=(yyvsp[-1].node);adicionar_irmao((yyval.node),(yyvsp[0].node));}else (yyval.node)=(yyvsp[-1].node);}
-#line 1790 "y.tab.c"
+#line 1836 "y.tab.c"
     break;
 
   case 47: /* CommaExprRep: %empty  */
-#line 219 "jucompiler.y"
+#line 264 "jucompiler.y"
                                       {if(DEBUG)printf("commmaexprrep empty \n");(yyval.node)=NULL;}
-#line 1796 "y.tab.c"
+#line 1842 "y.tab.c"
     break;
 
   case 48: /* Assignment: ID ASSIGN Expr  */
-#line 223 "jucompiler.y"
+#line 268 "jucompiler.y"
                            {if(DEBUG)printf("assign \n");(yyval.node)=criar_no("Assign","");(yyval.node)->filho=criar_no("Id",(yyvsp[-2].id)); adicionar_irmao((yyval.node)->filho,(yyvsp[0].node));}
-#line 1802 "y.tab.c"
+#line 1848 "y.tab.c"
     break;
 
   case 49: /* ParseArgs: PARSEINT LPAR ID LSQ Expr RSQ RPAR  */
-#line 225 "jucompiler.y"
+#line 270 "jucompiler.y"
                                               {if(DEBUG)printf("parseargs full \n");(yyval.node)=criar_no("ParseArgs",""); (yyval.node)->filho=criar_no("Id",(yyvsp[-4].id)); adicionar_irmao((yyval.node)->filho,(yyvsp[-2].node));}
-#line 1808 "y.tab.c"
+#line 1854 "y.tab.c"
     break;
 
   case 50: /* ParseArgs: PARSEINT LPAR error RPAR  */
-#line 226 "jucompiler.y"
+#line 271 "jucompiler.y"
                                     {(yyval.node)=NULL;if(DEBUG)printf("parseargs error \n");flag_tree=0;}
-#line 1814 "y.tab.c"
+#line 1860 "y.tab.c"
     break;
 
   case 51: /* Expr: ExprOp  */
-#line 229 "jucompiler.y"
+#line 274 "jucompiler.y"
                             {(yyval.node)=(yyvsp[0].node);}
-#line 1820 "y.tab.c"
+#line 1866 "y.tab.c"
     break;
 
   case 52: /* Expr: Assignment  */
-#line 230 "jucompiler.y"
+#line 275 "jucompiler.y"
                             {(yyval.node)=(yyvsp[0].node);}
-#line 1826 "y.tab.c"
+#line 1872 "y.tab.c"
     break;
 
   case 53: /* ExprOp: LPAR Expr RPAR  */
-#line 233 "jucompiler.y"
+#line 278 "jucompiler.y"
                               {if(DEBUG)printf("ExprOp brace\n");(yyval.node)=(yyvsp[-1].node);}
-#line 1832 "y.tab.c"
+#line 1878 "y.tab.c"
     break;
 
   case 54: /* ExprOp: MethodInvocation  */
-#line 234 "jucompiler.y"
+#line 279 "jucompiler.y"
                             {if(DEBUG)printf("ExprOp MI\n");(yyval.node)=(yyvsp[0].node);}
-#line 1838 "y.tab.c"
+#line 1884 "y.tab.c"
     break;
 
   case 55: /* ExprOp: ParseArgs  */
-#line 235 "jucompiler.y"
+#line 280 "jucompiler.y"
                             {if(DEBUG)printf("ExprOp pa\n");(yyval.node)=(yyvsp[0].node);}
-#line 1844 "y.tab.c"
+#line 1890 "y.tab.c"
     break;
 
   case 56: /* ExprOp: ID  */
-#line 236 "jucompiler.y"
+#line 281 "jucompiler.y"
                             {if(DEBUG)printf("ExprOp id\n");(yyval.node)=criar_no("Id",(yyvsp[0].id));}
-#line 1850 "y.tab.c"
+#line 1896 "y.tab.c"
     break;
 
   case 57: /* ExprOp: ID DOTLENGTH  */
-#line 237 "jucompiler.y"
+#line 282 "jucompiler.y"
                             {if(DEBUG)printf("ExprOp dotlenght\n");(yyval.node)=criar_no("Length",""); (yyval.node)->filho = criar_no("Id",(yyvsp[-1].id));}
-#line 1856 "y.tab.c"
+#line 1902 "y.tab.c"
     break;
 
   case 58: /* ExprOp: INTLIT  */
-#line 238 "jucompiler.y"
+#line 283 "jucompiler.y"
                             {if(DEBUG)printf("ExprOp intlit\n");(yyval.node)=criar_no("DecLit",(yyvsp[0].id));}
-#line 1862 "y.tab.c"
+#line 1908 "y.tab.c"
     break;
 
   case 59: /* ExprOp: REALLIT  */
-#line 239 "jucompiler.y"
+#line 284 "jucompiler.y"
                             {if(DEBUG)printf("ExprOp reallit\n");(yyval.node)=criar_no("RealLit",(yyvsp[0].id));}
-#line 1868 "y.tab.c"
+#line 1914 "y.tab.c"
     break;
 
   case 60: /* ExprOp: BOOLLIT  */
-#line 240 "jucompiler.y"
+#line 285 "jucompiler.y"
                             {if(DEBUG)printf("ExprOp boollit\n");(yyval.node)=criar_no("BoolLit",(yyvsp[0].id));}
-#line 1874 "y.tab.c"
+#line 1920 "y.tab.c"
     break;
 
   case 61: /* ExprOp: MINUS ExprOp  */
-#line 241 "jucompiler.y"
+#line 286 "jucompiler.y"
                                 {if(DEBUG)printf("ExprOp self minus\n");(yyval.node)=criar_no("Minus",""); (yyval.node)->filho=(yyvsp[0].node);}
-#line 1880 "y.tab.c"
+#line 1926 "y.tab.c"
     break;
 
   case 62: /* ExprOp: NOT ExprOp  */
-#line 242 "jucompiler.y"
+#line 287 "jucompiler.y"
                                 {if(DEBUG)printf("ExprOp self not\n");(yyval.node)=criar_no("Not",""); (yyval.node)->filho=(yyvsp[0].node);}
-#line 1886 "y.tab.c"
+#line 1932 "y.tab.c"
     break;
 
   case 63: /* ExprOp: PLUS ExprOp  */
-#line 243 "jucompiler.y"
+#line 288 "jucompiler.y"
                                {if(DEBUG)printf("ExprOp self plus\n");(yyval.node)=criar_no("Plus",""); (yyval.node)->filho=(yyvsp[0].node);}
-#line 1892 "y.tab.c"
+#line 1938 "y.tab.c"
     break;
 
   case 64: /* ExprOp: ExprOp PLUS ExprOp  */
-#line 244 "jucompiler.y"
+#line 289 "jucompiler.y"
                                 {if(DEBUG)printf("ExprOp plus\n");(yyval.node)=criar_no("Add",""); (yyval.node)->filho=(yyvsp[-2].node); adicionar_irmao((yyvsp[-2].node), (yyvsp[0].node));}
-#line 1898 "y.tab.c"
+#line 1944 "y.tab.c"
     break;
 
   case 65: /* ExprOp: ExprOp MINUS ExprOp  */
-#line 245 "jucompiler.y"
+#line 290 "jucompiler.y"
                                 {if(DEBUG)printf("ExprOp MINUS\n");(yyval.node)=criar_no("Sub","");(yyval.node)->filho=(yyvsp[-2].node); adicionar_irmao((yyvsp[-2].node), (yyvsp[0].node));}
-#line 1904 "y.tab.c"
+#line 1950 "y.tab.c"
     break;
 
   case 66: /* ExprOp: ExprOp STAR ExprOp  */
-#line 246 "jucompiler.y"
+#line 291 "jucompiler.y"
                                 {if(DEBUG)printf("ExprOp STAR\n");(yyval.node)=criar_no("Mul","");(yyval.node)->filho=(yyvsp[-2].node); adicionar_irmao((yyvsp[-2].node), (yyvsp[0].node));}
-#line 1910 "y.tab.c"
+#line 1956 "y.tab.c"
     break;
 
   case 67: /* ExprOp: ExprOp DIV ExprOp  */
-#line 247 "jucompiler.y"
+#line 292 "jucompiler.y"
                                 {if(DEBUG)printf("ExprOp DIV\n");(yyval.node)=criar_no("Div","");(yyval.node)->filho=(yyvsp[-2].node); adicionar_irmao((yyvsp[-2].node), (yyvsp[0].node));}
-#line 1916 "y.tab.c"
+#line 1962 "y.tab.c"
     break;
 
   case 68: /* ExprOp: ExprOp MOD ExprOp  */
-#line 248 "jucompiler.y"
+#line 293 "jucompiler.y"
                                 {if(DEBUG)printf("ExprOp MOD\n");(yyval.node)=criar_no("Mod","");(yyval.node)->filho=(yyvsp[-2].node); adicionar_irmao((yyvsp[-2].node), (yyvsp[0].node));}
-#line 1922 "y.tab.c"
+#line 1968 "y.tab.c"
     break;
 
   case 69: /* ExprOp: ExprOp AND ExprOp  */
-#line 249 "jucompiler.y"
+#line 294 "jucompiler.y"
                                 {if(DEBUG)printf("ExprOp AND\n");(yyval.node)=criar_no("And","");(yyval.node)->filho=(yyvsp[-2].node); adicionar_irmao((yyvsp[-2].node), (yyvsp[0].node));}
-#line 1928 "y.tab.c"
+#line 1974 "y.tab.c"
     break;
 
   case 70: /* ExprOp: ExprOp OR ExprOp  */
-#line 250 "jucompiler.y"
+#line 295 "jucompiler.y"
                                 {if(DEBUG)printf("ExprOp OR\n");(yyval.node)=criar_no("Or","");(yyval.node)->filho=(yyvsp[-2].node); adicionar_irmao((yyvsp[-2].node), (yyvsp[0].node));}
-#line 1934 "y.tab.c"
+#line 1980 "y.tab.c"
     break;
 
   case 71: /* ExprOp: ExprOp XOR ExprOp  */
-#line 251 "jucompiler.y"
+#line 296 "jucompiler.y"
                                 {if(DEBUG)printf("ExprOp XOR\n");(yyval.node)=criar_no("Xor","");(yyval.node)->filho=(yyvsp[-2].node); adicionar_irmao((yyvsp[-2].node), (yyvsp[0].node));}
-#line 1940 "y.tab.c"
+#line 1986 "y.tab.c"
     break;
 
   case 72: /* ExprOp: ExprOp LSHIFT ExprOp  */
-#line 252 "jucompiler.y"
+#line 297 "jucompiler.y"
                                 {if(DEBUG)printf("ExprOp LSHIFT\n");(yyval.node)=criar_no("Lshift","");(yyval.node)->filho=(yyvsp[-2].node); adicionar_irmao((yyvsp[-2].node), (yyvsp[0].node));}
-#line 1946 "y.tab.c"
+#line 1992 "y.tab.c"
     break;
 
   case 73: /* ExprOp: ExprOp RSHIFT ExprOp  */
-#line 253 "jucompiler.y"
+#line 298 "jucompiler.y"
                                 {if(DEBUG)printf("ExprOp RSHIFT\n");(yyval.node)=criar_no("Rshift","");(yyval.node)->filho=(yyvsp[-2].node); adicionar_irmao((yyvsp[-2].node), (yyvsp[0].node));}
-#line 1952 "y.tab.c"
+#line 1998 "y.tab.c"
     break;
 
   case 74: /* ExprOp: ExprOp EQ ExprOp  */
-#line 254 "jucompiler.y"
+#line 299 "jucompiler.y"
                                 {if(DEBUG)printf("ExprOp EQ\n");(yyval.node)=criar_no("Eq","");(yyval.node)->filho=(yyvsp[-2].node); adicionar_irmao((yyvsp[-2].node), (yyvsp[0].node));}
-#line 1958 "y.tab.c"
+#line 2004 "y.tab.c"
     break;
 
   case 75: /* ExprOp: ExprOp GE ExprOp  */
-#line 255 "jucompiler.y"
+#line 300 "jucompiler.y"
                                 {if(DEBUG)printf("ExprOp GE\n");(yyval.node)=criar_no("Ge","");(yyval.node)->filho=(yyvsp[-2].node); adicionar_irmao((yyvsp[-2].node), (yyvsp[0].node));}
-#line 1964 "y.tab.c"
+#line 2010 "y.tab.c"
     break;
 
   case 76: /* ExprOp: ExprOp GT ExprOp  */
-#line 256 "jucompiler.y"
+#line 301 "jucompiler.y"
                                 {if(DEBUG)printf("ExprOp GT\n");(yyval.node)=criar_no("Gt","");(yyval.node)->filho=(yyvsp[-2].node); adicionar_irmao((yyvsp[-2].node), (yyvsp[0].node));}
-#line 1970 "y.tab.c"
+#line 2016 "y.tab.c"
     break;
 
   case 77: /* ExprOp: ExprOp LE ExprOp  */
-#line 257 "jucompiler.y"
+#line 302 "jucompiler.y"
                                 {if(DEBUG)printf("ExprOp LE\n");(yyval.node)=criar_no("Le","");(yyval.node)->filho=(yyvsp[-2].node); adicionar_irmao((yyvsp[-2].node), (yyvsp[0].node));}
-#line 1976 "y.tab.c"
+#line 2022 "y.tab.c"
     break;
 
   case 78: /* ExprOp: ExprOp LT ExprOp  */
-#line 258 "jucompiler.y"
+#line 303 "jucompiler.y"
                                 {if(DEBUG)printf("ExprOp LT\n");(yyval.node)=criar_no("Lt","");(yyval.node)->filho=(yyvsp[-2].node); adicionar_irmao((yyvsp[-2].node), (yyvsp[0].node));}
-#line 1982 "y.tab.c"
+#line 2028 "y.tab.c"
     break;
 
   case 79: /* ExprOp: ExprOp NE ExprOp  */
-#line 259 "jucompiler.y"
+#line 304 "jucompiler.y"
                                 {if(DEBUG)printf("ExprOp NE\n");(yyval.node)=criar_no("Ne","");(yyval.node)->filho=(yyvsp[-2].node); adicionar_irmao((yyvsp[-2].node), (yyvsp[0].node));}
-#line 1988 "y.tab.c"
+#line 2034 "y.tab.c"
     break;
 
   case 80: /* ExprOp: LPAR error RPAR  */
-#line 260 "jucompiler.y"
+#line 305 "jucompiler.y"
                             {(yyval.node)=NULL;if(DEBUG)printf("ExprOp error\n");flag_tree=0;}
-#line 1994 "y.tab.c"
+#line 2040 "y.tab.c"
     break;
 
 
-#line 1998 "y.tab.c"
+#line 2044 "y.tab.c"
 
       default: break;
     }
@@ -2187,5 +2233,5 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 262 "jucompiler.y"
+#line 307 "jucompiler.y"
 

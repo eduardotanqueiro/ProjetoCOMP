@@ -1,3 +1,5 @@
+    //  Eduardo Carneiro - 2020240332
+    //  Ricardo Silva - 2020227184
 #include "ast.h"
 
 no *criar_no(char *tipo, char *val)
