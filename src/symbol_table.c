@@ -2,8 +2,29 @@
 #include <stdlib.h>
 #include<string.h>
 #include<stdio.h>
+#include "ast.h"
 
-extern table_element* symtab;
+extern table_class* symtab;
+
+table_class* insert_class(char *name, method* ml)
+{
+	table_class *newClass=(table_class*)malloc(sizeof(table_class));
+	table_class *aux;
+	table_class* previous;
+
+	newClass->name = (char*)strdup(name);
+	newClass->method_list = ml;
+
+	return newClass; 
+}
+
+method* insert_method(no* method_decl_head){
+
+	method* method_head = (method*)malloc(sizeof(method));
+
+
+
+} 
 
 
 //Insere um novo identificador na cauda de uma lista ligada de simbolo

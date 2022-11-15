@@ -1,19 +1,27 @@
 #ifndef SYMBOL_TABLE_H
 #define SYMBOL_TABLE_H
 
-typedef enum {integer, character, doub} basic_type;
+
+typedef struct _t3{
+	char* name;
+	char* type;
+	_t3* next;
+} vars;
 
 typedef struct _t2{
+	char *name;
+	char* return_type;
 
-} MethodParam;
+	struct vars* params_list;
+	struct vars* vars_list;
+	_t2* next;
+} method;
 
 typedef struct _t1{
-	char *name;
-	char* type;
+	char* name;
+	method* method_list;
+} table_class;
 
-	basic_type type;
-	struct _t1 *next;
-} element;
 
 
 table_element *insert_el(char *str, basic_type t);

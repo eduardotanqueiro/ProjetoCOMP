@@ -86,10 +86,10 @@ MethodFieldSemicolonRep: MethodDecl MethodFieldSemicolonRep {$$=$1; adicionar_ir
                        ;
 
 
-MethodDecl: PUBLIC STATIC MethodHeader MethodBody {$$= criar_no("MethodDecl",""), $$->filho=$3; adicionar_irmao($3,$4);}
+MethodDecl: PUBLIC STATIC MethodHeader MethodBody {$$= criar_no("MethodDecl",""); $$->filho=$3; adicionar_irmao($3,$4);}
 
 
-FieldDecl: PUBLIC STATIC Type ID CommaIdRep SEMICOLON {$$=criar_no("FieldDecl",""), $$->filho=$3; 
+FieldDecl: PUBLIC STATIC Type ID CommaIdRep SEMICOLON {$$=criar_no("FieldDecl",""); $$->filho=$3; 
                                                                                     adicionar_irmao($3,criar_no("Id",$4)); 
                                                                                     if($5!=NULL){ //Verificar se há argumentos e, se sim, ir criar um nó fielddecl para cada arguento
                                                                                         tmp = $5; 
