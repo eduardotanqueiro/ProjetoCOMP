@@ -6,6 +6,12 @@
 
 extern table_class* symtab;
 
+void semanticAnalysis(no* raiz){
+
+	
+
+}
+
 table_class* insert_class(char *name, method* ml)
 {
 	table_class *newClass=(table_class*)malloc(sizeof(table_class));
@@ -21,7 +27,7 @@ table_class* insert_class(char *name, method* ml)
 method* insert_method(no* method_decl_head){
 
 	method* method_head = (method*)malloc(sizeof(method));
-
+	method_head->name = (char*)strdup(method_decl_head->
 
 
 } 
