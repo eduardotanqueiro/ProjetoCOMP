@@ -163,30 +163,12 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 77 "jucompiler.y"
+#line 73 "jucompiler.y"
 
     char* id;
-    is_program* ip;
-    is_methodfield_rep* imfr;
-    is_methoddecl* imd;
-    is_fielddecl* ifd;
-    is_commaid_rep* icir;
-    is_type* it;
-    is_methodheader* imh;
-    is_formalparams* ifp;
-    is_commatypeid_rep* ictir;
-    is_methodbody* imb;
-    is_statementvar_rep* isvr;
-    is_vardecl* ivd;
-    is_statement* is;
-    is_statement_rep* isr;
-    is_methodinvocation* imi;
-    is_commaexpr_rep* icer;
-    is_assign* ia;
-    is_parseargs* ipa;
-    is_expr* ie;
+    no* node;
 
-#line 190 "y.tab.h"
+#line 172 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

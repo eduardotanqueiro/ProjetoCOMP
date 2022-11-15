@@ -1,0 +1,28 @@
+int 
+int 
+commatypeidrep empty 
+formalsparams type 
+method header full 
+expr id
+expr intlit
+expr EQ
+expr intlit
+statement return expr
+statement if solo
+Line 11, col 17: syntax error: *
+statement error
+statementvarrep empty 
+statementvarrep stat 
+statementvarrep stat 
+methodbody 
+method dcl solo
+Line 17, col 30: syntax error: [
+fielddecl error 
+fielddecl error 
+fielddecl error 
+method dcl prog rep empty 
+field decl prog
+field decl prog
+field decl prog
+method dcl prog
+program

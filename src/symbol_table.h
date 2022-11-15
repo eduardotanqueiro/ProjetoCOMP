@@ -3,11 +3,18 @@
 
 typedef enum {integer, character, doub} basic_type;
 
+typedef struct _t2{
+
+} MethodParam;
+
 typedef struct _t1{
-	char name[32];
+	char *name;
+	char* type;
+
 	basic_type type;
 	struct _t1 *next;
-} table_element;
+} element;
+
 
 table_element *insert_el(char *str, basic_type t);
 void show_table();
