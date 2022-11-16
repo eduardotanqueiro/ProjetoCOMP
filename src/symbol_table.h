@@ -1,11 +1,12 @@
 #ifndef SYMBOL_TABLE_H
 #define SYMBOL_TABLE_H
 
+#define PARAMS_BUFFER_SIZE 512
 
 typedef struct _t3{
 	char* name;
 	char* type;
-	_t3* next;
+	struct _t3* next;
 } vars;
 
 typedef struct _t2{
@@ -14,7 +15,7 @@ typedef struct _t2{
 
 	struct vars* params_list;
 	struct vars* vars_list;
-	_t2* next;
+	struct _t2* next;
 } method;
 
 typedef struct _t1{
@@ -22,10 +23,18 @@ typedef struct _t1{
 	method* method_list;
 } table_class;
 
+typedef struct _t{
+	char* name; //para variaveis, metodos ou classes
+	char* params_list; //lista dos parametros do metodo
+	char* return_type; //para os metodos
+
+	struct _t* body; //para os metodos, ponteiro para o body
+	struct _t* next; //ponteiro para o proximo elemento da tabela, ou entao proxima variavel/parametro do metodo
+
+} tab_element;
 
 
-table_element *insert_el(char *str, basic_type t);
 void show_table();
-table_element *search_el(char *str);
+
 
 #endif
