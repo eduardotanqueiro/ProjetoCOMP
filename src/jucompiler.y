@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include "symbol_table.h"
 #include "ast.h"
 #define NSYMS 100
 #define DEBUG 0
@@ -14,6 +15,8 @@ no* raiz;
 no* tmp;
 
 extern int flag_tree;
+
+table_class* class_table;
 %}
 
 /* --------------------------------------------------- */

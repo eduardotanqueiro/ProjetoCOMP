@@ -3,6 +3,7 @@
     //  Ricardo Silva - 2020227184
     #include "ast.h"
     #include "y.tab.h"
+    #include "symbol_table.h"
 
     extern no* raiz;
 
@@ -205,13 +206,16 @@ flag_checker(argc,argv);
 if(flag_lexical==1){
     while(yylex());
 }
-
 if (flag_syntactic){
     yyparse();
 }
 if (flag_tree){
-    print_AST(raiz,0);
+    //print_AST(raiz,0);
 }
+printf("começo semantica\n");
+semanticAnalysis(raiz);
+printf("fim semantica\n");
+print_tables();
 return 0;
 }
 
@@ -222,10 +226,7 @@ return 1;
 
 void yyerror(const char *s) { 
     flag_tree = 0;
-
-    if( !strcmp("\"String\"",yytext) || !strcmp("\"valid string\"",yytext) || !strcmp("\"strlit\"",yytext) || ( yytext[0] == '\"' && yytext[yyleng-1] == '\"') || !strcmp("",yytext) )
+    if( !strcmp("\"String\"",yytext) || !strcmp("\"valid string\"",yytext) || !strcmp("\"strlit\"",yytext) || ( yytext[0] == '\"' && yytext[yyleng-1] == '\"'))
         printf ("Line %d, col %d: %s: %s\n", line_num, (int)(col_num-strlen(yytext))-1, s, yytext);
-    else
-        printf ("Line %d, col %d: %s: %s\n", line_num, (int)(col_num-strlen(yytext)), s, yytext);
-\
-}
+    else if(strcmp("",yytext)!=0)
+        printf ("Line %d, col %d: %s: %s\n", line_num, (int)(col_num-strlen(yytext)), s, yytext);}

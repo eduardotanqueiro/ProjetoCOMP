@@ -4,7 +4,6 @@
 
 no *criar_no(char *tipo, char *val)
 {
-
     no *novo_no = (no *)malloc(sizeof(no));
 
     novo_no->filho = NULL;
