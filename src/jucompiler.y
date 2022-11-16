@@ -5,13 +5,15 @@
 #include <stdio.h>
 #include <string.h>
 #include "ast.h"
-#define NSYMS 100
+#include "symbol_table.h"
 #define DEBUG 0
 
 int yylex (void);
 extern void yyerror(char* s);
 no* raiz;
 no* tmp;
+
+tab_element* symtab;
 
 extern int flag_tree;
 %}
@@ -76,7 +78,7 @@ extern int flag_tree;
 %%
 
 
-Program:  CLASS ID LBRACE MethodFieldSemicolonRep RBRACE {$$=raiz=criar_no("Program",""); $$->filho = criar_no("Id",$2); adicionar_irmao($$->filho, $4);}
+Program:  CLASS ID LBRACE MethodFieldSemicolonRep RBRACE {$$=raiz=criar_no("Program",""); $$->filho = criar_no("Id",$2); adicionar_irmao($$->filho, $4);symtab = create_element($$->filho->val,"","", 0); create_table(symtab,raiz);printSymbolTable(symtab);}
 
 
 MethodFieldSemicolonRep: MethodDecl MethodFieldSemicolonRep {$$=$1; adicionar_irmao($$,$2);}

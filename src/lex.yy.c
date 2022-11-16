@@ -2447,7 +2447,6 @@ void flag_checker(int argc, char *argv[]) {
 int main(int argc, char *argv[])
 {
 flag_checker(argc,argv);
-/* yylex(); */
 
 if(flag_lexical==1){
     while(yylex());
@@ -2470,9 +2469,6 @@ return 1;
 void yyerror(const char *s) { 
     flag_tree = 0;
 
-    /* if((l=strlen(yytext)) == 0)
-        printf ("Line %d, col %d: %s: %s\n", line_num, col_num, s, yytext);
-    else */
     if( !strcmp("\"String\"",yytext) || !strcmp("\"valid string\"",yytext) || !strcmp("\"strlit\"",yytext) || ( yytext[0] == '\"' && yytext[yyleng-1] == '\"') || !strcmp("",yytext) )
         printf ("Line %d, col %d: %s: %s\n", line_num, (int)(col_num-strlen(yytext))-1, s, yytext);
     else
