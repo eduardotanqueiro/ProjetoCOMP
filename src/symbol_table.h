@@ -47,5 +47,5 @@ void get_method_meader(tab_element* method_node, no* no_ast);
 void get_method_vars(tab_element* method_node, no* no_ast);
 void add_vars(tab_element* tail, no* no_ast);
 void printSymbolTable(tab_element* elem);
-
+char* get_type(char* original_type);
 #endif
