@@ -48,4 +48,5 @@ void get_method_vars(tab_element* method_node, no* no_ast);
 void add_vars(tab_element* tail, no* no_ast);
 void printSymbolTable(tab_element* elem);
 char* get_type(char* original_type);
+char* search_symbol(tab_element* func, char* name, int isVar);
 #endif

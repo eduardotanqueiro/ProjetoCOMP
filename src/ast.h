@@ -6,18 +6,25 @@
 #include <stdio.h>
 #include <string.h>
 
+typedef struct info{
+    char* val;
+    int line;
+    int col;
+}info;
+
 typedef struct No{
         char* tipo;
-        char* val;
+        info* info;
 
         struct No* irmao;
         struct No* filho;
 
 }no;
 
-no* criar_no(char* tipo,char* val);
+no* criar_no(char* tipo, info* info);
 void adicionar_irmao(no* n1, no* n2);
 void print_AST(no* no, int level);
 int contador_irmaos(no* n);
 void print_level(int level);
+info* gen_token(char* val, int line, int col);
 #endif

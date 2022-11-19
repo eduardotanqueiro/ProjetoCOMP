@@ -112,11 +112,11 @@ Terminals, with rules where they appear
 
     $end (0) 0
     error (256) 8 39 44 49 79
-    ID <id> (258) 1 7 9 14 15 16 17 18 19 20 26 42 43 44 47 48 55 56
-    INTLIT <id> (259) 57
-    REALLIT <id> (260) 58
-    BOOLLIT <id> (261) 59
-    STRLIT <id> (262) 34
+    ID <info> (258) 1 7 9 14 15 16 17 18 19 20 26 42 43 44 47 48 55 56
+    INTLIT <info> (259) 57
+    REALLIT <info> (260) 58
+    BOOLLIT <info> (261) 59
+    STRLIT <info> (262) 34
     AND (263) 68
     ASSIGN (264) 47
     BOOL (265) 11

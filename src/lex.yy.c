@@ -1077,7 +1077,7 @@ YY_RULE_SETUP
 case 8:
 YY_RULE_SETUP
 #line 42 "jucompiler.l"
-{if(flag_tokens_lex) printf("BOOLLIT(%s)\n",yytext);col_num+=yyleng; yylval.id = strdup(yytext);return BOOLLIT;}
+{if(flag_tokens_lex) printf("BOOLLIT(%s)\n",yytext);yylval.info = gen_token(yytext,line_num,col_num); col_num+=yyleng; return BOOLLIT;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
@@ -1297,17 +1297,17 @@ YY_RULE_SETUP
 case 52:
 YY_RULE_SETUP
 #line 130 "jucompiler.l"
-{if(flag_tokens_lex) printf("ID(%s)\n",yytext);yylval.id = (char*)strdup(yytext);col_num+=yyleng; return ID;}  
+{if(flag_tokens_lex) printf("ID(%s)\n",yytext); yylval.info = gen_token(yytext, line_num, col_num); col_num+=yyleng; return ID;}  
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
 #line 132 "jucompiler.l"
-{if(flag_tokens_lex) printf("REALLIT(%s)\n",yytext);yylval.id = (char*)strdup(yytext);col_num+=yyleng; return REALLIT;}
+{if(flag_tokens_lex) printf("REALLIT(%s)\n",yytext); yylval.info = gen_token(yytext, line_num,col_num); col_num+=yyleng; return REALLIT;}
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
 #line 134 "jucompiler.l"
-{if(flag_tokens_lex) printf("INTLIT(%s)\n",yytext);yylval.id = (char*)strdup(yytext);col_num+=yyleng; return INTLIT;} 
+{if(flag_tokens_lex) printf("INTLIT(%s)\n",yytext); yylval.info = gen_token(yytext, line_num,col_num); col_num+=yyleng; return INTLIT;} 
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
@@ -1323,7 +1323,7 @@ YY_RULE_SETUP
 case 57:
 YY_RULE_SETUP
 #line 139 "jucompiler.l"
-{if(flag_tokens_lex) printf("STRLIT(\"%s)\n",yytext);yylval.id = (char*)strdup(yytext);col_num+=yyleng;BEGIN 0;return STRLIT;}
+{if(flag_tokens_lex) printf("STRLIT(\"%s)\n",yytext); yylval.info = gen_token(yytext, line_num,col_num); col_num+=yyleng;BEGIN 0;return STRLIT;}
 	YY_BREAK
 case 58:
 /* rule 58 can match eol */

@@ -39,7 +39,7 @@ scape \\[fnrt\\\"]
 
 
 
-true|false  {if(flag_tokens_lex) printf("BOOLLIT(%s)\n",yytext);col_num+=yyleng; yylval.id = strdup(yytext);return BOOLLIT;}
+true|false  {if(flag_tokens_lex) printf("BOOLLIT(%s)\n",yytext);yylval.info = gen_token(yytext,line_num,col_num); col_num+=yyleng; return BOOLLIT;}
 
 "&""&"  {if(flag_tokens_lex) printf("AND\n");col_num+=yyleng; return AND;}
 
@@ -127,16 +127,16 @@ while {if(flag_tokens_lex) printf("WHILE\n");col_num+=yyleng; return WHILE;}
 
 "+""+"|--|null|Integer|System|{reserved_words} {if(flag_tokens_lex) printf("RESERVED(%s)\n",yytext);col_num+=yyleng; return RESERVED;}
 
-([a-z]|[A-Z]|"_"|"$")([a-z]|[A-Z]|[0-9]|"_"|"$")*   {if(flag_tokens_lex) printf("ID(%s)\n",yytext);yylval.id = (char*)strdup(yytext);col_num+=yyleng; return ID;}  
+([a-z]|[A-Z]|"_"|"$")([a-z]|[A-Z]|[0-9]|"_"|"$")*   {if(flag_tokens_lex) printf("ID(%s)\n",yytext); yylval.info = gen_token(yytext, line_num, col_num); col_num+=yyleng; return ID;}  
 
-([0-9]([0-9_]*[0-9])?"."(([0-9]([0-9_]*[0-9])?{expoente}?)|{expoente})?)|((".")([0-9]([0-9_]*[0-9])?{expoente}?))|([0-9]([0-9_]*[0-9])?{expoente}) {if(flag_tokens_lex) printf("REALLIT(%s)\n",yytext);yylval.id = (char*)strdup(yytext);col_num+=yyleng; return REALLIT;}
+([0-9]([0-9_]*[0-9])?"."(([0-9]([0-9_]*[0-9])?{expoente}?)|{expoente})?)|((".")([0-9]([0-9_]*[0-9])?{expoente}?))|([0-9]([0-9_]*[0-9])?{expoente}) {if(flag_tokens_lex) printf("REALLIT(%s)\n",yytext); yylval.info = gen_token(yytext, line_num,col_num); col_num+=yyleng; return REALLIT;}
 
-[0-9]|([1-9]([0-9"_"])*[0-9])  {if(flag_tokens_lex) printf("INTLIT(%s)\n",yytext);yylval.id = (char*)strdup(yytext);col_num+=yyleng; return INTLIT;} 
+[0-9]|([1-9]([0-9"_"])*[0-9])  {if(flag_tokens_lex) printf("INTLIT(%s)\n",yytext); yylval.info = gen_token(yytext, line_num,col_num); col_num+=yyleng; return INTLIT;} 
 
 
 \"    {col_num+=yyleng;yyless(0);BEGIN _STRING;}
 <_STRING>\"{newline}   {printf("Line %d, col %d: unterminated string literal\n",line_num,col_num-1);line_num++;col_num=1;BEGIN 0;}
-<_STRING>\"({scape}|[^\r\n\"\\])*\" {if(flag_tokens_lex) printf("STRLIT(\"%s)\n",yytext);yylval.id = (char*)strdup(yytext);col_num+=yyleng;BEGIN 0;return STRLIT;}
+<_STRING>\"({scape}|[^\r\n\"\\])*\" {if(flag_tokens_lex) printf("STRLIT(\"%s)\n",yytext); yylval.info = gen_token(yytext, line_num,col_num); col_num+=yyleng;BEGIN 0;return STRLIT;}
 <_STRING>\"[^\r\n\"]*\\[^f|n|r|t|\\|\"][^\r\n\"]*\" {start_string = col_num-1;yyless(1);BEGIN STRING_ERROR;}
 <_STRING>\"[^\r\n\"]*{newline}? {start_string = col_num-1;yyless(1);BEGIN STRING_ERROR;}
 <_STRING><<EOF>> {printf("Line %d, col %d: unterminated string literal\n",line_num,start_string);yyterminate();}

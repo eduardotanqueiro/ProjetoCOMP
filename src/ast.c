@@ -2,7 +2,18 @@
     //  Ricardo Silva - 2020227184
 #include "ast.h"
 
-no *criar_no(char *tipo, char *val)
+
+info* gen_token(char* val, int line, int col){
+
+    info* tok = (info*) malloc(sizeof(info));
+    tok->val = (char *)strdup(val);
+    tok->line = line;
+    tok->col = col;
+
+    return tok;
+}
+
+no *criar_no(char *tipo, info* tok)
 {
 
     no *novo_no = (no *)malloc(sizeof(no));
@@ -10,7 +21,8 @@ no *criar_no(char *tipo, char *val)
     novo_no->filho = NULL;
     novo_no->irmao = NULL;
     novo_no->tipo = (char *)strdup(tipo);
-    novo_no->val = (char *)strdup(val);
+
+    novo_no->info = tok;
 
     return novo_no;
 }
@@ -59,9 +71,9 @@ void print_AST(no *no, int level)
     //     return;
     // }
 
-    if (strcmp(no->val,"") )
+    if (strcmp(no->info->val,"") )
     {
-        printf("%s(%s)\n", no->tipo, no->val);
+        printf("%s(%s)\n", no->tipo, no->info->val);
     }
     else{
         printf("%s\n", no->tipo);
