@@ -219,9 +219,9 @@ char* search_symbol(tab_element* func, char* name, int isVar){
 }
 
 void printSymbolTable(tab_element* elem) {
-    tab_element* copy = elem;
+    tab_element* aux = elem;
 
-    // Tabela Global
+    // Tabela Global/Classe
     printf("===== Class %s Symbol Table =====\n",elem->name);
 	elem = elem->next;
 
@@ -235,50 +235,446 @@ void printSymbolTable(tab_element* elem) {
     }
     
     // Tabelas de funcoes
-    while (copy != NULL) {
-        if (copy->body != NULL) {
+    while (aux != NULL) {
+        if (aux->body != NULL) {
 
-			printf("\n===== Method %s(%s) Symbol Table =====\n", copy->name, copy->params_list);
+			printf("\n===== Method %s(%s) Symbol Table =====\n", aux->name, aux->params_list);
             
-            tab_element* func = copy->body;
-            while (func != NULL) {
+            tab_element* method = aux->body;
+            while (method != NULL) { //iterar sobre o body do metodo
 
-                if (func->is_param == 1)
-                        printf("%s\t\t%s\t%s\tparam\n", func->name, func->type, func->params_list);
+                if (method->is_param == 1) //se for parametro do metodo
+                        printf("%s\t\t%s\t%s\tparam\n", method->name, method->type, method->params_list);
                 else
-                    printf("%s\t\t%s\n", func->name, func->type);
+                    printf("%s\t\t%s\n", method->name, method->type);
 
-                func = func->body;
+                method = method->body;
             }
         }
-        copy = copy->next;
+        aux = aux->next;
     }
     printf("\n");
 }
 
 
-void print_AST_with_notation(no *no, int level)
-{
-    print_level(level);
+void make_notations_ast(no* node, tab_element* tab, char* func){
 
-    // if(no == NULL){
-    //     //printf("null\n");
-    //     return;
-    // }
+	if(node == NULL) 
+		printf("NULL EXCEPTION\n");
+	else
+		printf("%s\n",node->tipo);
 
-    if (strcmp(no->info->val,"") )
-    {
-        printf("%s(%s)\n", no->tipo, no->info->val);
-    }
-    else{
-        printf("%s\n", no->tipo);
-    }
+	if( !strcmp(node->tipo,"MethodDecl")){ //se o nó é declaracao de metodo, temos de verificar se está na tabela global
 
-    if (no->filho)
-        print_AST(no->filho, level + 1);
-    if (no->irmao)
-        print_AST(no->irmao, level);
+		char* func_name  = (char*)strdup(node->filho->filho->irmao->info->val);
 
-    // if printTree and hasError==False limpa a memória depois de printar!!
-    free(no);
+		//verificar se existe
+		if( search_symbol(tab, func_name, 0) != NULL ){
+
+			//se existe, vamos iterar dentro do metodo
+			if(node->filho != NULL)
+				make_notations_ast(node->filho, tab, func_name); //agora estamos a iterar dentro deste metodo
+			
+
+		}
+		
+		//metodo nao declarado ou entao seguir para o proximo metodo
+		if(node->irmao != NULL)
+			make_notations_ast(node->irmao, tab, NULL);
+
+	}
+	else{
+		//contínuamos a correr a árvore para baixo, estamos dentro de uma funcao
+		if(node->filho != NULL)
+			make_notations_ast(node->filho, tab, func);
+
+		if(node->irmao != NULL)
+			make_notations_ast(node->irmao, tab, func);
+
+	}
+
+	int logical = 0;
+
+	if(isIntDoubleBool(node)){
+		//done in the function before
+	}
+	else if( (logical = two_part_op(node->tipo)) ){
+		check_two_part_op(node,func,logical);
+	}
+	else if ( logical = one_part_op(node->tipo) ){
+		check_one_part_op(node,func,logical);
+	}
+	else if( !strcmp(node->tipo,"Call")){
+		
+	}
+
+
+
+}
+
+int two_part_op(char* tipo){
+
+    if( !strcmp(tipo, "ParseArgs") ||
+		!strcmp(tipo, "Add") ||
+		!strcmp(tipo, "Sub") ||
+		!strcmp(tipo, "Mul") ||
+		!strcmp(tipo, "Div") ||
+		!strcmp(tipo, "Mod") ||
+		!strcmp(tipo, "Assign")
+		)
+        return 2;
+
+	if( !strcmp(tipo, "And") ||
+		!strcmp(tipo, "Or") ||
+		!strcmp(tipo, "Eq") ||
+		!strcmp(tipo, "Ge") ||
+		!strcmp(tipo, "Gt") ||
+		!strcmp(tipo, "Le") ||
+		!strcmp(tipo, "Lt") ||
+		!strcmp(tipo, "Ne")
+	)
+		return 1;
+    else 
+        return false;
+}
+
+int one_part_op(char* tipo){
+
+	if( !strcmp(tipo,"Minus") ||
+		!strcmp(tipo,"Plus") ||
+		!strcmp(tipo,"Return") ||
+		!strcmp(tipo,"Print")
+	)
+		return 2;
+
+	if( !strcmp(tipo, "Not") ||
+		!strcmp(tipo,"If") ||
+		!strcmp(tipo,"While")
+	)
+		return 1;
+
+	return 0;
+}
+
+char* get_var_type(char* var_name,char* func_name){
+
+	//search for the function in the global table
+	tab_element* aux_tab = symtab;
+	char* type = "undef"; //TODO
+
+	while(aux_tab != NULL){ //TODO: e se houverem várias funcoes com o mesmo nome?!?!?
+		
+		if( !strcmp(aux_tab->name, func_name) )
+			break;
+
+		aux_tab = aux_tab->next;
+	}
+
+	//search for the variable
+	while(aux_tab != NULL){
+		
+		if( !strcmp(aux_tab->name, var_name) ){
+			type = (char*)strdup(aux_tab->type);
+			break;
+		}
+
+		aux_tab = aux_tab->body;
+	}
+
+	printf("get var type %s\n", type);
+	return type;
+}
+
+
+void check_two_part_op(no* node,char* func_name, int isLogical){
+
+	char* op_type1, *op_type2;
+
+	// printf("two part %s\n",node->tipo);
+	// printf("%s\n",node->filho->tipo);
+
+	//verificar se o primeiro filho é uma variável
+	if( !strcmp(node->filho->tipo,"Id") ){
+
+
+		//is buscar o tipo da variável
+		op_type1 = get_var_type(node->filho->info->val,func_name);
+		node->filho->notation = (char*)strdup(op_type1);
+
+		//TODO raise error se for undef
+
+	}
+	else
+		op_type1 = node->filho->notation;
+
+	//verificar se o segunda filho é uma variável
+	if( !strcmp(node->filho->irmao->tipo,"Id") ){
+
+		//is buscar o tipo da variável
+		op_type2 = get_var_type(node->filho->irmao->info->val,func_name);
+		node->filho->irmao->notation = (char*)strdup(op_type2);
+
+		//TODO raise error se for undef
+
+	}	
+	else
+		op_type2 = node->filho->irmao->notation;
+
+	printf("types %s %s\n",op_type1,op_type2);
+
+
+	if( op_type1 != NULL && op_type2 != NULL && !strcmp(op_type1,op_type2) ){ //se ambos os operandos têm o mesmo tipo
+
+		if(0){ //TODO error: se os tipos forem undef, raise error
+
+		}
+		else{
+			//
+
+			if(isLogical == 1){
+				//se for uma operação lógica
+
+				if( !strcmp(node->tipo,"Or") || !strcmp(node->tipo,"And")){ //se for or ou and, tem de ter expressao bolean em cada filho
+
+					if( strcmp(op_type1,"boolean") || strcmp(op_type2,"boolean") ){
+						//erro
+					}
+
+				}
+				else if(!strcmp(node->tipo, "Eq") ||
+						!strcmp(node->tipo, "Ge") ||
+						!strcmp(node->tipo, "Gt") ||
+						!strcmp(node->tipo, "Le") ||
+						!strcmp(node->tipo, "Lt") ||
+						!strcmp(node->tipo, "Ne")
+				){	//se é um tipo de comparação, nenhum dos operandos pode ser bool
+
+					if( !strcmp(op_type1,"boolean") || !strcmp(op_type2,"boolean") ){
+						//erro
+					}
+
+				}
+				
+				node->notation = "boolean";
+
+			}
+			else{
+				//se não for operação lógica
+
+				if( !strcmp(node->tipo,"ParseArgs") ){
+					//se for parseargs, os argumentos têm de ser inteiros
+
+					//error	
+					if( strcmp(op_type1,"int") && strcmp(op_type2,"int")){}
+
+				}
+				else if( !strcmp(node->tipo,"Assign"))
+					node->notation = op_type1;
+				else{
+
+					if( !strcmp(op_type1,"boolean") || !strcmp(op_type2,"boolean"))
+						node->notation = "undef";
+					else
+						node->notation = op_type1;
+
+				}
+			}
+		}
+	}
+	else if( op_type1 != NULL && op_type2 != NULL && 
+			( ( !strcmp(op_type1,"int") && !strcmp(op_type2,"double")) ||
+			  ( !strcmp(op_type1,"double") && !strcmp(op_type2,"int") ) ) ) {
+			//operação entre int e double
+
+			if(0){ //TODO error: se os tipos forem undef, raise error
+
+			}
+			else{
+				//
+
+				if(isLogical == 1){
+					//se for uma operação lógica
+
+					if( !strcmp(node->tipo,"Or") || !strcmp(node->tipo,"And")){ //se for or ou and, tem de ter expressao bolean em cada filho
+
+						//TODO erro, pois sabemos que nenhum dos operandos é do tipo boolean
+
+					}
+					else if(!strcmp(node->tipo, "Eq") ||
+							!strcmp(node->tipo, "Ge") ||
+							!strcmp(node->tipo, "Gt") ||
+							!strcmp(node->tipo, "Le") ||
+							!strcmp(node->tipo, "Lt") ||
+							!strcmp(node->tipo, "Ne")
+					){	//se é um tipo de comparação, com são dois filhos númericos, não acontece nada TODO: retirar no futuro. Deixar agora para facilitar perceber o código
+
+					}
+					
+					node->notation = "boolean";
+
+				}
+				else{
+					//se não for operação lógica
+
+					if( !strcmp(node->tipo,"ParseArgs") ){
+						//se for parseargs, os argumentos têm de ser inteiros
+
+						//error	
+						if( strcmp(op_type1,"int") && strcmp(op_type2,"int")){}
+
+					}
+					else if( !strcmp(node->tipo,"Assign"))
+
+						//TODO CHECKAR SE ESTAMOS A DAR ASSIGN DE UM INT A UM DOUBLE, ERRO!!!
+						node->notation = op_type1;
+					else{
+
+						node->notation = "double";
+
+					}
+				}
+			}
+
+
+
+	}
+	else if( op_type1 != NULL && op_type2 != NULL && !strcmp(node->tipo,"Assign")){
+		
+		if( !strcmp(op_type1,"boolean")){
+			//se chegarmos aqui, signifca que os dois operandos não têm o mesmo tipo.
+			// se o tipo da variável é bool, o outro tipo tem de ser obrigatoriamente bool, como não é o caso, temos erro
+			node->notation = "undef";
+		}
+		else{
+			//tipo da var é int ou double, entao podem ser bool
+			node->notation = op_type1;
+		}
+
+
+	}
+	else{
+
+		if (op_type1 == NULL)
+            op_type1 = "none";
+        
+		if (op_type2 == NULL)
+            op_type2 = "none";
+
+		//TODO print error
+
+		if(isLogical == 1)
+			node->notation = "boolean";
+		else
+			node->notation = "undef";
+
+	}
+}
+
+void check_one_part_op(no* node, char* func_name, int isLogical){
+
+	char* op_type;
+
+	printf("one part %s %s \n",node->tipo,node->filho->tipo);
+
+	//verificar se tem filhos
+    if (node->filho == NULL)
+        op_type = "none";
+
+	//verificar se o filho é uma variável
+	else if( !strcmp(node->filho->tipo,"Id") ){
+
+		//is buscar o tipo da variável
+		op_type = get_var_type(node->filho->info->val,func_name);
+		node->filho->notation = (char*)strdup(op_type);
+		printf("one part node notation %s\n",node->notation);
+
+		//TODO raise error se for undef
+
+	}
+	else{
+		//se for int ou double
+		op_type = node->filho->notation;
+	}
+
+
+	if( op_type != NULL && strcmp(op_type, "undef") ){
+		//não é null nem undef
+
+		if(isLogical){
+			
+			if( !strcmp(node->tipo,"If") || !strcmp(node->tipo,"While")){ //se é um if ou um while, o filho tem de ser bool, isto é, a expressao entre parenteses
+
+				if( !strcmp(op_type,"boolean"))
+					node->notation = op_type;
+				
+				else{
+					//TODO raise error tipo incompativel
+				}
+
+
+			}
+			else{ //Sobra a operação logica Not
+
+				//TODO erros?!?!?!?
+				node->notation = "boolean";
+
+			}
+		}
+		else if ( !strcmp(node->tipo,"Minus") || !strcmp(node->tipo,"Plus")){
+			//temos de verificar se o operando é numérico, isto é, int ou double
+
+			if( !strcmp(op_type,"int") || !strcmp(op_type,"double"))
+				node->notation = op_type;
+			else{
+				//TODO raise error
+			}
+
+		}
+		else if( !strcmp(node->tipo,"Return")){
+			
+			//temos de ir verificar se o tipo de return coincide com a declaracao do metodo
+			tab_element* aux = symtab;
+
+			while(aux != NULL){
+
+				if( !strcmp(aux->name,func_name)){  //encontrámos a funcao
+
+					if( strcmp(aux->type,op_type)) //isto é, os tipos não coincidem
+					{
+						//TODO raise error tipo incompativel
+					}
+				
+				}
+
+
+				aux = aux->next;
+			}
+
+		}
+		else //sobra o print
+			node->notation = op_type;
+	}
+	else{
+		//TODO raise errors
+	}
+
+
+}
+
+bool isIntDoubleBool(no* node){
+
+	if( !strcmp(node->tipo,"DecLit")){
+		node->notation = "int";
+		return true;
+	}
+	else if( !strcmp(node->tipo,"RealLit")){
+		node->notation = "double";
+		return true;
+	}
+	else if( !strcmp(node->tipo,"BoolLit")){
+		node->notation = "boolean";
+		return true;
+	}
+
+	return false;
 }

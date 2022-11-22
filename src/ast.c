@@ -24,6 +24,8 @@ no *criar_no(char *tipo, info* tok)
 
     novo_no->info = tok;
 
+    novo_no->notation = NULL;
+
     return novo_no;
 }
 
@@ -70,6 +72,43 @@ void print_AST(no *no, int level)
     //     //printf("null\n");
     //     return;
     // }
+    if( no->notation == NULL ){
+        if (strcmp(no->info->val,"") )
+        {
+            printf("%s(%s)\n", no->tipo, no->info->val);
+        }
+        else{
+            printf("%s\n", no->tipo);
+        }
+    }
+    else{
+        if (strcmp(no->info->val,"") )
+        {
+            printf("%s(%s) - %s\n", no->tipo, no->info->val,no->notation);
+        }
+        else{
+            printf("%s - %s\n", no->tipo,no->notation);
+        }
+    }
+
+    if (no->filho)
+        print_AST(no->filho, level + 1);
+    if (no->irmao)
+        print_AST(no->irmao, level);
+
+    // if printTree and hasError==False limpa a memória depois de printar!!
+    free(no);
+}
+
+/*
+void print_AST(no *no, int level)
+{
+    print_level(level);
+
+    // if(no == NULL){
+    //     //printf("null\n");
+    //     return;
+    // }
 
     if (strcmp(no->info->val,"") )
     {
@@ -87,3 +126,4 @@ void print_AST(no *no, int level)
     // if printTree and hasError==False limpa a memória depois de printar!!
     free(no);
 }
+*/

@@ -79,7 +79,7 @@ extern int flag_tree;
 %%
 
 
-Program:  CLASS ID LBRACE MethodFieldSemicolonRep RBRACE {$$=raiz=criar_no("Program",gen_token("",line_num, col_num)); $$->filho = criar_no("Id",$2); adicionar_irmao($$->filho, $4);symtab = create_element($$->filho->info->val,"","", 0); create_table(symtab,raiz);printSymbolTable(symtab);}
+Program:  CLASS ID LBRACE MethodFieldSemicolonRep RBRACE {$$=raiz=criar_no("Program",gen_token("",line_num, col_num)); $$->filho = criar_no("Id",$2); adicionar_irmao($$->filho, $4);symtab = create_element($$->filho->info->val,"","", 0); create_table(symtab,raiz);printSymbolTable(symtab);make_notations_ast(raiz,symtab,NULL);}
 
 
 MethodFieldSemicolonRep: MethodDecl MethodFieldSemicolonRep {$$=$1; adicionar_irmao($$,$2);}

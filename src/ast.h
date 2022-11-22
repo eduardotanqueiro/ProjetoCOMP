@@ -18,7 +18,7 @@ typedef struct No{
 
         struct No* irmao;
         struct No* filho;
-
+        char* notation;
 }no;
 
 no* criar_no(char* tipo, info* info);

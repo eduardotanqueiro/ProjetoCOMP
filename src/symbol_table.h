@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include<string.h>
 #include<stdio.h>
+#include <stdbool.h>
 
 #define PARAMS_BUFFER_SIZE 512
 
@@ -49,4 +50,11 @@ void add_vars(tab_element* tail, no* no_ast);
 void printSymbolTable(tab_element* elem);
 char* get_type(char* original_type);
 char* search_symbol(tab_element* func, char* name, int isVar);
+void make_notations_ast(no* node, tab_element* elem, char* func);
+void check_two_part_op(no* node,char* func_name, int isLogical);
+void check_one_part_op(no* node, char* func_name, int isLogical);
+char* get_var_type(char* var_name,char* func_name);
+int one_part_op(char* tipo);
+int two_part_op(char* tipo);
+bool isIntDoubleBool(no* node);
 #endif
