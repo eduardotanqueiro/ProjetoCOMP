@@ -1,2 +1,4 @@
 meta1/*
 src/.vscode/settings.json
+
+*.out_temp

@@ -259,10 +259,10 @@ void printSymbolTable(tab_element* elem) {
 
 void make_notations_ast(no* node, tab_element* tab, char* func){
 
-	if(node == NULL) 
-		printf("NULL EXCEPTION\n");
-	else
-		printf("%s\n",node->tipo);
+	// if(node == NULL) 
+	// 	printf("NULL EXCEPTION\n");
+	// else
+	// 	printf("%s\n",node->tipo);
 
 	if( !strcmp(node->tipo,"MethodDecl")){ //se o nó é declaracao de metodo, temos de verificar se está na tabela global
 
@@ -381,7 +381,7 @@ char* get_var_type(char* var_name,char* func_name){
 		aux_tab = aux_tab->body;
 	}
 
-	printf("get var type %s\n", type);
+	// printf("get var type %s\n", type);
 	return type;
 }
 
@@ -420,7 +420,7 @@ void check_two_part_op(no* node,char* func_name, int isLogical){
 	else
 		op_type2 = node->filho->irmao->notation;
 
-	printf("types %s %s\n",op_type1,op_type2);
+	// printf("types %s %s\n",op_type1,op_type2);
 
 
 	if( op_type1 != NULL && op_type2 != NULL && !strcmp(op_type1,op_type2) ){ //se ambos os operandos têm o mesmo tipo
@@ -574,7 +574,7 @@ void check_one_part_op(no* node, char* func_name, int isLogical){
 
 	char* op_type;
 
-	printf("one part %s %s \n",node->tipo,node->filho->tipo);
+	// printf("one part %s %s \n",node->tipo,node->filho->tipo);
 
 	//verificar se tem filhos
     if (node->filho == NULL)
@@ -586,7 +586,7 @@ void check_one_part_op(no* node, char* func_name, int isLogical){
 		//is buscar o tipo da variável
 		op_type = get_var_type(node->filho->info->val,func_name);
 		node->filho->notation = (char*)strdup(op_type);
-		printf("one part node notation %s\n",node->notation);
+		// printf("one part node notation %s\n",node->notation);
 
 		//TODO raise error se for undef
 
@@ -600,7 +600,7 @@ void check_one_part_op(no* node, char* func_name, int isLogical){
 	if( op_type != NULL && strcmp(op_type, "undef") ){
 		//não é null nem undef
 
-		if(isLogical){
+		if(isLogical == 1){
 			
 			if( !strcmp(node->tipo,"If") || !strcmp(node->tipo,"While")){ //se é um if ou um while, o filho tem de ser bool, isto é, a expressao entre parenteses
 
@@ -632,6 +632,8 @@ void check_one_part_op(no* node, char* func_name, int isLogical){
 		}
 		else if( !strcmp(node->tipo,"Return")){
 			
+			// printf("one part return %s!!!",node->notation);
+			
 			//temos de ir verificar se o tipo de return coincide com a declaracao do metodo
 			tab_element* aux = symtab;
 
@@ -658,6 +660,7 @@ void check_one_part_op(no* node, char* func_name, int isLogical){
 		//TODO raise errors
 	}
 
+	// printf("one part fim %s %s %d\n",node->tipo,node->notation,isLogical);
 
 }
 
