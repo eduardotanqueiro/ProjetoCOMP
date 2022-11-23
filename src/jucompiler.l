@@ -3,8 +3,13 @@
     //  Ricardo Silva - 2020227184
     #include "ast.h"
     #include "y.tab.h"
+    #include "symbol_table.h"   
 
+    //ast
     extern no* raiz;
+
+    //tabela simbolos
+    tab_element* symtab;
 
     int line_num = 1;
     int col_num = 1;
@@ -16,6 +21,7 @@
     int flag_tree=0;
     int flag_syntactic = 1;
     int flag_lexical=1;
+    int flag_semantic=0;
 %}
 
 expoente [eE]["+"-]?[0-9]([0-9_]*[0-9])?
@@ -190,6 +196,13 @@ void flag_checker(int argc, char *argv[]) {
                 flag_tree=0;
                 flag_syntactic=0;
             }
+            else if(!strcmp(argv[i], "-s")){ // semantico
+                 flag_lexical=0;
+                flag_tokens_lex=0;
+                flag_tree = 0;
+                flag_syntactic= 1;
+                flag_semantic=1;
+            }
             else{
                 printf("Undefined flag!\n");
                 exit(1);
@@ -212,6 +225,14 @@ if (flag_syntactic){
 if (flag_tree){
     print_AST(raiz,0);
 }
+if(flag_semantic){
+    symtab = create_element(raiz->filho->info->val,"","", 0);
+    create_table(symtab,raiz);
+    printSymbolTable(symtab);
+    make_notations_ast(raiz,symtab,NULL);
+    print_AST(raiz,0);
+}
+
 return 0;
 }
 

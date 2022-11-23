@@ -60,23 +60,36 @@ void add_method(tab_element* tail, no* node){
 	char* aux_name  = (char*)strdup(node->filho->filho->irmao->info->val); // aceder ao methodheader, nome do metodo
 	char* aux_return_type = get_type(node->filho->filho->tipo); // aceder ao methodheader, tipo de retorno
 
-	// TODO: checkar se a variavel/func ja existe. OBS: há aqui algum erro, só não sei qual
-	// if( search_symbol(symtab, aux_name, 0) == NULL){
-		//criar o nó do metodo
-		tab_element* new_method = create_element(aux_name, "" ,aux_return_type,0); //criar novo elemento
-		
+
+	//criar o nó do metodo
+	tab_element* new_method = create_element(aux_name, "" ,aux_return_type,0); //criar novo elemento
+
+	//obter o cabeçalho do metodo
+	get_method_meader(new_method, node->filho->filho->irmao->irmao); // manda o nó ParamDecl/FormalParams
+
+	//obter as variaveis dentro do metodo
+	get_method_vars(new_method, node->filho->irmao); //manda o nó MethodBody
+
+	// checkar se o metodo ja existe
+	if( search_method(symtab,aux_name,new_method->params_list) == NULL ){
 		//inserir o metodo no fim da tabela de simbolo
 		tail = insert_element(tail, new_method);
+	}
+	else{
+		//erro metodo já existe
+		printf("Line %d, column %d: Symbol %s(%s) already defined\n", node->filho->filho->irmao->info->line, node->filho->filho->irmao->info->col, aux_name, new_method->params_list);
+	}
 
-		//obter o cabeçalho do metodo
-		get_method_meader(new_method, node->filho->filho->irmao->irmao); // manda o nó ParamDecl/FormalParams
-
-		//obter as variaveis dentro do metodo
-		get_method_vars(new_method, node->filho->irmao); //manda o nó MethodBody
+	// // checkar se o metodo ja existe
+	// if( search_symbol(symtab,aux_name,0) == NULL ){
+	// 	//inserir o metodo no fim da tabela de simbolo
+	// 	tail = insert_element(tail, new_method);
 	// }
 	// else{
-	// 	printf("Line %d, column %d: Symbol %s already defined\n", node->filho->filho->irmao->info->line, node->filho->filho->irmao->info->col, aux_name);
+	// 	//erro metodo já existe
+	// 	printf("Line %d, column %d: Symbol %s(%s) already defined\n", node->filho->filho->irmao->info->line, node->filho->filho->irmao->info->col, aux_name, new_method->params_list);
 	// }
+
 
 }
 
@@ -94,13 +107,13 @@ void get_method_meader(tab_element* method_node, no* no_ast){
 	strcat(str_params, "");
 	no* aux_node = no_ast->filho;
 
-	tab_element* aux_elem; //elemento auxiliar para adicionar na tabela de variaveis do cmetodo
+	tab_element* aux_elem; //elemento auxiliar para adicionar na tabela de variaveis do metodo
 
 
 	while(aux_node != NULL){ // iterar por todos os ParamDecl do metodo
 
 		// verificar se a variavel já existe
-		if( search_symbol(method_node->body,aux_node->filho->irmao->info->val,1) == NULL){
+		if( search_symbol(method_node->body,aux_node->filho->irmao->info->val,1,1) == NULL){
 
 			aux_elem = create_element(aux_node->filho->irmao->info->val, "", get_type(aux_node->filho->tipo),1); //criar novo elemento para o parametro
 
@@ -120,9 +133,26 @@ void get_method_meader(tab_element* method_node, no* no_ast){
 				strcat(str_params, get_type(aux_node->filho->tipo));
 			}
 		}
-		else
+		else{
+
+			//ERRO VARIAVEL JA DEFINIDA
 			printf("Line %d, column %d: Symbol %s already defined\n", aux_node->filho->irmao->info->line,aux_node->filho->irmao->info->col, aux_node->filho->irmao->info->val);
 		
+			// adicionar o paramatro à string de parametros do metodo
+			if( !strcmp(str_params,"") ){ //se a string está vazia, é o primeiro parametro
+				if(DEBUG) printf("add str params\n");
+				str_params = realloc(str_params, strlen(str_params)+strlen(aux_node->filho->tipo)+1 );
+				strcat(str_params, get_type(aux_node->filho->tipo));
+			}
+			else{
+				if(DEBUG) printf("add str params plus\n");
+				str_params = realloc(str_params, strlen(str_params)+strlen(aux_node->filho->tipo)+2 );
+				strcat(str_params, ",");
+				strcat(str_params, get_type(aux_node->filho->tipo));
+			}
+
+		}
+
 		aux_node = aux_node->irmao;
 		
 	}
@@ -148,7 +178,7 @@ void get_method_vars(tab_element* method_node, no* no_ast){
 			if( !strcmp(aux_node->tipo,"VarDecl") ){ //só queremos adicionar na tabela quando são variáveis, statements não interessam aqui
 
 					//verificar se a variavel ainda nao está na tabela
-				if( search_symbol(method_node->body,aux_node->filho->irmao->info->val,1) == NULL){
+				if( search_symbol(method_node->body,aux_node->filho->irmao->info->val,1,1) == NULL){
 					aux_new_var = create_element(aux_node->filho->irmao->info->val, "", get_type(aux_node->filho->tipo),0);
 
 					aux_body->body = aux_new_var; //adicionar a variável na tabela do metodo
@@ -172,8 +202,8 @@ void add_vars(tab_element* tail, no* no_ast){
 	no* aux_node = no_ast;
 	tab_element* aux_new_var;
 
-	//correr o corpo do metodo
-	if( search_symbol(symtab,aux_node->filho->irmao->info->val,0) == NULL){
+	//correr o corpo da classe
+	if( search_symbol(symtab,aux_node->filho->irmao->info->val,0,1) == NULL){ //se a var global não existe
 		aux_new_var = create_element(aux_node->filho->irmao->info->val, NULL, get_type(aux_node->filho->tipo),0);
 		tail = insert_element(tail,aux_new_var);
 	}
@@ -198,16 +228,40 @@ char* get_type(char* original_type){
 	return fixed_type;
 }
 
-char* search_symbol(tab_element* func, char* name, int isVar){
+char* search_method(tab_element* func, char* name, char* params_list){
 
 	tab_element* aux = func;
 
 	while(aux != NULL){
 
 		if( !strcmp(aux->name,name) )
-			return aux->type;
+			if( aux->params_list != NULL && !strcmp(params_list,aux->params_list))
+				return aux->type;
 
-		if(isVar)
+		aux = aux->next;
+
+	}
+
+	return NULL;
+}
+
+char* search_symbol(tab_element* func, char* name, int isVar, int inMethod){
+
+	tab_element* aux = func;
+
+	while(aux != NULL){
+
+		if( !strcmp(aux->name,name) )
+		
+			if(inMethod && isVar) //se estivermos a procurar uma variavel num metodo
+				return aux->type;
+			else if( !inMethod && isVar && aux->params_list == NULL) //se estivermos a procurar uma variavel global
+				return aux->type;
+			else if(!inMethod && !isVar ) //se tivermos a procurar apenas se um método existe
+				return aux->type;
+
+
+		if(inMethod)
 			aux = aux->body;
 		else
 			aux = aux->next;
@@ -228,23 +282,24 @@ void printSymbolTable(tab_element* elem) {
     while (elem != NULL) {
 		
 		if( elem->params_list == NULL)
-			printf("%s\t%s\n", elem->name, elem->type);
+			printf("%s\t\t%s\n", elem->name, elem->type);
 		else
 			printf("%s\t(%s)\t%s\n", elem->name, elem->params_list, elem->type);
         elem = elem->next;
     }
     
-    // Tabelas de funcoes
+    // Tabelas de metodos
     while (aux != NULL) {
         if (aux->body != NULL) {
 
 			printf("\n===== Method %s(%s) Symbol Table =====\n", aux->name, aux->params_list);
             
             tab_element* method = aux->body;
+
             while (method != NULL) { //iterar sobre o body do metodo
 
                 if (method->is_param == 1) //se for parametro do metodo
-                        printf("%s\t\t%s\t%s\tparam\n", method->name, method->type, method->params_list);
+                        printf("%s\t%s\t%s\tparam\n", method->name, method->params_list, method->type);
                 else
                     printf("%s\t\t%s\n", method->name, method->type);
 
@@ -269,7 +324,7 @@ void make_notations_ast(no* node, tab_element* tab, char* func){
 		char* func_name  = (char*)strdup(node->filho->filho->irmao->info->val);
 
 		//verificar se existe
-		if( search_symbol(tab, func_name, 0) != NULL ){
+		if( search_symbol(tab, func_name, 0,0) != NULL ){
 
 			//se existe, vamos iterar dentro do metodo
 			if(node->filho != NULL)

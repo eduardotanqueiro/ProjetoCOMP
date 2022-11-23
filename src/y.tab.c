@@ -83,7 +83,7 @@ extern void yyerror(char* s);
 no* raiz;
 no* tmp;
 
-tab_element* symtab;
+
 
 extern int line_num, col_num;
 extern int flag_tree;
@@ -1457,7 +1457,7 @@ yyreduce:
     {
   case 2: /* Program: CLASS ID LBRACE MethodFieldSemicolonRep RBRACE  */
 #line 82 "jucompiler.y"
-                                                         {(yyval.node)=raiz=criar_no("Program",gen_token("",line_num, col_num)); (yyval.node)->filho = criar_no("Id",(yyvsp[-3].info)); adicionar_irmao((yyval.node)->filho, (yyvsp[-1].node));symtab = create_element((yyval.node)->filho->info->val,"","", 0); create_table(symtab,raiz);printSymbolTable(symtab);make_notations_ast(raiz,symtab,NULL);}
+                                                         {(yyval.node)=raiz=criar_no("Program",gen_token("",line_num, col_num)); (yyval.node)->filho = criar_no("Id",(yyvsp[-3].info)); adicionar_irmao((yyval.node)->filho, (yyvsp[-1].node));}
 #line 1462 "y.tab.c"
     break;
 
