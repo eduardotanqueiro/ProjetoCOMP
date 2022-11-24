@@ -58,5 +58,7 @@ char* get_var_type(char* var_name,char* func_name);
 int one_part_op(char* tipo);
 int two_part_op(char* tipo);
 bool isIntDoubleBool(no* node);
+bool check_compatible_type(char* func_param, char* call_variable);
+int count_number_char(char* str, char chr);
 void check_call(no* node, tab_element* elem, char* func_name);
 #endif

@@ -1,0 +1,590 @@
+===== Class Call_Me_Maybe Symbol Table =====
+main	(String[])	void
+f	()	void
+f	(boolean)	int
+f	(double)	boolean
+f	(int)	double
+f	(String[])	void
+f	(int,double)	boolean
+f	(int,double,boolean)	boolean
+f	(int,double,boolean,int)	boolean
+f	(double,int,double,int)	int
+f	(int,double,int,double)	double
+
+===== Method main(String[]) Symbol Table =====
+return		void
+args		String[]	param
+i		int
+d		double
+b		boolean
+
+===== Method f() Symbol Table =====
+return		void
+
+===== Method f(boolean) Symbol Table =====
+return		int
+a		boolean	param
+
+===== Method f(double) Symbol Table =====
+return		boolean
+a		double	param
+
+===== Method f(int) Symbol Table =====
+return		double
+a		int	param
+
+===== Method f(String[]) Symbol Table =====
+return		void
+a		String[]	param
+
+===== Method f(int,double) Symbol Table =====
+return		boolean
+a		int	param
+b		double	param
+
+===== Method f(int,double,boolean) Symbol Table =====
+return		boolean
+a		int	param
+b		double	param
+c		boolean	param
+
+===== Method f(int,double,boolean,int) Symbol Table =====
+return		boolean
+a		int	param
+b		double	param
+c		boolean	param
+d		int	param
+
+===== Method f(double,int,double,int) Symbol Table =====
+return		int
+a		double	param
+b		int	param
+c		double	param
+d		int	param
+
+===== Method f(int,double,int,double) Symbol Table =====
+return		double
+a		int	param
+b		double	param
+c		int	param
+d		double	param
+
+compat |  | int,int,boolean | 1 (null) int
+boolean int
+compat | boolean | int,int,boolean | 1 (null) int
+double int
+compat | double | int,int,boolean | 1 (null) int
+int int
+compat | int | int,int,boolean | 1 (null) int
+String[] int
+compat | String[] | int,int,boolean | 0 String[] int
+int int
+double int
+compat | int,double | int,int,boolean | 1 (null) boolean
+int int
+double int
+boolean boolean
+compat | int,double,boolean | int,int,boolean | 1 (null) (null)
+int int
+double int
+boolean boolean
+compat | int,double,boolean,int | int,int,boolean | 1 int (null)
+double int
+int int
+double boolean
+compat | double,int,double,int | int,int,boolean | 0 double boolean
+int int
+double int
+int boolean
+compat | int,double,int,double | int,int,boolean | 0 int boolean
+metodo compativel
+compat |  | int,int,int,double | 1 (null) int
+boolean int
+compat | boolean | int,int,int,double | 1 (null) int
+double int
+compat | double | int,int,int,double | 1 (null) int
+int int
+compat | int | int,int,int,double | 1 (null) int
+String[] int
+compat | String[] | int,int,int,double | 0 String[] int
+int int
+double int
+compat | int,double | int,int,int,double | 1 (null) int
+int int
+double int
+boolean int
+compat | int,double,boolean | int,int,int,double | 1 (null) double
+int int
+double int
+boolean int
+int double
+compat | int,double,boolean,int | int,int,int,double | 0 int double
+double int
+int int
+double int
+int double
+compat | double,int,double,int | int,int,int,double | 0 int double
+int int
+double int
+int int
+double double
+compat | int,double,int,double | int,int,int,double | 1 (null) (null)
+metodo compativel
+compat |  | int,double,int,int | 1 (null) int
+boolean int
+compat | boolean | int,double,int,int | 1 (null) double
+double int
+compat | double | int,double,int,int | 1 (null) double
+int int
+compat | int | int,double,int,int | 1 (null) double
+String[] int
+compat | String[] | int,double,int,int | 0 String[] int
+int int
+double double
+compat | int,double | int,double,int,int | 1 (null) int
+int int
+double double
+boolean int
+compat | int,double,boolean | int,double,int,int | 1 (null) int
+int int
+double double
+boolean int
+int int
+compat | int,double,boolean,int | int,double,int,int | 1 (null) (null)
+double int
+int double
+compat | double,int,double,int | int,double,int,int | 0 int double
+int int
+double double
+int int
+double int
+compat | int,double,int,double | int,double,int,int | 1 (null) (null)
+compat |  | int,int,double,int | 1 (null) int
+boolean int
+compat | boolean | int,int,double,int | 1 (null) int
+double int
+compat | double | int,int,double,int | 1 (null) int
+int int
+compat | int | int,int,double,int | 1 (null) int
+String[] int
+compat | String[] | int,int,double,int | 0 String[] int
+int int
+double int
+compat | int,double | int,int,double,int | 1 (null) double
+int int
+double int
+boolean double
+compat | int,double,boolean | int,int,double,int | 1 (null) int
+int int
+double int
+boolean double
+int int
+compat | int,double,boolean,int | int,int,double,int | 1 (null) (null)
+double int
+int int
+double double
+int int
+compat | double,int,double,int | int,int,double,int | 1 (null) (null)
+int int
+double int
+int double
+compat | int,double,int,double | int,int,double,int | 0 int double
+compat |  | double,int,int,int | 1 (null) double
+boolean double
+compat | boolean | double,int,int,int | 1 (null) int
+double double
+compat | double | double,int,int,int | 1 (null) int
+int double
+compat | int | double,int,int,int | 0 int double
+String[] double
+compat | String[] | double,int,int,int | 0 String[] double
+int double
+compat | int,double | double,int,int,int | 0 int double
+int double
+compat | int,double,boolean | double,int,int,int | 0 int double
+int double
+compat | int,double,boolean,int | double,int,int,int | 0 int double
+double double
+int int
+double int
+int int
+compat | double,int,double,int | double,int,int,int | 1 (null) (null)
+int double
+compat | int,double,int,double | double,int,int,int | 0 int double
+metodo compativel
+compat |  | int,int,boolean,int | 1 (null) int
+boolean int
+compat | boolean | int,int,boolean,int | 1 (null) int
+double int
+compat | double | int,int,boolean,int | 1 (null) int
+int int
+compat | int | int,int,boolean,int | 1 (null) int
+String[] int
+compat | String[] | int,int,boolean,int | 0 String[] int
+int int
+double int
+compat | int,double | int,int,boolean,int | 1 (null) boolean
+int int
+double int
+boolean boolean
+compat | int,double,boolean | int,int,boolean,int | 1 (null) int
+int int
+double int
+boolean boolean
+int int
+compat | int,double,boolean,int | int,int,boolean,int | 1 (null) (null)
+double int
+int int
+double boolean
+compat | double,int,double,int | int,int,boolean,int | 0 double boolean
+int int
+double int
+int boolean
+compat | int,double,int,double | int,int,boolean,int | 0 int boolean
+metodo compativel
+compat |  | int,int,boolean | 1 (null) int
+boolean int
+compat | boolean | int,int,boolean | 1 (null) int
+double int
+compat | double | int,int,boolean | 1 (null) int
+int int
+compat | int | int,int,boolean | 1 (null) int
+String[] int
+compat | String[] | int,int,boolean | 0 String[] int
+int int
+double int
+compat | int,double | int,int,boolean | 1 (null) boolean
+int int
+double int
+boolean boolean
+compat | int,double,boolean | int,int,boolean | 1 (null) (null)
+int int
+double int
+boolean boolean
+compat | int,double,boolean,int | int,int,boolean | 1 int (null)
+double int
+int int
+double boolean
+compat | double,int,double,int | int,int,boolean | 0 double boolean
+int int
+double int
+int boolean
+compat | int,double,int,double | int,int,boolean | 0 int boolean
+metodo compativel
+compat |  | int,int | 1 (null) int
+boolean int
+compat | boolean | int,int | 1 (null) int
+double int
+compat | double | int,int | 1 (null) int
+int int
+compat | int | int,int | 1 (null) int
+String[] int
+compat | String[] | int,int | 0 String[] int
+int int
+double int
+compat | int,double | int,int | 1 (null) (null)
+int int
+double int
+compat | int,double,boolean | int,int | 1 boolean (null)
+int int
+double int
+compat | int,double,boolean,int | int,int | 1 boolean (null)
+double int
+int int
+compat | double,int,double,int | int,int | 1 double (null)
+int int
+double int
+compat | int,double,int,double | int,int | 1 int (null)
+metodo compativel
+Program
+..Id(Call_Me_Maybe)
+..MethodDecl
+....MethodHeader
+......Void
+......Id(main)
+......MethodParams
+........ParamDecl
+..........StringArray
+..........Id(args)
+....MethodBody
+......VarDecl
+........Int
+........Id(i)
+......VarDecl
+........Double
+........Id(d)
+......VarDecl
+........Bool
+........Id(b)
+......Call - void
+........Id(f) - ()
+......Call - int
+........Id(f) - (boolean)
+........BoolLit(true) - boolean
+......Call - boolean
+........Id(f) - (double)
+........RealLit(0e0) - double
+......Call - double
+........Id(f) - (int)
+........DecLit(123) - int
+......Call - void
+........Id(f) - (String[])
+........Id(args) - String[]
+......Call - boolean
+........Id(f) - (int,double)
+........Id(i) - int
+........Id(d) - double
+......Call - boolean
+........Id(f) - (int,double,boolean)
+........Id(i) - int
+........Id(d) - double
+........Id(b) - boolean
+......Call - boolean
+........Id(f) - (int,double,boolean,int)
+........Id(i) - int
+........Id(d) - double
+........Id(b) - boolean
+........Id(i) - int
+......Call - int
+........Id(f) - (double,int,double,int)
+........RealLit(0.) - double
+........DecLit(1) - int
+........RealLit(2.) - double
+........DecLit(3) - int
+......Call - double
+........Id(f) - (int,double,int,double)
+........DecLit(0) - int
+........RealLit(.1) - double
+........DecLit(2) - int
+........RealLit(.3) - double
+......Call - boolean
+........Id(f) - (int,double)
+........Id(i) - int
+........Id(i) - int
+......Call - boolean
+........Id(f) - (int,double,boolean)
+........Id(i) - int
+........Id(i) - int
+........Id(b) - boolean
+......Call - boolean
+........Id(f) - (int,double,boolean,int)
+........Id(i) - int
+........Id(i) - int
+........Id(b) - boolean
+........Id(i) - int
+......Call - int
+........Id(f) - (double,int,double,int)
+........RealLit(0.) - double
+........DecLit(1) - int
+........DecLit(2) - int
+........DecLit(3) - int
+......Call
+........Id(f)
+........DecLit(0) - int
+........DecLit(1) - int
+........RealLit(2.) - double
+........DecLit(3) - int
+......Call
+........Id(f)
+........DecLit(0) - int
+........RealLit(.1) - double
+........DecLit(2) - int
+........DecLit(3) - int
+......Call - double
+........Id(f) - (int,double,int,double)
+........DecLit(0) - int
+........DecLit(1) - int
+........DecLit(2) - int
+........RealLit(.3) - double
+......Call - int
+........Id(f) - (boolean)
+........Call - boolean
+..........Id(f) - (double)
+..........Call - double
+............Id(f) - (int)
+............Call - int
+..............Id(f) - (boolean)
+..............Call - boolean
+................Id(f) - (double)
+................Call - double
+..................Id(f) - (int)
+..................DecLit(0) - int
+......Call - boolean
+........Id(f) - (int,double,boolean)
+........Call - int
+..........Id(f) - (boolean)
+..........BoolLit(true) - boolean
+........Call - double
+..........Id(f) - (int)
+..........DecLit(0) - int
+........Call - boolean
+..........Id(f) - (double)
+..........RealLit(0.0) - double
+......Call - boolean
+........Id(f) - (int,double,boolean)
+........Call - int
+..........Id(f) - (boolean)
+..........BoolLit(true) - boolean
+........Call - int
+..........Id(f) - (boolean)
+..........BoolLit(false) - boolean
+........Call - boolean
+..........Id(f) - (double)
+..........RealLit(0.0) - double
+......Print
+........Call - int
+..........Id(f) - (boolean)
+..........Call - boolean
+............Id(f) - (double)
+............Call - double
+..............Id(f) - (int)
+..............Call - int
+................Id(f) - (boolean)
+................Call - boolean
+..................Id(f) - (double)
+..................Call - double
+....................Id(f) - (int)
+....................DecLit(0) - int
+......Print
+........Call - boolean
+..........Id(f) - (int,double,boolean)
+..........Call - int
+............Id(f) - (boolean)
+............BoolLit(true) - boolean
+..........Call - double
+............Id(f) - (int)
+............DecLit(0) - int
+..........Call - boolean
+............Id(f) - (double)
+............RealLit(0.0) - double
+......Print
+........Call - boolean
+..........Id(f) - (double)
+..........RealLit(0e0) - double
+......Print
+........Call - double
+..........Id(f) - (int)
+..........DecLit(123) - int
+..MethodDecl
+....MethodHeader
+......Void
+......Id(f)
+......MethodParams
+....MethodBody
+..MethodDecl
+....MethodHeader
+......Int
+......Id(f)
+......MethodParams
+........ParamDecl
+..........Bool
+..........Id(a)
+....MethodBody
+..MethodDecl
+....MethodHeader
+......Bool
+......Id(f)
+......MethodParams
+........ParamDecl
+..........Double
+..........Id(a)
+....MethodBody
+..MethodDecl
+....MethodHeader
+......Double
+......Id(f)
+......MethodParams
+........ParamDecl
+..........Int
+..........Id(a)
+....MethodBody
+..MethodDecl
+....MethodHeader
+......Void
+......Id(f)
+......MethodParams
+........ParamDecl
+..........StringArray
+..........Id(a)
+....MethodBody
+..MethodDecl
+....MethodHeader
+......Bool
+......Id(f)
+......MethodParams
+........ParamDecl
+..........Int
+..........Id(a)
+........ParamDecl
+..........Double
+..........Id(b)
+....MethodBody
+..MethodDecl
+....MethodHeader
+......Bool
+......Id(f)
+......MethodParams
+........ParamDecl
+..........Int
+..........Id(a)
+........ParamDecl
+..........Double
+..........Id(b)
+........ParamDecl
+..........Bool
+..........Id(c)
+....MethodBody
+..MethodDecl
+....MethodHeader
+......Bool
+......Id(f)
+......MethodParams
+........ParamDecl
+..........Int
+..........Id(a)
+........ParamDecl
+..........Double
+..........Id(b)
+........ParamDecl
+..........Bool
+..........Id(c)
+........ParamDecl
+..........Int
+..........Id(d)
+....MethodBody
+..MethodDecl
+....MethodHeader
+......Int
+......Id(f)
+......MethodParams
+........ParamDecl
+..........Double
+..........Id(a)
+........ParamDecl
+..........Int
+..........Id(b)
+........ParamDecl
+..........Double
+..........Id(c)
+........ParamDecl
+..........Int
+..........Id(d)
+....MethodBody
+..MethodDecl
+....MethodHeader
+......Double
+......Id(f)
+......MethodParams
+........ParamDecl
+..........Int
+..........Id(a)
+........ParamDecl
+..........Double
+..........Id(b)
+........ParamDecl
+..........Int
+..........Id(c)
+........ParamDecl
+..........Double
+..........Id(d)
+....MethodBody
