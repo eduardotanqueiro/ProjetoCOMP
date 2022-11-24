@@ -257,8 +257,8 @@ char* search_symbol(tab_element* func, char* name, int isVar, int inMethod){
 				return aux->type;
 			else if( !inMethod && isVar && aux->params_list == NULL) //se estivermos a procurar uma variavel global
 				return aux->type;
-			else if(!inMethod && !isVar ) //se tivermos a procurar apenas se um método existe
-				return aux->type;
+			else if(!inMethod && !isVar ) //se tivermos a procurar apenas se um método existe, devolvemos os parametro
+				return aux->params_list;
 
 
 		if(inMethod)
@@ -360,7 +360,7 @@ void make_notations_ast(no* node, tab_element* tab, char* func){
 		check_one_part_op(node,func,logical);
 	}
 	else if( !strcmp(node->tipo,"Call")){
-		
+		check_call(node, tab, func);
 	}
 
 
@@ -735,4 +735,75 @@ bool isIntDoubleBool(no* node){
 	}
 
 	return false;
+}
+
+void check_call(no* node, tab_element* elem, char* func_name){
+
+	char* call_params = (char*)malloc(1);
+	strcat(call_params, "");
+
+	//guardar os tipos dos parametros da call
+	no* aux_params = node->filho->irmao;
+	while(aux_params != NULL){
+
+		if( !strcmp(aux_params->tipo,"Id") ){
+
+			//verificar se a variavel existe
+			char* var_type = get_var_type(aux_params->info->val,func_name);
+			aux_params->notation = var_type; // atualizar o tipo do nó
+
+			if ( !strcmp(var_type,"undef") ){
+				//erro
+			}
+		}
+
+		//constante ou Call
+
+		if(strlen(call_params) == 0){
+			call_params = realloc(call_params, sizeof(call_params + strlen(aux_params->notation)));
+		}
+		else{
+			call_params = realloc(call_params, sizeof(call_params + strlen(aux_params->notation) + 1));
+			strcat(call_params,",");
+		}
+
+		if( aux_params->notation != NULL ){
+			strcat(call_params,aux_params->notation);
+			aux_params->notation = aux_params->notation; // atualizar o tipo do nó
+		}else{
+			strcat(call_params,"void");
+			aux_params->notation = "void"; // atualizar o tipo do nó
+		}
+			
+
+
+		aux_params = aux_params->irmao;
+	}
+
+	printf("call params types %s\n",call_params);
+
+	//no do nome do metodo com os tipos
+	// node->filho->notation = (char*)malloc( strlen(call_params)+3) ;
+	// snprintf( node->filho->notation ,strlen(call_params)+3,"(%s)",call_params);
+
+
+	//TODO
+	//temos de ir procurar qual/se existe o método com o nome recebido e que tenha como parâmetros as variáveis recebidas
+	char* return_type = search_method(symtab,node->filho->info->val, call_params);
+
+	if(return_type == NULL){ //TODO não existe nenhuma funcao com os mesmos parametros, temos de ir verificar se existe com parametros compatíveis
+
+	}
+	else{
+
+		//no do nome do metodo com os tipos
+		node->filho->notation = (char*)malloc( strlen(call_params)+3) ;
+		snprintf( node->filho->notation ,strlen(call_params)+3,"(%s)",call_params);
+	
+		//atualizar a notacao do Call
+		node->notation = return_type;
+	}
+
+
+
 }
