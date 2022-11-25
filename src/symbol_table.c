@@ -743,9 +743,9 @@ bool check_compatible_type(char* func_param, char* call_variable){
 	if( !strcmp(func_param,call_variable) ) //se têm o mesmo tipo
 		return true;
 
-	if( !strcmp(func_param,"boolean") &&
-		( !strcmp(call_variable,"int") || !strcmp(call_variable,"double")) )//se recebermos um int ou double no lugar de um boolean
-		return true;
+	// if( !strcmp(func_param,"boolean") &&
+	// 	( !strcmp(call_variable,"int") || !strcmp(call_variable,"double")) )//se recebermos um int ou double no lugar de um boolean
+	// 	return true;
 
 	if( !strcmp(func_param,"double") && !strcmp(call_variable,"int")) //se recebermos um int no lugar de um double
 		return true;
@@ -823,59 +823,48 @@ void check_call(no* node, tab_element* elem, char* func_name){
 		tab_element* aux = symtab;
 		int counter_funcs = 0; //nr metodos com tipos compativeis
 		tab_element* method_candidate;
-		int number_params_call = count_number_char(call_params,',') + 1; //nr de parametros da funcao
-
 
 		while(aux != NULL){ //iterar sobre a tabela global simbolos
 
 			if( aux->params_list != NULL && !strcmp(aux->name,node->filho->info->val) ){ //não é variavel global e tem o mesmo nome
 
 				//check params
-				int number_params_aux_func = count_number_char(aux->params_list,',') + 1;
-
-				// if( number_params_aux_func == number_params_call){ //se a funcao tem o mesmo numero de parametros da call, vamos verificar os parametros
-
-					int compatible = 1;
-					char* next_tok1, *next_tok2;
-					char* buffer_func = strdup(aux->params_list); 
-					char* buffer_call = strdup(call_params);	
+				int compatible = 1;
+				char* next_tok1, *next_tok2;
+				char* buffer_func = strdup(aux->params_list); 
+				char* buffer_call = strdup(call_params);	
 
 
-					char* func_param = strtok_r(buffer_func,",",&next_tok1);
-					char* call_variable = strtok_r(buffer_call,",",&next_tok2);	
+				char* func_param = strtok_r(buffer_func,",",&next_tok1);
+				char* call_variable = strtok_r(buffer_call,",",&next_tok2);	
 
 
-					while( func_param != NULL && call_variable != NULL ){ //checkar parametro a parametro o tipo
+				while( func_param != NULL && call_variable != NULL ){ //checkar parametro a parametro o tipo
 
-						// printf("%s %s\n",func_param,call_variable);
-
-						if( !check_compatible_type(func_param,call_variable) ){
-							compatible = 0;
-							break;
-						}
-
-						func_param = strtok_r(NULL,",",&next_tok1);
-						call_variable = strtok_r(NULL,",",&next_tok2);
+					if( !check_compatible_type(func_param,call_variable) ){
+						compatible = 0;
+						break;
 					}
 
-					// printf("compat | %s | %s | %d %s %s\n",aux->params_list,call_params,compatible,func_param,call_variable);
+					func_param = strtok_r(NULL,",",&next_tok1);
+					call_variable = strtok_r(NULL,",",&next_tok2);
+				}
 
-					//se ambos são compativeis
-					if ( compatible && func_param == NULL && call_variable == NULL){
-						counter_funcs++;
-						method_candidate = aux;
-					}
-				// }
+				// printf("compat | %s | %s | %d %s %s\n",aux->params_list,call_params,compatible,func_param,call_variable);
+
+				//se ambos são compativeis
+				if ( compatible && func_param == NULL && call_variable == NULL){
+					counter_funcs++;
+					method_candidate = aux;
+				}
 			}
 
 			aux = aux->next;
 		}
 
-		// printf("func counter %d\n",counter_funcs);
 
 		if(counter_funcs == 1){
 			//se existir só 1 único metodo compativel
-			// printf("metodo compativel\n");
 
 			//no do nome do metodo com os tipos
 			node->filho->notation = (char*)malloc( strlen( method_candidate->params_list )+3) ;
@@ -887,11 +876,11 @@ void check_call(no* node, tab_element* elem, char* func_name){
 		}
 		else if(counter_funcs == 0){
 			//TODO ERRO: se não existirem metodos compativeis
-
 			
 		}
 		else{
 			//TODO ERRO: se existir mais de um metodo com parametros compativeis, erro de ambiguidade
+			// printf("+1 methods %s %s\n",call_params, method_candidate->params_list);
 
 		}
 
