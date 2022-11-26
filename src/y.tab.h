@@ -75,21 +75,21 @@ extern int yydebug;
     NOT = 276,                     /* NOT  */
     OR = 277,                      /* OR  */
     PRINT = 278,                   /* PRINT  */
-    BOOL = 279,                    /* BOOL  */
-    COMMA = 280,                   /* COMMA  */
-    LBRACE = 281,                  /* LBRACE  */
-    LPAR = 282,                    /* LPAR  */
-    LSQ = 283,                     /* LSQ  */
-    RBRACE = 284,                  /* RBRACE  */
-    RPAR = 285,                    /* RPAR  */
-    RSQ = 286,                     /* RSQ  */
-    SEMICOLON = 287,               /* SEMICOLON  */
-    ARROW = 288,                   /* ARROW  */
-    LSHIFT = 289,                  /* LSHIFT  */
-    RSHIFT = 290,                  /* RSHIFT  */
-    XOR = 291,                     /* XOR  */
-    CLASS = 292,                   /* CLASS  */
-    DOTLENGTH = 293,               /* DOTLENGTH  */
+    DOTLENGTH = 279,               /* DOTLENGTH  */
+    BOOL = 280,                    /* BOOL  */
+    COMMA = 281,                   /* COMMA  */
+    LBRACE = 282,                  /* LBRACE  */
+    LPAR = 283,                    /* LPAR  */
+    LSQ = 284,                     /* LSQ  */
+    RBRACE = 285,                  /* RBRACE  */
+    RPAR = 286,                    /* RPAR  */
+    RSQ = 287,                     /* RSQ  */
+    SEMICOLON = 288,               /* SEMICOLON  */
+    ARROW = 289,                   /* ARROW  */
+    LSHIFT = 290,                  /* LSHIFT  */
+    RSHIFT = 291,                  /* RSHIFT  */
+    XOR = 292,                     /* XOR  */
+    CLASS = 293,                   /* CLASS  */
     DOUBLE = 294,                  /* DOUBLE  */
     ELSE = 295,                    /* ELSE  */
     IF = 296,                      /* IF  */
@@ -131,21 +131,21 @@ extern int yydebug;
 #define NOT 276
 #define OR 277
 #define PRINT 278
-#define BOOL 279
-#define COMMA 280
-#define LBRACE 281
-#define LPAR 282
-#define LSQ 283
-#define RBRACE 284
-#define RPAR 285
-#define RSQ 286
-#define SEMICOLON 287
-#define ARROW 288
-#define LSHIFT 289
-#define RSHIFT 290
-#define XOR 291
-#define CLASS 292
-#define DOTLENGTH 293
+#define DOTLENGTH 279
+#define BOOL 280
+#define COMMA 281
+#define LBRACE 282
+#define LPAR 283
+#define LSQ 284
+#define RBRACE 285
+#define RPAR 286
+#define RSQ 287
+#define SEMICOLON 288
+#define ARROW 289
+#define LSHIFT 290
+#define RSHIFT 291
+#define XOR 292
+#define CLASS 293
 #define DOUBLE 294
 #define ELSE 295
 #define IF 296

@@ -105,7 +105,7 @@ boolean {if(flag_tokens_lex) printf("BOOL\n");col_num+=yyleng; return BOOL;}
 
 class {if(flag_tokens_lex) printf("CLASS\n");col_num+=yyleng; return CLASS;}
 
-"."length {if(flag_tokens_lex) printf("DOTLENGTH\n");col_num+=yyleng; return DOTLENGTH;}
+"."length {if(flag_tokens_lex) printf("DOTLENGTH\n");yylval.info = gen_token("", line_num,col_num); col_num+=yyleng; return DOTLENGTH;}
 
 double {if(flag_tokens_lex) printf("DOUBLE\n");col_num+=yyleng; return DOUBLE;}
 

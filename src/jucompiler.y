@@ -25,9 +25,9 @@ extern int flag_tree;
 %token <info> REALLIT
 %token <info> BOOLLIT
 %token <info> STRLIT
-%token <info> PLUS AND ASSIGN STAR DIV EQ GE GT LE LT MINUS MOD NE NOT OR PRINT
+%token <info> PLUS AND ASSIGN STAR DIV EQ GE GT LE LT MINUS MOD NE NOT OR PRINT DOTLENGTH
 
-%token BOOL COMMA LBRACE LPAR LSQ RBRACE RPAR RSQ SEMICOLON ARROW LSHIFT RSHIFT XOR CLASS DOTLENGTH DOUBLE ELSE IF INT PARSEINT PUBLIC RETURN STATIC STRING VOID WHILE RESERVED
+%token BOOL COMMA LBRACE LPAR LSQ RBRACE RPAR RSQ SEMICOLON ARROW LSHIFT RSHIFT XOR CLASS DOUBLE ELSE IF INT PARSEINT PUBLIC RETURN STATIC STRING VOID WHILE RESERVED
 
 
 
@@ -316,7 +316,7 @@ ExprOp: LPAR Expr RPAR          {$$=$2;}
     | MethodInvocation          {$$=$1;}
     | ParseArgs                 {$$=$1;}
     | ID                        {$$=criar_no("Id",$1);}
-    | ID DOTLENGTH              {$$=criar_no("Length",gen_token("",line_num, col_num)); $$->filho = criar_no("Id",$1);}
+    | ID DOTLENGTH              {$$=criar_no("Length",$2); $$->filho = criar_no("Id",$1);}
     | INTLIT                    {$$=criar_no("DecLit",$1);}
     | REALLIT                   {$$=criar_no("RealLit",$1);}
     | BOOLLIT                   {$$=criar_no("BoolLit",$1);}

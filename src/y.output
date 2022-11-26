@@ -133,21 +133,21 @@ Terminals, with rules where they appear
     NOT <info> (276) 61
     OR <info> (277) 69
     PRINT <info> (278) 33 34
-    BOOL (279) 11
-    COMMA (280) 9 20 45
-    LBRACE (281) 1 22 27
-    LPAR (282) 14 15 16 17 28 29 30 33 34 42 43 44 48 49 52 79
-    LSQ (283) 19 48
-    RBRACE (284) 1 22 27
-    RPAR (285) 14 15 16 17 28 29 30 33 34 42 43 44 48 49 52 79
-    RSQ (286) 19 48
-    SEMICOLON (287) 4 7 8 26 31 32 33 34 35 36 37 38 39
-    ARROW (288)
-    LSHIFT (289) 71
-    RSHIFT (290) 72
-    XOR (291) 70
-    CLASS (292) 1
-    DOTLENGTH (293) 56
+    DOTLENGTH <info> (279) 56
+    BOOL (280) 11
+    COMMA (281) 9 20 45
+    LBRACE (282) 1 22 27
+    LPAR (283) 14 15 16 17 28 29 30 33 34 42 43 44 48 49 52 79
+    LSQ (284) 19 48
+    RBRACE (285) 1 22 27
+    RPAR (286) 14 15 16 17 28 29 30 33 34 42 43 44 48 49 52 79
+    RSQ (287) 19 48
+    SEMICOLON (288) 4 7 8 26 31 32 33 34 35 36 37 38 39
+    ARROW (289)
+    LSHIFT (290) 71
+    RSHIFT (291) 72
+    XOR (292) 70
+    CLASS (293) 1
     DOUBLE (294) 13
     ELSE (295) 28
     IF (296) 28 29
@@ -944,8 +944,8 @@ State 64
    56       | ID • DOTLENGTH
 
     ASSIGN     shift, and go to state 57
-    LPAR       shift, and go to state 58
     DOTLENGTH  shift, and go to state 102
+    LPAR       shift, and go to state 58
 
     $default  reduce using rule 55 (ExprOp)
 
@@ -1336,8 +1336,8 @@ State 103
    55 ExprOp: ID •
    56       | ID • DOTLENGTH
 
-    LPAR       shift, and go to state 58
     DOTLENGTH  shift, and go to state 102
+    LPAR       shift, and go to state 58
 
     $default  reduce using rule 55 (ExprOp)
 
