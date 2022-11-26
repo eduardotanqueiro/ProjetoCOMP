@@ -59,41 +59,41 @@ extern int yydebug;
     REALLIT = 260,                 /* REALLIT  */
     BOOLLIT = 261,                 /* BOOLLIT  */
     STRLIT = 262,                  /* STRLIT  */
-    AND = 263,                     /* AND  */
-    ASSIGN = 264,                  /* ASSIGN  */
-    BOOL = 265,                    /* BOOL  */
+    PLUS = 263,                    /* PLUS  */
+    AND = 264,                     /* AND  */
+    ASSIGN = 265,                  /* ASSIGN  */
     STAR = 266,                    /* STAR  */
-    COMMA = 267,                   /* COMMA  */
-    DIV = 268,                     /* DIV  */
-    EQ = 269,                      /* EQ  */
-    GE = 270,                      /* GE  */
-    GT = 271,                      /* GT  */
-    LBRACE = 272,                  /* LBRACE  */
-    LE = 273,                      /* LE  */
-    LPAR = 274,                    /* LPAR  */
-    LSQ = 275,                     /* LSQ  */
-    LT = 276,                      /* LT  */
-    MINUS = 277,                   /* MINUS  */
-    MOD = 278,                     /* MOD  */
-    NE = 279,                      /* NE  */
-    NOT = 280,                     /* NOT  */
-    OR = 281,                      /* OR  */
-    PLUS = 282,                    /* PLUS  */
-    RBRACE = 283,                  /* RBRACE  */
-    RPAR = 284,                    /* RPAR  */
-    RSQ = 285,                     /* RSQ  */
-    SEMICOLON = 286,               /* SEMICOLON  */
-    ARROW = 287,                   /* ARROW  */
-    LSHIFT = 288,                  /* LSHIFT  */
-    RSHIFT = 289,                  /* RSHIFT  */
-    XOR = 290,                     /* XOR  */
-    CLASS = 291,                   /* CLASS  */
-    DOTLENGTH = 292,               /* DOTLENGTH  */
-    DOUBLE = 293,                  /* DOUBLE  */
-    ELSE = 294,                    /* ELSE  */
-    IF = 295,                      /* IF  */
-    INT = 296,                     /* INT  */
-    PRINT = 297,                   /* PRINT  */
+    DIV = 267,                     /* DIV  */
+    EQ = 268,                      /* EQ  */
+    GE = 269,                      /* GE  */
+    GT = 270,                      /* GT  */
+    LE = 271,                      /* LE  */
+    LT = 272,                      /* LT  */
+    MINUS = 273,                   /* MINUS  */
+    MOD = 274,                     /* MOD  */
+    NE = 275,                      /* NE  */
+    NOT = 276,                     /* NOT  */
+    OR = 277,                      /* OR  */
+    PRINT = 278,                   /* PRINT  */
+    BOOL = 279,                    /* BOOL  */
+    COMMA = 280,                   /* COMMA  */
+    LBRACE = 281,                  /* LBRACE  */
+    LPAR = 282,                    /* LPAR  */
+    LSQ = 283,                     /* LSQ  */
+    RBRACE = 284,                  /* RBRACE  */
+    RPAR = 285,                    /* RPAR  */
+    RSQ = 286,                     /* RSQ  */
+    SEMICOLON = 287,               /* SEMICOLON  */
+    ARROW = 288,                   /* ARROW  */
+    LSHIFT = 289,                  /* LSHIFT  */
+    RSHIFT = 290,                  /* RSHIFT  */
+    XOR = 291,                     /* XOR  */
+    CLASS = 292,                   /* CLASS  */
+    DOTLENGTH = 293,               /* DOTLENGTH  */
+    DOUBLE = 294,                  /* DOUBLE  */
+    ELSE = 295,                    /* ELSE  */
+    IF = 296,                      /* IF  */
+    INT = 297,                     /* INT  */
     PARSEINT = 298,                /* PARSEINT  */
     PUBLIC = 299,                  /* PUBLIC  */
     RETURN = 300,                  /* RETURN  */
@@ -115,41 +115,41 @@ extern int yydebug;
 #define REALLIT 260
 #define BOOLLIT 261
 #define STRLIT 262
-#define AND 263
-#define ASSIGN 264
-#define BOOL 265
+#define PLUS 263
+#define AND 264
+#define ASSIGN 265
 #define STAR 266
-#define COMMA 267
-#define DIV 268
-#define EQ 269
-#define GE 270
-#define GT 271
-#define LBRACE 272
-#define LE 273
-#define LPAR 274
-#define LSQ 275
-#define LT 276
-#define MINUS 277
-#define MOD 278
-#define NE 279
-#define NOT 280
-#define OR 281
-#define PLUS 282
-#define RBRACE 283
-#define RPAR 284
-#define RSQ 285
-#define SEMICOLON 286
-#define ARROW 287
-#define LSHIFT 288
-#define RSHIFT 289
-#define XOR 290
-#define CLASS 291
-#define DOTLENGTH 292
-#define DOUBLE 293
-#define ELSE 294
-#define IF 295
-#define INT 296
-#define PRINT 297
+#define DIV 267
+#define EQ 268
+#define GE 269
+#define GT 270
+#define LE 271
+#define LT 272
+#define MINUS 273
+#define MOD 274
+#define NE 275
+#define NOT 276
+#define OR 277
+#define PRINT 278
+#define BOOL 279
+#define COMMA 280
+#define LBRACE 281
+#define LPAR 282
+#define LSQ 283
+#define RBRACE 284
+#define RPAR 285
+#define RSQ 286
+#define SEMICOLON 287
+#define ARROW 288
+#define LSHIFT 289
+#define RSHIFT 290
+#define XOR 291
+#define CLASS 292
+#define DOTLENGTH 293
+#define DOUBLE 294
+#define ELSE 295
+#define IF 296
+#define INT 297
 #define PARSEINT 298
 #define PUBLIC 299
 #define RETURN 300
@@ -163,7 +163,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 74 "jucompiler.y"
+#line 75 "jucompiler.y"
 
     info* info;
     no* node;

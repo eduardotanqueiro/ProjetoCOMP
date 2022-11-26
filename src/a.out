@@ -1,128 +1,24 @@
-===== Class Alguns_Erros Symbol Table =====
-f	(int,double,double,double)	double
-f	(double,double,double,int)	double
-f	(double)	double
-f	(int)	double
-f	(double,int)	double
-f	(double,double)	double
+===== Class divide Symbol Table =====
+num		int
+den		int
 main	(String[])	void
-
-===== Method f(int,double,double,double) Symbol Table =====
-return		double
-a		int	param
-b		double	param
-c		double	param
-d		double	param
-
-===== Method f(double,double,double,int) Symbol Table =====
-return		double
-b		double	param
-c		double	param
-d		double	param
-a		int	param
-
-===== Method f(double) Symbol Table =====
-return		double
-b		double	param
-
-===== Method f(int) Symbol Table =====
-return		double
-b		int	param
-
-===== Method f(double,int) Symbol Table =====
-return		double
-b		double	param
-c		int	param
-
-===== Method f(double,double) Symbol Table =====
-return		double
-b		double	param
-c		double	param
 
 ===== Method main(String[]) Symbol Table =====
 return		void
 args		String[]	param
+quo		int
+q		int
+r		int
+check		boolean
 
 Program
-..Id(Alguns_Erros)
-..MethodDecl
-....MethodHeader
-......Double
-......Id(f)
-......MethodParams
-........ParamDecl
-..........Int
-..........Id(a)
-........ParamDecl
-..........Double
-..........Id(b)
-........ParamDecl
-..........Double
-..........Id(c)
-........ParamDecl
-..........Double
-..........Id(d)
-....MethodBody
-..MethodDecl
-....MethodHeader
-......Double
-......Id(f)
-......MethodParams
-........ParamDecl
-..........Double
-..........Id(b)
-........ParamDecl
-..........Double
-..........Id(c)
-........ParamDecl
-..........Double
-..........Id(d)
-........ParamDecl
-..........Int
-..........Id(a)
-....MethodBody
-..MethodDecl
-....MethodHeader
-......Double
-......Id(f)
-......MethodParams
-........ParamDecl
-..........Double
-..........Id(b)
-....MethodBody
-..MethodDecl
-....MethodHeader
-......Double
-......Id(f)
-......MethodParams
-........ParamDecl
-..........Int
-..........Id(b)
-....MethodBody
-..MethodDecl
-....MethodHeader
-......Double
-......Id(f)
-......MethodParams
-........ParamDecl
-..........Double
-..........Id(b)
-........ParamDecl
-..........Int
-..........Id(c)
-....MethodBody
-..MethodDecl
-....MethodHeader
-......Double
-......Id(f)
-......MethodParams
-........ParamDecl
-..........Double
-..........Id(b)
-........ParamDecl
-..........Double
-..........Id(c)
-....MethodBody
+..Id(divide)
+..FieldDecl
+....Int
+....Id(num)
+..FieldDecl
+....Int
+....Id(den)
 ..MethodDecl
 ....MethodHeader
 ......Void
@@ -132,17 +28,71 @@ Program
 ..........StringArray
 ..........Id(args)
 ....MethodBody
-......Call
-........Id(f)
-........Call - void
-..........Id(main) - (String[])
+......VarDecl
+........Int
+........Id(quo)
+......VarDecl
+........Int
+........Id(q)
+......VarDecl
+........Int
+........Id(r)
+......Assign - int
+........Id(num) - int
+........ParseArgs - int
 ..........Id(args) - String[]
-........Id(args) - String[]
-........DecLit(1) - int
-........Call - void
-..........Id(f)
-..........Id(W) - undef
-......Call
-........Id(f)
-........DecLit(1) - int
-........DecLit(1) - int
+..........DecLit(0) - int
+......Assign - int
+........Id(den) - int
+........ParseArgs - int
+..........Id(args) - String[]
+..........DecLit(1) - int
+......Assign - int
+........Id(q) - int
+........Div - int
+..........Id(num) - int
+..........Id(den) - int
+......Assign - int
+........Id(r) - int
+........Mod - int
+..........Id(num) - int
+..........Id(den) - int
+......Assign - int
+........Id(quo) - int
+........DecLit(0) - int
+......While
+........Le - boolean
+..........Id(den) - int
+..........Id(num) - int
+........Block
+..........Assign - int
+............Id(num) - int
+............Sub - int
+..............Id(num) - int
+..............Id(den) - int
+..........Assign - int
+............Id(quo) - int
+............Add - int
+..............Id(quo) - int
+..............DecLit(1) - int
+......VarDecl
+........Bool
+........Id(check)
+......Assign - boolean
+........Id(check) - boolean
+........And - boolean
+..........Eq - boolean
+............Id(quo) - int
+............Id(q) - int
+..........Eq - boolean
+............Id(num) - int
+............Id(r) - int
+......If
+........Id(check) - boolean
+........Block
+..........Print
+............Id(quo) - int
+..........Print
+............Id(num) - int
+........Print
+..........Id(check) - boolean

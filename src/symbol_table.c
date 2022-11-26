@@ -48,6 +48,9 @@ tab_element* create_element(char* name, char* params_list, char* type, int is_pa
 	new->body = NULL;
 	new->next = NULL;
 
+	new->line = 0;
+	new->col = 0;
+
 	return new;
 }
 
@@ -80,17 +83,6 @@ void add_method(tab_element* tail, no* node){
 		printf("Line %d, column %d: Symbol %s(%s) already defined\n", node->filho->filho->irmao->info->line, node->filho->filho->irmao->info->col, aux_name, new_method->params_list);
 	}
 
-	// // checkar se o metodo ja existe
-	// if( search_symbol(symtab,aux_name,0) == NULL ){
-	// 	//inserir o metodo no fim da tabela de simbolo
-	// 	tail = insert_element(tail, new_method);
-	// }
-	// else{
-	// 	//erro metodo já existe
-	// 	printf("Line %d, column %d: Symbol %s(%s) already defined\n", node->filho->filho->irmao->info->line, node->filho->filho->irmao->info->col, aux_name, new_method->params_list);
-	// }
-
-
 }
 
 /*
@@ -116,6 +108,8 @@ void get_method_meader(tab_element* method_node, no* no_ast){
 		if( search_symbol(method_node->body,aux_node->filho->irmao->info->val,1,1) == NULL){
 
 			aux_elem = create_element(aux_node->filho->irmao->info->val, "", get_type(aux_node->filho->tipo),1); //criar novo elemento para o parametro
+			aux_elem->line = aux_node->filho->irmao->info->line;
+			aux_elem->col = aux_node->filho->irmao->info->col;
 
 			last_elem_method_table->body = aux_elem; //adicionar elemento à tabela do metodo
 			last_elem_method_table = aux_elem; //atualizar o ponteiro auxiliar para o ultimo elemento da tabelo do metodo
@@ -180,6 +174,9 @@ void get_method_vars(tab_element* method_node, no* no_ast){
 					//verificar se a variavel ainda nao está na tabela
 				if( search_symbol(method_node->body,aux_node->filho->irmao->info->val,1,1) == NULL){
 					aux_new_var = create_element(aux_node->filho->irmao->info->val, "", get_type(aux_node->filho->tipo),0);
+					aux_new_var->line = aux_node->filho->irmao->info->line;
+					aux_new_var->col = aux_node->filho->irmao->info->col;
+
 
 					aux_body->body = aux_new_var; //adicionar a variável na tabela do metodo
 					aux_body = aux_new_var;	//atualizar a variavel auxiliar que aponta para o ultimo elemento da tabela do metodo
@@ -205,6 +202,9 @@ void add_vars(tab_element* tail, no* no_ast){
 	//correr o corpo da classe
 	if( search_symbol(symtab,aux_node->filho->irmao->info->val,0,1) == NULL){ //se a var global não existe
 		aux_new_var = create_element(aux_node->filho->irmao->info->val, NULL, get_type(aux_node->filho->tipo),0);
+		aux_new_var->line = aux_node->filho->irmao->info->line;
+		aux_new_var->col = aux_node->filho->irmao->info->col;
+		
 		tail = insert_element(tail,aux_new_var);
 	}
 	else
@@ -386,7 +386,8 @@ int two_part_op(char* tipo){
 		!strcmp(tipo, "Gt") ||
 		!strcmp(tipo, "Le") ||
 		!strcmp(tipo, "Lt") ||
-		!strcmp(tipo, "Ne")
+		!strcmp(tipo, "Ne") ||
+		!strcmp(tipo, "Xor")
 	)
 		return 1;
     else 
@@ -411,11 +412,11 @@ int one_part_op(char* tipo){
 	return 0;
 }
 
-char* get_var_type(char* var_name,char* func_name){
+char* get_var_type(no* var_node,char* func_name){
 
 	//search for the function in the global table
 	tab_element* aux_tab = symtab;
-	char* type = "undef"; //TODO
+	char* type = "undef";
 
 	while(aux_tab != NULL){ //TODO: e se houverem várias funcoes com o mesmo nome?!?!? ERROR ERRO
 		
@@ -427,16 +428,33 @@ char* get_var_type(char* var_name,char* func_name){
 
 	//search for the variable
 	while(aux_tab != NULL){
-		
-		if( !strcmp(aux_tab->name, var_name) ){
-			type = (char*)strdup(aux_tab->type);
-			break;
+
+		if(aux_tab->name != NULL && var_node->info != NULL){ //prevenir SEGFAULT
+
+			if( !strcmp(aux_tab->name, var_node->info->val) ){ //se o nome da variavel está na tabela de simbolos
+
+				if(aux_tab->line < var_node->info->line || (aux_tab->line == var_node->info->line && aux_tab->col < var_node->info->col)){
+					type = (char*)strdup(aux_tab->type);
+					return type;
+				}
+			}
 		}
 
 		aux_tab = aux_tab->body;
 	}
 
-	// printf("get var type %s\n", type);
+	//TODO search for global variables
+	aux_tab = symtab;
+	while(aux_tab != NULL){ 
+		
+		if( !strcmp(aux_tab->name, var_node->info->val) && aux_tab->params_list == NULL ){
+			type = (char*)strdup(aux_tab->type);
+			return type;
+		}
+
+		aux_tab = aux_tab->next;
+	}
+
 	return type;
 }
 
@@ -453,10 +471,12 @@ void check_two_part_op(no* node,char* func_name, int isLogical){
 
 
 		//is buscar o tipo da variável
-		op_type1 = get_var_type(node->filho->info->val,func_name);
+		op_type1 = get_var_type(node->filho,func_name);
 		node->filho->notation = (char*)strdup(op_type1);
 
 		//TODO raise error se for undef
+		if( !strcmp(op_type1,"undef") )
+			printf("Line %d, col %d: Cannot find symbol %s\n",node->filho->info->line, node->filho->info->col, node->filho->info->val);
 
 	}
 	else
@@ -466,10 +486,12 @@ void check_two_part_op(no* node,char* func_name, int isLogical){
 	if( !strcmp(node->filho->irmao->tipo,"Id") ){
 
 		//is buscar o tipo da variável
-		op_type2 = get_var_type(node->filho->irmao->info->val,func_name);
+		op_type2 = get_var_type(node->filho->irmao,func_name);
 		node->filho->irmao->notation = (char*)strdup(op_type2);
 
 		//TODO raise error se for undef
+		if( !strcmp(op_type2,"undef") )
+			printf("Line %d, col %d: Cannot find symbol %s\n",node->info->line, node->info->col, node->filho->info->val);
 
 	}	
 	else
@@ -480,19 +502,27 @@ void check_two_part_op(no* node,char* func_name, int isLogical){
 
 	if( op_type1 != NULL && op_type2 != NULL && !strcmp(op_type1,op_type2) ){ //se ambos os operandos têm o mesmo tipo
 
-		if(0){ //TODO error: se os tipos forem undef, raise error
-
+		if( !strcmp(op_type1,"undef") && !strcmp(op_type2,"undef")){ //TODO error: se os tipos forem undef, raise error
+			printf("Line %d, column %d: Operator %s cannot be applied to types %s, %s\n", node->info->line, node->info->col, get_node_operator(node->tipo), op_type1, op_type2);
+			
+			if (isLogical == 1)
+                node->notation = "bool";
+            else
+                node->notation = "undef";
 		}
 		else{
 			//
 
 			if(isLogical == 1){
 				//se for uma operação lógica
+				node->notation = "boolean";
 
 				if( !strcmp(node->tipo,"Or") || !strcmp(node->tipo,"And")){ //se for or ou and, tem de ter expressao bolean em cada filho
 
 					if( strcmp(op_type1,"boolean") || strcmp(op_type2,"boolean") ){
 						//erro
+						printf("Line %d, column %d: Operator %s cannot be applied to types %s, %s\n", node->info->line, node->info->col, get_node_operator(node->tipo), op_type1, op_type2);
+
 					}
 
 				}
@@ -506,21 +536,35 @@ void check_two_part_op(no* node,char* func_name, int isLogical){
 
 					if( !strcmp(op_type1,"boolean") || !strcmp(op_type2,"boolean") ){
 						//erro
+						printf("Line %d, column %d: Operator %s cannot be applied to types %s, %s\n", node->info->line, node->info->col, get_node_operator(node->tipo), op_type1, op_type2);
+
 					}
 
 				}
+				else{ //sobra o Xor
+
+					if( !strcmp(op_type1,"double")){
+						printf("Line %d, column %d: Operator %s cannot be applied to types %s, %s\n", node->info->line, node->info->col, get_node_operator(node->tipo), op_type1, op_type2);
+						node->notation = "undef";
+					}
+					else if( !strcmp(op_type1,"int"))
+						node->notation = op_type1;
+
+				}
 				
-				node->notation = "boolean";
 
 			}
 			else{
 				//se não for operação lógica
 
 				if( !strcmp(node->tipo,"ParseArgs") ){
-					//se for parseargs, os argumentos têm de ser inteiros
+					//se for parseargs, a variável a ficar com o resultado tem de ser int
 
-					//error	
-					if( strcmp(op_type1,"int") && strcmp(op_type2,"int")){}
+					//erro	
+					if( strcmp(op_type1,"int") ){
+						printf("Line %d, column %d: Operator %s cannot be applied to types %s, %s\n", node->info->line, node->info->col, get_node_operator(node->tipo), op_type1, op_type2);
+						node->notation = "undef";
+					}
 
 				}
 				else if( !strcmp(node->tipo,"Assign"))
@@ -538,89 +582,112 @@ void check_two_part_op(no* node,char* func_name, int isLogical){
 	}
 	else if( op_type1 != NULL && op_type2 != NULL && 
 			( ( !strcmp(op_type1,"int") && !strcmp(op_type2,"double")) ||
-			  ( !strcmp(op_type1,"double") && !strcmp(op_type2,"int") ) ) ) {
+			  ( !strcmp(op_type1,"double") && !strcmp(op_type2,"int") ) ) ) {	
 			//operação entre int e double
 
-			if(0){ //TODO error: se os tipos forem undef, raise error
+			if(isLogical == 1){
+				//se for uma operação lógica
+				node->notation = "boolean";
+
+				if( !strcmp(node->tipo,"Or") || !strcmp(node->tipo,"And")){ //se for or ou and, tem de ter expressao bolean em cada filho
+
+					//TODO erro, pois sabemos que nenhum dos operandos é do tipo boolean
+					printf("Line %d, column %d: Operator %s cannot be applied to types %s, %s\n", node->info->line, node->info->col, get_node_operator(node->tipo), op_type1, op_type2);
+
+				}
+				else if(!strcmp(node->tipo, "Eq") ||
+						!strcmp(node->tipo, "Ge") ||
+						!strcmp(node->tipo, "Gt") ||
+						!strcmp(node->tipo, "Le") ||
+						!strcmp(node->tipo, "Lt") ||
+						!strcmp(node->tipo, "Ne")
+				){	//se é um tipo de comparação, com são dois filhos númericos, não acontece nada TODO: retirar no futuro. Deixar agora para facilitar perceber o código
+
+				}
+				else if ( !strcmp(node->tipo,"Xor")){ //Xor
+
+					//tem sempre erro, porque um dos tipos é double
+					printf("Line %d, column %d: Operator %s cannot be applied to types %s, %s\n", node->info->line, node->info->col, get_node_operator(node->tipo), op_type1, op_type2);
+					node->notation = "undef";
+
+				}
+				
 
 			}
 			else{
-				//
+				//se não for operação lógica
 
-				if(isLogical == 1){
-					//se for uma operação lógica
+				if( !strcmp(node->tipo,"ParseArgs") ){
+					//se for parseargs, a variável a ficar com o resultado tem de ser int
 
-					if( !strcmp(node->tipo,"Or") || !strcmp(node->tipo,"And")){ //se for or ou and, tem de ter expressao bolean em cada filho
-
-						//TODO erro, pois sabemos que nenhum dos operandos é do tipo boolean
-
+					//error	
+					if( strcmp(op_type1,"int")){
+						printf("Line %d, column %d: Operator %s cannot be applied to types %s, %s\n", node->info->line, node->info->col, get_node_operator(node->tipo), op_type1, op_type2);
+						node->notation = "undef";
 					}
-					else if(!strcmp(node->tipo, "Eq") ||
-							!strcmp(node->tipo, "Ge") ||
-							!strcmp(node->tipo, "Gt") ||
-							!strcmp(node->tipo, "Le") ||
-							!strcmp(node->tipo, "Lt") ||
-							!strcmp(node->tipo, "Ne")
-					){	//se é um tipo de comparação, com são dois filhos númericos, não acontece nada TODO: retirar no futuro. Deixar agora para facilitar perceber o código
-
-					}
-					
-					node->notation = "boolean";
 
 				}
-				else{
-					//se não for operação lógica
+				else if( !strcmp(node->tipo,"Assign")){
 
-					if( !strcmp(node->tipo,"ParseArgs") ){
-						//se for parseargs, os argumentos têm de ser inteiros
+					//CHECKAR SE ESTAMOS A DAR ASSIGN DE UM INT A UM DOUBLE, ERRO!!!
+					if( !strcmp(op_type1,"int") && !strcmp(op_type2,"double"))
+						printf("Line %d, column %d: Operator %s cannot be applied to types %s, %s\n", node->info->line, node->info->col, get_node_operator(node->tipo), op_type1, op_type2);
+					node->notation = op_type1;
 
-						//error	
-						if( strcmp(op_type1,"int") && strcmp(op_type2,"int")){}
+				}else{
 
-					}
-					else if( !strcmp(node->tipo,"Assign"))
+					node->notation = "double";
 
-						//TODO CHECKAR SE ESTAMOS A DAR ASSIGN DE UM INT A UM DOUBLE, ERRO!!!
-						node->notation = op_type1;
-					else{
-
-						node->notation = "double";
-
-					}
 				}
 			}
-
-
+			
 
 	}
 	else if( op_type1 != NULL && op_type2 != NULL && !strcmp(node->tipo,"Assign")){
 		
-		if( !strcmp(op_type1,"boolean")){
+		// if( !strcmp(op_type1,"boolean")){
 			//se chegarmos aqui, signifca que os dois operandos não têm o mesmo tipo.
 			// se o tipo da variável é bool, o outro tipo tem de ser obrigatoriamente bool, como não é o caso, temos erro
+			printf("Line %d, column %d: Operator %s cannot be applied to types %s, %s\n", node->info->line, node->info->col, get_node_operator(node->tipo), op_type1, op_type2);
+			node->notation = op_type1;
+			//node->notation = "undef";
+		// }
+		// else{
+		// 	//tipo da var é int ou double, entao podem ser bool
+		// 	node->notation = op_type1;
+		// }
+
+
+	}
+	else if( op_type1 != NULL && op_type2 != NULL && !strcmp(node->tipo,"ParseArgs")){
+
+							//error	
+		if( strcmp(op_type1,"int") && strcmp(op_type1,"String[]")){
+			printf("Line %d, column %d: Operator %s cannot be applied to types %s, %s\n", node->info->line, node->info->col, get_node_operator(node->tipo), op_type1, op_type2);
 			node->notation = "undef";
 		}
-		else{
-			//tipo da var é int ou double, entao podem ser bool
-			node->notation = op_type1;
-		}
-
+		else
+			node->notation = "int";
 
 	}
 	else{
 
 		if (op_type1 == NULL)
-            op_type1 = "none";
+            op_type1 = "undef";
         
 		if (op_type2 == NULL)
-            op_type2 = "none";
+            op_type2 = "undef"; //??
 
-		//TODO print error
+		//print error
+		printf("Line %d, column %d: Operator %s cannot be applied to types %s, %s\n", node->info->line, node->info->col, get_node_operator(node->tipo), op_type1, op_type2);
+
 
 		if(isLogical == 1)
 			node->notation = "boolean";
 		else
 			node->notation = "undef";
+
+		//printf("debug filho1 %d | operator %d | filho2 %d\n",node->filho->info->col,node->info->col,node->filho->irmao->info->col);
 
 	}
 }
@@ -639,7 +706,7 @@ void check_one_part_op(no* node, char* func_name, int isLogical){
 	else if( !strcmp(node->filho->tipo,"Id") ){
 
 		//is buscar o tipo da variável
-		op_type = get_var_type(node->filho->info->val,func_name);
+		op_type = get_var_type(node->filho,func_name);
 		node->filho->notation = (char*)strdup(op_type);
 		// printf("one part node notation %s\n",node->notation);
 
@@ -647,7 +714,7 @@ void check_one_part_op(no* node, char* func_name, int isLogical){
 
 	}
 	else{
-		//se for int ou double
+		//
 		op_type = node->filho->notation;
 	}
 
@@ -657,23 +724,25 @@ void check_one_part_op(no* node, char* func_name, int isLogical){
 
 		if(isLogical == 1){
 			
-			if( !strcmp(node->tipo,"If") || !strcmp(node->tipo,"While")){ //se é um if ou um while, o filho tem de ser bool, isto é, a expressao entre parenteses
+			if( !strcmp(node->tipo,"While")){ //se é um while, o filho tem de ser bool, isto é, a expressao entre parenteses
 
-				if( !strcmp(op_type,"boolean"))
-					node->notation = op_type;
-				
+				if( !strcmp(op_type,"boolean")){
+					//tudo em ordem
+				}
 				else{
 					//TODO raise error tipo incompativel
+
 				}
 
 
 			}
-			else{ //Sobra a operação logica Not
+			else if( !strcmp(op_type,"Not")){ //Sobra a operação logica Not 
 
 				//TODO erros?!?!?!?
 				node->notation = "boolean";
 
 			}
+			//if?!?!
 		}
 		else if ( !strcmp(node->tipo,"Minus") || !strcmp(node->tipo,"Plus")){
 			//temos de verificar se o operando é numérico, isto é, int ou double
@@ -777,7 +846,7 @@ void check_call(no* node, tab_element* elem, char* func_name){
 		if( !strcmp(aux_params->tipo,"Id") ){
 
 			//verificar se a variavel existe
-			char* var_type = get_var_type(aux_params->info->val,func_name);
+			char* var_type = get_var_type(aux_params,func_name);
 			aux_params->notation = var_type; // atualizar o tipo do nó
 
 			if ( !strcmp(var_type,"undef") ){
@@ -877,15 +946,16 @@ void check_call(no* node, tab_element* elem, char* func_name){
 		else if(counter_funcs == 0){
 			//TODO ERRO: se não existirem metodos compativeis
 			
+			node->notation = "undef";
+			node->filho->notation = "undef";
 		}
 		else{
 			//TODO ERRO: se existir mais de um metodo com parametros compativeis, erro de ambiguidade
 			// printf("+1 methods %s %s\n",call_params, method_candidate->params_list);
 
+			node->notation = "undef";
+			node->filho->notation = "undef";
 		}
-
-
-
 	}
 	else{
 		//a funcao existe e tem os mesmo tipo de parametros dos que foram recebidos na chamada
@@ -896,8 +966,45 @@ void check_call(no* node, tab_element* elem, char* func_name){
 	
 		//atualizar a notacao do Call
 		node->notation = return_type;
+
 	}
 
+}
 
+char* get_node_operator(char* tipo_no){
 
+	if( !strcmp(tipo_no,"Assign"))
+		return "=";
+	else if( !strcmp(tipo_no,"And"))
+		return "&&";
+	else if( !strcmp(tipo_no,"Mul"))
+		return "*";
+	else if( !strcmp(tipo_no,"Div"))
+		return "/";
+	else if( !strcmp(tipo_no,"Eq"))
+		return "==";
+	else if( !strcmp(tipo_no,"Ge"))
+		return ">=";
+	else if( !strcmp(tipo_no,"Gt"))
+		return ">";
+	else if( !strcmp(tipo_no,"Le"))
+		return "<=";
+	else if( !strcmp(tipo_no,"Lt"))
+		return "<";
+	else if( !strcmp(tipo_no,"Sub"))
+		return "-";
+	else if( !strcmp(tipo_no,"Mod"))
+		return "%";
+	else if( !strcmp(tipo_no,"Ne"))
+		return "!=";
+	else if( !strcmp(tipo_no,"Not"))
+		return "!";
+	else if( !strcmp(tipo_no,"Or"))
+		return "||";
+	else if( !strcmp(tipo_no,"Add"))
+		return "+";
+	else if( !strcmp(tipo_no,"Return"))
+		return "return";	
+
+	return NULL;				
 }

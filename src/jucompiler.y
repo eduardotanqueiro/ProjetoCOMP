@@ -25,8 +25,9 @@ extern int flag_tree;
 %token <info> REALLIT
 %token <info> BOOLLIT
 %token <info> STRLIT
+%token <info> PLUS AND ASSIGN STAR DIV EQ GE GT LE LT MINUS MOD NE NOT OR PRINT
 
-%token AND ASSIGN BOOL STAR COMMA DIV EQ GE GT LBRACE LE LPAR LSQ LT MINUS MOD NE NOT OR PLUS RBRACE RPAR RSQ SEMICOLON ARROW LSHIFT RSHIFT XOR CLASS DOTLENGTH DOUBLE ELSE IF INT PRINT PARSEINT PUBLIC RETURN STATIC STRING VOID WHILE RESERVED
+%token BOOL COMMA LBRACE LPAR LSQ RBRACE RPAR RSQ SEMICOLON ARROW LSHIFT RSHIFT XOR CLASS DOTLENGTH DOUBLE ELSE IF INT PARSEINT PUBLIC RETURN STATIC STRING VOID WHILE RESERVED
 
 
 
@@ -263,8 +264,8 @@ Statement: LBRACE StatementRep RBRACE                 {if( contador_irmaos($2)>1
                                                         } }
          | RETURN Expr SEMICOLON                      {$$=criar_no("Return",gen_token("",line_num, col_num)); $$->filho=$2;}
          | RETURN SEMICOLON                           {$$=criar_no("Return",gen_token("",line_num, col_num));}
-         | PRINT LPAR Expr RPAR SEMICOLON             {$$=criar_no("Print",gen_token("",line_num, col_num));$$->filho=$3;}
-         | PRINT LPAR STRLIT RPAR SEMICOLON           {$$=criar_no("Print",gen_token("",line_num, col_num));$$->filho=criar_no("StrLit",$3);}
+         | PRINT LPAR Expr RPAR SEMICOLON             {$$=criar_no("Print",$1);$$->filho=$3;}
+         | PRINT LPAR STRLIT RPAR SEMICOLON           {$$=criar_no("Print",$1);$$->filho=criar_no("StrLit",$3);}
          | MethodInvocation SEMICOLON                 {$$=$1;}
          | Assignment SEMICOLON                       {$$=$1;}
          | ParseArgs SEMICOLON                        {$$=$1;}
@@ -301,7 +302,7 @@ CommaExprRep: COMMA Expr CommaExprRep {if($2!=NULL){ //Verificar se Expr não é
             ;
 
 
-Assignment: ID ASSIGN Expr {$$=criar_no("Assign",gen_token("",line_num, col_num));$$->filho=criar_no("Id",$1); adicionar_irmao($$->filho,$3);}
+Assignment: ID ASSIGN Expr {$$=criar_no("Assign",$2);$$->filho=criar_no("Id",$1); adicionar_irmao($$->filho,$3);}
 
 ParseArgs: PARSEINT LPAR ID LSQ Expr RSQ RPAR {$$=criar_no("ParseArgs",gen_token("",line_num, col_num)); $$->filho=criar_no("Id",$3); adicionar_irmao($$->filho,$5);}
         |  PARSEINT LPAR error RPAR           {$$=NULL;flag_tree=0;}
@@ -319,25 +320,25 @@ ExprOp: LPAR Expr RPAR          {$$=$2;}
     | INTLIT                    {$$=criar_no("DecLit",$1);}
     | REALLIT                   {$$=criar_no("RealLit",$1);}
     | BOOLLIT                   {$$=criar_no("BoolLit",$1);}
-    | MINUS ExprOp %prec NOT    {;$$=criar_no("Minus",gen_token("",line_num, col_num)); $$->filho=$2;} // DAR A MESMA PRECEDENCIA AO MINUS QUE O NOT, POIS NESTE CASO O MINUS IGUALA-SE AO NOT
-    | NOT ExprOp                {;$$=criar_no("Not",gen_token("",line_num, col_num)); $$->filho=$2;}
-    | PLUS ExprOp %prec NOT     {;$$=criar_no("Plus",gen_token("",line_num, col_num)); $$->filho=$2;} // DAR A MESMA PRECEDENCIA AO MINUS QUE O NOT, POIS NESTE CASO O MINUS IGUALA-SE AO NOT
-    | ExprOp PLUS ExprOp        {$$=criar_no("Add",gen_token("",line_num, col_num)); $$->filho=$1; adicionar_irmao($1, $3);}
-    | ExprOp MINUS ExprOp       {$$=criar_no("Sub",gen_token("",line_num, col_num));$$->filho=$1; adicionar_irmao($1, $3);}
-    | ExprOp STAR ExprOp        {$$=criar_no("Mul",gen_token("",line_num, col_num));$$->filho=$1; adicionar_irmao($1, $3);}
-    | ExprOp DIV ExprOp         {$$=criar_no("Div",gen_token("",line_num, col_num));$$->filho=$1; adicionar_irmao($1, $3);}
-    | ExprOp MOD ExprOp         {$$=criar_no("Mod",gen_token("",line_num, col_num));$$->filho=$1; adicionar_irmao($1, $3);}
-    | ExprOp AND ExprOp         {$$=criar_no("And",gen_token("",line_num, col_num));$$->filho=$1; adicionar_irmao($1, $3);}
-    | ExprOp OR ExprOp          {$$=criar_no("Or",gen_token("",line_num, col_num));$$->filho=$1; adicionar_irmao($1, $3);}
+    | MINUS ExprOp %prec NOT    {;$$=criar_no("Minus",$1); $$->filho=$2;} // DAR A MESMA PRECEDENCIA AO MINUS QUE O NOT, POIS NESTE CASO O MINUS IGUALA-SE AO NOT
+    | NOT ExprOp                {;$$=criar_no("Not",$1); $$->filho=$2;}
+    | PLUS ExprOp %prec NOT     {;$$=criar_no("Plus",$1); $$->filho=$2;} // DAR A MESMA PRECEDENCIA AO MINUS QUE O NOT, POIS NESTE CASO O MINUS IGUALA-SE AO NOT
+    | ExprOp PLUS ExprOp        {$$=criar_no("Add",$2); $$->filho=$1; adicionar_irmao($1, $3);}
+    | ExprOp MINUS ExprOp       {$$=criar_no("Sub",$2);$$->filho=$1; adicionar_irmao($1, $3);}
+    | ExprOp STAR ExprOp        {$$=criar_no("Mul",$2);$$->filho=$1; adicionar_irmao($1, $3);}
+    | ExprOp DIV ExprOp         {$$=criar_no("Div",$2);$$->filho=$1; adicionar_irmao($1, $3);}
+    | ExprOp MOD ExprOp         {$$=criar_no("Mod",$2);$$->filho=$1; adicionar_irmao($1, $3);}
+    | ExprOp AND ExprOp         {$$=criar_no("And",$2);$$->filho=$1; adicionar_irmao($1, $3);}
+    | ExprOp OR ExprOp          {$$=criar_no("Or",$2);$$->filho=$1; adicionar_irmao($1, $3);}
     | ExprOp XOR ExprOp         {$$=criar_no("Xor",gen_token("",line_num, col_num));$$->filho=$1; adicionar_irmao($1, $3);}
     | ExprOp LSHIFT ExprOp      {$$=criar_no("Lshift",gen_token("",line_num, col_num));$$->filho=$1; adicionar_irmao($1, $3);}
     | ExprOp RSHIFT ExprOp      {$$=criar_no("Rshift",gen_token("",line_num, col_num));$$->filho=$1; adicionar_irmao($1, $3);}
-    | ExprOp EQ ExprOp          {$$=criar_no("Eq",gen_token("",line_num, col_num));$$->filho=$1; adicionar_irmao($1, $3);}
-    | ExprOp GE ExprOp          {$$=criar_no("Ge",gen_token("",line_num, col_num));$$->filho=$1; adicionar_irmao($1, $3);}
-    | ExprOp GT ExprOp          {$$=criar_no("Gt",gen_token("",line_num, col_num));$$->filho=$1; adicionar_irmao($1, $3);}
-    | ExprOp LE ExprOp          {$$=criar_no("Le",gen_token("",line_num, col_num));$$->filho=$1; adicionar_irmao($1, $3);}
-    | ExprOp LT ExprOp          {$$=criar_no("Lt",gen_token("",line_num, col_num));$$->filho=$1; adicionar_irmao($1, $3);}
-    | ExprOp NE ExprOp          {$$=criar_no("Ne",gen_token("",line_num, col_num));$$->filho=$1; adicionar_irmao($1, $3);}
+    | ExprOp EQ ExprOp          {$$=criar_no("Eq",$2);$$->filho=$1; adicionar_irmao($1, $3);}
+    | ExprOp GE ExprOp          {$$=criar_no("Ge",$2);$$->filho=$1; adicionar_irmao($1, $3);}
+    | ExprOp GT ExprOp          {$$=criar_no("Gt",$2);$$->filho=$1; adicionar_irmao($1, $3);}
+    | ExprOp LE ExprOp          {$$=criar_no("Le",$2);$$->filho=$1; adicionar_irmao($1, $3);}
+    | ExprOp LT ExprOp          {$$=criar_no("Lt",$2);$$->filho=$1; adicionar_irmao($1, $3);}
+    | ExprOp NE ExprOp          {$$=criar_no("Ne",$2);$$->filho=$1; adicionar_irmao($1, $3);}
     | LPAR error RPAR           {$$=NULL;flag_tree=0;}
 
 %%

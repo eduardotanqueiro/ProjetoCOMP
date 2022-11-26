@@ -47,43 +47,43 @@ scape \\[fnrt\\\"]
 
 true|false  {if(flag_tokens_lex) printf("BOOLLIT(%s)\n",yytext);yylval.info = gen_token(yytext,line_num,col_num); col_num+=yyleng; return BOOLLIT;}
 
-"&""&"  {if(flag_tokens_lex) printf("AND\n");col_num+=yyleng; return AND;}
+"&""&"  {if(flag_tokens_lex) printf("AND\n");yylval.info = gen_token("", line_num,col_num);col_num+=yyleng; return AND;}
 
-"=" {if(flag_tokens_lex) printf("ASSIGN\n");col_num+=yyleng; return ASSIGN;}
+"=" {if(flag_tokens_lex) printf("ASSIGN\n"); yylval.info = gen_token("", line_num,col_num); col_num+=yyleng; return ASSIGN;}
 
-"*" {if(flag_tokens_lex) printf("STAR\n");col_num+=yyleng; return STAR;}
+"*" {if(flag_tokens_lex) printf("STAR\n");yylval.info = gen_token("", line_num,col_num);col_num+=yyleng; return STAR;}
 
 "," {if(flag_tokens_lex) printf("COMMA\n");col_num+=yyleng; return COMMA;}
 
-"/" {if(flag_tokens_lex) printf("DIV\n");col_num+=yyleng; return DIV;}
+"/" {if(flag_tokens_lex) printf("DIV\n");yylval.info = gen_token("", line_num,col_num);col_num+=yyleng; return DIV;}
 
-"=""=" {if(flag_tokens_lex) printf("EQ\n");col_num+=yyleng; return EQ;}
+"=""=" {if(flag_tokens_lex) printf("EQ\n"); yylval.info = gen_token("", line_num,col_num); col_num+=yyleng; return EQ;}
 
-">=" {if(flag_tokens_lex) printf("GE\n");col_num+=yyleng; return GE;}
+">=" {if(flag_tokens_lex) printf("GE\n"); yylval.info = gen_token("", line_num,col_num);col_num+=yyleng; return GE;}
 
-">" {if(flag_tokens_lex) printf("GT\n");col_num+=yyleng; return GT;}
+">" {if(flag_tokens_lex) printf("GT\n"); yylval.info = gen_token("", line_num,col_num);col_num+=yyleng; return GT;}
 
 "{" {if(flag_tokens_lex) printf("LBRACE\n");col_num+=yyleng; return LBRACE;}
 
-"<=" {if(flag_tokens_lex) printf("LE\n");col_num+=yyleng; return LE;}
+"<=" {if(flag_tokens_lex) printf("LE\n");yylval.info = gen_token("", line_num,col_num); col_num+=yyleng; return LE;}
 
 "(" {if(flag_tokens_lex) printf("LPAR\n");col_num+=yyleng; return LPAR;}
 
 "[" {if(flag_tokens_lex) printf("LSQ\n");col_num+=yyleng; return LSQ;}
 
-"<" {if(flag_tokens_lex) printf("LT\n");col_num+=yyleng; return LT;}
+"<" {if(flag_tokens_lex) printf("LT\n"); yylval.info = gen_token("", line_num,col_num); col_num+=yyleng; return LT;}
 
-- {if(flag_tokens_lex) printf("MINUS\n");col_num+=yyleng; return MINUS;}
+- {if(flag_tokens_lex) printf("MINUS\n");yylval.info = gen_token("", line_num,col_num);col_num+=yyleng; return MINUS;}
 
-"%" {if(flag_tokens_lex) printf("MOD\n");col_num+=yyleng; return MOD;}
+"%" {if(flag_tokens_lex) printf("MOD\n"); yylval.info = gen_token("", line_num,col_num); col_num+=yyleng; return MOD;}
 
-"!""=" {if(flag_tokens_lex) printf("NE\n");col_num+=yyleng; return NE;}
+"!""=" {if(flag_tokens_lex) printf("NE\n"); yylval.info = gen_token("", line_num,col_num);col_num+=yyleng; return NE;}
 
-"!" {if(flag_tokens_lex) printf("NOT\n");col_num+=yyleng; return NOT;}
+"!" {if(flag_tokens_lex) printf("NOT\n"); yylval.info = gen_token("", line_num,col_num);col_num+=yyleng; return NOT;}
 
-"|""|" {if(flag_tokens_lex) printf("OR\n");col_num+=yyleng; return OR;}
+"|""|" {if(flag_tokens_lex) printf("OR\n"); yylval.info = gen_token("", line_num,col_num); col_num+=yyleng; return OR;}
 
-"+" {if(flag_tokens_lex) printf("PLUS\n");col_num+=yyleng; return PLUS;}
+"+" {if(flag_tokens_lex) printf("PLUS\n");yylval.info = gen_token("", line_num,col_num);col_num+=yyleng; return PLUS;}
 
 "}" {if(flag_tokens_lex) printf("RBRACE\n");col_num+=yyleng; return RBRACE;}
 
@@ -115,7 +115,7 @@ if {if(flag_tokens_lex) printf("IF\n");col_num+=yyleng; return IF;}
 
 int {if(flag_tokens_lex) printf("INT\n");col_num+=yyleng; return INT;}
 
-System"."out"."print {if(flag_tokens_lex) printf("PRINT\n");col_num+=yyleng; return PRINT;}
+System"."out"."print {if(flag_tokens_lex) printf("PRINT\n"); yylval.info = gen_token("", line_num,col_num);col_num+=yyleng; return PRINT;}
 
 Integer"."parseInt {if(flag_tokens_lex) printf("PARSEINT\n");col_num+=yyleng; return PARSEINT;}
 
@@ -228,8 +228,8 @@ if (flag_tree){
 if(flag_semantic){
     symtab = create_element(raiz->filho->info->val,"","", 0);
     create_table(symtab,raiz);
-    printSymbolTable(symtab);
     make_notations_ast(raiz,symtab,NULL);
+    printSymbolTable(symtab);
     print_AST(raiz,0);
 }
 

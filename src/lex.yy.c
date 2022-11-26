@@ -1088,17 +1088,17 @@ YY_RULE_SETUP
 case 9:
 YY_RULE_SETUP
 #line 50 "jucompiler.l"
-{if(flag_tokens_lex) printf("AND\n");col_num+=yyleng; return AND;}
+{if(flag_tokens_lex) printf("AND\n");yylval.info = gen_token("", line_num,col_num);col_num+=yyleng; return AND;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
 #line 52 "jucompiler.l"
-{if(flag_tokens_lex) printf("ASSIGN\n");col_num+=yyleng; return ASSIGN;}
+{if(flag_tokens_lex) printf("ASSIGN\n"); yylval.info = gen_token("", line_num,col_num); col_num+=yyleng; return ASSIGN;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
 #line 54 "jucompiler.l"
-{if(flag_tokens_lex) printf("STAR\n");col_num+=yyleng; return STAR;}
+{if(flag_tokens_lex) printf("STAR\n");yylval.info = gen_token("", line_num,col_num);col_num+=yyleng; return STAR;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
@@ -1108,22 +1108,22 @@ YY_RULE_SETUP
 case 13:
 YY_RULE_SETUP
 #line 58 "jucompiler.l"
-{if(flag_tokens_lex) printf("DIV\n");col_num+=yyleng; return DIV;}
+{if(flag_tokens_lex) printf("DIV\n");yylval.info = gen_token("", line_num,col_num);col_num+=yyleng; return DIV;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
 #line 60 "jucompiler.l"
-{if(flag_tokens_lex) printf("EQ\n");col_num+=yyleng; return EQ;}
+{if(flag_tokens_lex) printf("EQ\n"); yylval.info = gen_token("", line_num,col_num); col_num+=yyleng; return EQ;}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
 #line 62 "jucompiler.l"
-{if(flag_tokens_lex) printf("GE\n");col_num+=yyleng; return GE;}
+{if(flag_tokens_lex) printf("GE\n"); yylval.info = gen_token("", line_num,col_num);col_num+=yyleng; return GE;}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
 #line 64 "jucompiler.l"
-{if(flag_tokens_lex) printf("GT\n");col_num+=yyleng; return GT;}
+{if(flag_tokens_lex) printf("GT\n"); yylval.info = gen_token("", line_num,col_num);col_num+=yyleng; return GT;}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
@@ -1133,7 +1133,7 @@ YY_RULE_SETUP
 case 18:
 YY_RULE_SETUP
 #line 68 "jucompiler.l"
-{if(flag_tokens_lex) printf("LE\n");col_num+=yyleng; return LE;}
+{if(flag_tokens_lex) printf("LE\n");yylval.info = gen_token("", line_num,col_num); col_num+=yyleng; return LE;}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
@@ -1148,37 +1148,37 @@ YY_RULE_SETUP
 case 21:
 YY_RULE_SETUP
 #line 74 "jucompiler.l"
-{if(flag_tokens_lex) printf("LT\n");col_num+=yyleng; return LT;}
+{if(flag_tokens_lex) printf("LT\n"); yylval.info = gen_token("", line_num,col_num); col_num+=yyleng; return LT;}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
 #line 76 "jucompiler.l"
-{if(flag_tokens_lex) printf("MINUS\n");col_num+=yyleng; return MINUS;}
+{if(flag_tokens_lex) printf("MINUS\n");yylval.info = gen_token("", line_num,col_num);col_num+=yyleng; return MINUS;}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
 #line 78 "jucompiler.l"
-{if(flag_tokens_lex) printf("MOD\n");col_num+=yyleng; return MOD;}
+{if(flag_tokens_lex) printf("MOD\n"); yylval.info = gen_token("", line_num,col_num); col_num+=yyleng; return MOD;}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
 #line 80 "jucompiler.l"
-{if(flag_tokens_lex) printf("NE\n");col_num+=yyleng; return NE;}
+{if(flag_tokens_lex) printf("NE\n"); yylval.info = gen_token("", line_num,col_num);col_num+=yyleng; return NE;}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
 #line 82 "jucompiler.l"
-{if(flag_tokens_lex) printf("NOT\n");col_num+=yyleng; return NOT;}
+{if(flag_tokens_lex) printf("NOT\n"); yylval.info = gen_token("", line_num,col_num);col_num+=yyleng; return NOT;}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
 #line 84 "jucompiler.l"
-{if(flag_tokens_lex) printf("OR\n");col_num+=yyleng; return OR;}
+{if(flag_tokens_lex) printf("OR\n"); yylval.info = gen_token("", line_num,col_num); col_num+=yyleng; return OR;}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
 #line 86 "jucompiler.l"
-{if(flag_tokens_lex) printf("PLUS\n");col_num+=yyleng; return PLUS;}
+{if(flag_tokens_lex) printf("PLUS\n");yylval.info = gen_token("", line_num,col_num);col_num+=yyleng; return PLUS;}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
@@ -1258,7 +1258,7 @@ YY_RULE_SETUP
 case 43:
 YY_RULE_SETUP
 #line 118 "jucompiler.l"
-{if(flag_tokens_lex) printf("PRINT\n");col_num+=yyleng; return PRINT;}
+{if(flag_tokens_lex) printf("PRINT\n"); yylval.info = gen_token("", line_num,col_num);col_num+=yyleng; return PRINT;}
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
@@ -2474,8 +2474,8 @@ if (flag_tree){
 if(flag_semantic){
     symtab = create_element(raiz->filho->info->val,"","", 0);
     create_table(symtab,raiz);
-    printSymbolTable(symtab);
     make_notations_ast(raiz,symtab,NULL);
+    printSymbolTable(symtab);
     print_AST(raiz,0);
 }
 
