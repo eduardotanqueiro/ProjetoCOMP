@@ -1263,7 +1263,7 @@ YY_RULE_SETUP
 case 44:
 YY_RULE_SETUP
 #line 120 "jucompiler.l"
-{if(flag_tokens_lex) printf("PARSEINT\n");col_num+=yyleng; return PARSEINT;}
+{if(flag_tokens_lex) printf("PARSEINT\n");yylval.info = gen_token("", line_num,col_num);col_num+=yyleng; return PARSEINT;}
 	YY_BREAK
 case 45:
 YY_RULE_SETUP

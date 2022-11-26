@@ -117,7 +117,7 @@ int {if(flag_tokens_lex) printf("INT\n");col_num+=yyleng; return INT;}
 
 System"."out"."print {if(flag_tokens_lex) printf("PRINT\n"); yylval.info = gen_token("", line_num,col_num);col_num+=yyleng; return PRINT;}
 
-Integer"."parseInt {if(flag_tokens_lex) printf("PARSEINT\n");col_num+=yyleng; return PARSEINT;}
+Integer"."parseInt {if(flag_tokens_lex) printf("PARSEINT\n");yylval.info = gen_token("", line_num,col_num);col_num+=yyleng; return PARSEINT;}
 
 public {if(flag_tokens_lex) printf("PUBLIC\n");col_num+=yyleng; return PUBLIC;}
 

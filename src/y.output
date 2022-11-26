@@ -136,23 +136,23 @@ Terminals, with rules where they appear
     DOTLENGTH <info> (279) 56
     LSHIFT <info> (280) 71
     RSHIFT <info> (281) 72
-    BOOL (282) 11
-    COMMA (283) 9 20 45
-    LBRACE (284) 1 22 27
-    LPAR (285) 14 15 16 17 28 29 30 33 34 42 43 44 48 49 52 79
-    LSQ (286) 19 48
-    RBRACE (287) 1 22 27
-    RPAR (288) 14 15 16 17 28 29 30 33 34 42 43 44 48 49 52 79
-    RSQ (289) 19 48
-    SEMICOLON (290) 4 7 8 26 31 32 33 34 35 36 37 38 39
-    ARROW (291)
-    XOR (292) 70
-    CLASS (293) 1
-    DOUBLE (294) 13
-    ELSE (295) 28
-    IF (296) 28 29
-    INT (297) 12
-    PARSEINT (298) 48 49
+    PARSEINT <info> (282) 48 49
+    BOOL (283) 11
+    COMMA (284) 9 20 45
+    LBRACE (285) 1 22 27
+    LPAR (286) 14 15 16 17 28 29 30 33 34 42 43 44 48 49 52 79
+    LSQ (287) 19 48
+    RBRACE (288) 1 22 27
+    RPAR (289) 14 15 16 17 28 29 30 33 34 42 43 44 48 49 52 79
+    RSQ (290) 19 48
+    SEMICOLON (291) 4 7 8 26 31 32 33 34 35 36 37 38 39
+    ARROW (292)
+    XOR (293) 70
+    CLASS (294) 1
+    DOUBLE (295) 13
+    ELSE (296) 28
+    IF (297) 28 29
+    INT (298) 12
     PUBLIC (299) 6 7
     RETURN (300) 31 32
     STATIC (301) 6 7
@@ -472,13 +472,13 @@ State 26
     error      shift, and go to state 32
     ID         shift, and go to state 33
     PRINT      shift, and go to state 34
+    PARSEINT   shift, and go to state 35
     BOOL       shift, and go to state 18
-    LBRACE     shift, and go to state 35
-    SEMICOLON  shift, and go to state 36
+    LBRACE     shift, and go to state 36
+    SEMICOLON  shift, and go to state 37
     DOUBLE     shift, and go to state 19
-    IF         shift, and go to state 37
+    IF         shift, and go to state 38
     INT        shift, and go to state 20
-    PARSEINT   shift, and go to state 38
     RETURN     shift, and go to state 39
     WHILE      shift, and go to state 40
 
@@ -572,46 +572,46 @@ State 34
 
 State 35
 
+   48 ParseArgs: PARSEINT • LPAR ID LSQ Expr RSQ RPAR
+   49          | PARSEINT • LPAR error RPAR
+
+    LPAR  shift, and go to state 60
+
+
+State 36
+
    27 Statement: LBRACE • StatementRep RBRACE
 
     error      shift, and go to state 32
     ID         shift, and go to state 33
     PRINT      shift, and go to state 34
-    LBRACE     shift, and go to state 35
-    SEMICOLON  shift, and go to state 36
-    IF         shift, and go to state 37
-    PARSEINT   shift, and go to state 38
+    PARSEINT   shift, and go to state 35
+    LBRACE     shift, and go to state 36
+    SEMICOLON  shift, and go to state 37
+    IF         shift, and go to state 38
     RETURN     shift, and go to state 39
     WHILE      shift, and go to state 40
 
     RBRACE  reduce using rule 41 (StatementRep)
 
-    Statement         go to state 60
-    StatementRep      go to state 61
+    Statement         go to state 61
+    StatementRep      go to state 62
     MethodInvocation  go to state 45
     Assignment        go to state 46
     ParseArgs         go to state 47
 
 
-State 36
+State 37
 
    38 Statement: SEMICOLON •
 
     $default  reduce using rule 38 (Statement)
 
 
-State 37
+State 38
 
    28 Statement: IF • LPAR Expr RPAR Statement ELSE Statement
    29          | IF • LPAR Expr RPAR Statement
-
-    LPAR  shift, and go to state 62
-
-
-State 38
-
-   48 ParseArgs: PARSEINT • LPAR ID LSQ Expr RSQ RPAR
-   49          | PARSEINT • LPAR error RPAR
 
     LPAR  shift, and go to state 63
 
@@ -628,9 +628,9 @@ State 39
     PLUS       shift, and go to state 68
     MINUS      shift, and go to state 69
     NOT        shift, and go to state 70
+    PARSEINT   shift, and go to state 35
     LPAR       shift, and go to state 71
     SEMICOLON  shift, and go to state 72
-    PARSEINT   shift, and go to state 38
 
     MethodInvocation  go to state 73
     Assignment        go to state 74
@@ -667,13 +667,13 @@ State 43
     error      shift, and go to state 32
     ID         shift, and go to state 33
     PRINT      shift, and go to state 34
+    PARSEINT   shift, and go to state 35
     BOOL       shift, and go to state 18
-    LBRACE     shift, and go to state 35
-    SEMICOLON  shift, and go to state 36
+    LBRACE     shift, and go to state 36
+    SEMICOLON  shift, and go to state 37
     DOUBLE     shift, and go to state 19
-    IF         shift, and go to state 37
+    IF         shift, and go to state 38
     INT        shift, and go to state 20
-    PARSEINT   shift, and go to state 38
     RETURN     shift, and go to state 39
     WHILE      shift, and go to state 40
 
@@ -695,13 +695,13 @@ State 44
     error      shift, and go to state 32
     ID         shift, and go to state 33
     PRINT      shift, and go to state 34
+    PARSEINT   shift, and go to state 35
     BOOL       shift, and go to state 18
-    LBRACE     shift, and go to state 35
-    SEMICOLON  shift, and go to state 36
+    LBRACE     shift, and go to state 36
+    SEMICOLON  shift, and go to state 37
     DOUBLE     shift, and go to state 19
-    IF         shift, and go to state 37
+    IF         shift, and go to state 38
     INT        shift, and go to state 20
-    PARSEINT   shift, and go to state 38
     RETURN     shift, and go to state 39
     WHILE      shift, and go to state 40
 
@@ -815,8 +815,8 @@ State 57
     PLUS      shift, and go to state 68
     MINUS     shift, and go to state 69
     NOT       shift, and go to state 70
+    PARSEINT  shift, and go to state 35
     LPAR      shift, and go to state 71
-    PARSEINT  shift, and go to state 38
 
     MethodInvocation  go to state 73
     Assignment        go to state 74
@@ -839,9 +839,9 @@ State 58
     PLUS      shift, and go to state 68
     MINUS     shift, and go to state 69
     NOT       shift, and go to state 70
+    PARSEINT  shift, and go to state 35
     LPAR      shift, and go to state 71
     RPAR      shift, and go to state 93
-    PARSEINT  shift, and go to state 38
 
     MethodInvocation  go to state 73
     Assignment        go to state 74
@@ -863,8 +863,8 @@ State 59
     PLUS      shift, and go to state 68
     MINUS     shift, and go to state 69
     NOT       shift, and go to state 70
+    PARSEINT  shift, and go to state 35
     LPAR      shift, and go to state 71
-    PARSEINT  shift, and go to state 38
 
     MethodInvocation  go to state 73
     Assignment        go to state 74
@@ -875,35 +875,44 @@ State 59
 
 State 60
 
+   48 ParseArgs: PARSEINT LPAR • ID LSQ Expr RSQ RPAR
+   49          | PARSEINT LPAR • error RPAR
+
+    error  shift, and go to state 97
+    ID     shift, and go to state 98
+
+
+State 61
+
    40 StatementRep: Statement • StatementRep
 
     error      shift, and go to state 32
     ID         shift, and go to state 33
     PRINT      shift, and go to state 34
-    LBRACE     shift, and go to state 35
-    SEMICOLON  shift, and go to state 36
-    IF         shift, and go to state 37
-    PARSEINT   shift, and go to state 38
+    PARSEINT   shift, and go to state 35
+    LBRACE     shift, and go to state 36
+    SEMICOLON  shift, and go to state 37
+    IF         shift, and go to state 38
     RETURN     shift, and go to state 39
     WHILE      shift, and go to state 40
 
     RBRACE  reduce using rule 41 (StatementRep)
 
-    Statement         go to state 60
-    StatementRep      go to state 97
+    Statement         go to state 61
+    StatementRep      go to state 99
     MethodInvocation  go to state 45
     Assignment        go to state 46
     ParseArgs         go to state 47
 
 
-State 61
+State 62
 
    27 Statement: LBRACE StatementRep • RBRACE
 
-    RBRACE  shift, and go to state 98
+    RBRACE  shift, and go to state 100
 
 
-State 62
+State 63
 
    28 Statement: IF LPAR • Expr RPAR Statement ELSE Statement
    29          | IF LPAR • Expr RPAR Statement
@@ -915,23 +924,14 @@ State 62
     PLUS      shift, and go to state 68
     MINUS     shift, and go to state 69
     NOT       shift, and go to state 70
+    PARSEINT  shift, and go to state 35
     LPAR      shift, and go to state 71
-    PARSEINT  shift, and go to state 38
 
     MethodInvocation  go to state 73
     Assignment        go to state 74
     ParseArgs         go to state 75
-    Expr              go to state 99
+    Expr              go to state 101
     ExprOp            go to state 77
-
-
-State 63
-
-   48 ParseArgs: PARSEINT LPAR • ID LSQ Expr RSQ RPAR
-   49          | PARSEINT LPAR • error RPAR
-
-    error  shift, and go to state 100
-    ID     shift, and go to state 101
 
 
 State 64
@@ -982,8 +982,8 @@ State 68
     PLUS      shift, and go to state 68
     MINUS     shift, and go to state 69
     NOT       shift, and go to state 70
+    PARSEINT  shift, and go to state 35
     LPAR      shift, and go to state 71
-    PARSEINT  shift, and go to state 38
 
     MethodInvocation  go to state 73
     ParseArgs         go to state 75
@@ -1001,8 +1001,8 @@ State 69
     PLUS      shift, and go to state 68
     MINUS     shift, and go to state 69
     NOT       shift, and go to state 70
+    PARSEINT  shift, and go to state 35
     LPAR      shift, and go to state 71
-    PARSEINT  shift, and go to state 38
 
     MethodInvocation  go to state 73
     ParseArgs         go to state 75
@@ -1020,8 +1020,8 @@ State 70
     PLUS      shift, and go to state 68
     MINUS     shift, and go to state 69
     NOT       shift, and go to state 70
+    PARSEINT  shift, and go to state 35
     LPAR      shift, and go to state 71
-    PARSEINT  shift, and go to state 38
 
     MethodInvocation  go to state 73
     ParseArgs         go to state 75
@@ -1041,8 +1041,8 @@ State 71
     PLUS      shift, and go to state 68
     MINUS     shift, and go to state 69
     NOT       shift, and go to state 70
+    PARSEINT  shift, and go to state 35
     LPAR      shift, and go to state 71
-    PARSEINT  shift, and go to state 38
 
     MethodInvocation  go to state 73
     Assignment        go to state 74
@@ -1137,8 +1137,8 @@ State 78
     PLUS      shift, and go to state 68
     MINUS     shift, and go to state 69
     NOT       shift, and go to state 70
+    PARSEINT  shift, and go to state 35
     LPAR      shift, and go to state 71
-    PARSEINT  shift, and go to state 38
 
     MethodInvocation  go to state 73
     Assignment        go to state 74
@@ -1287,38 +1287,38 @@ State 96
 
 State 97
 
+   49 ParseArgs: PARSEINT LPAR error • RPAR
+
+    RPAR  shift, and go to state 136
+
+
+State 98
+
+   48 ParseArgs: PARSEINT LPAR ID • LSQ Expr RSQ RPAR
+
+    LSQ  shift, and go to state 137
+
+
+State 99
+
    40 StatementRep: Statement StatementRep •
 
     $default  reduce using rule 40 (StatementRep)
 
 
-State 98
+State 100
 
    27 Statement: LBRACE StatementRep RBRACE •
 
     $default  reduce using rule 27 (Statement)
 
 
-State 99
+State 101
 
    28 Statement: IF LPAR Expr • RPAR Statement ELSE Statement
    29          | IF LPAR Expr • RPAR Statement
 
-    RPAR  shift, and go to state 136
-
-
-State 100
-
-   49 ParseArgs: PARSEINT LPAR error • RPAR
-
-    RPAR  shift, and go to state 137
-
-
-State 101
-
-   48 ParseArgs: PARSEINT LPAR ID • LSQ Expr RSQ RPAR
-
-    LSQ  shift, and go to state 138
+    RPAR  shift, and go to state 138
 
 
 State 102
@@ -1443,8 +1443,8 @@ State 110
     PLUS      shift, and go to state 68
     MINUS     shift, and go to state 69
     NOT       shift, and go to state 70
+    PARSEINT  shift, and go to state 35
     LPAR      shift, and go to state 71
-    PARSEINT  shift, and go to state 38
 
     MethodInvocation  go to state 73
     ParseArgs         go to state 75
@@ -1462,8 +1462,8 @@ State 111
     PLUS      shift, and go to state 68
     MINUS     shift, and go to state 69
     NOT       shift, and go to state 70
+    PARSEINT  shift, and go to state 35
     LPAR      shift, and go to state 71
-    PARSEINT  shift, and go to state 38
 
     MethodInvocation  go to state 73
     ParseArgs         go to state 75
@@ -1481,8 +1481,8 @@ State 112
     PLUS      shift, and go to state 68
     MINUS     shift, and go to state 69
     NOT       shift, and go to state 70
+    PARSEINT  shift, and go to state 35
     LPAR      shift, and go to state 71
-    PARSEINT  shift, and go to state 38
 
     MethodInvocation  go to state 73
     ParseArgs         go to state 75
@@ -1500,8 +1500,8 @@ State 113
     PLUS      shift, and go to state 68
     MINUS     shift, and go to state 69
     NOT       shift, and go to state 70
+    PARSEINT  shift, and go to state 35
     LPAR      shift, and go to state 71
-    PARSEINT  shift, and go to state 38
 
     MethodInvocation  go to state 73
     ParseArgs         go to state 75
@@ -1519,8 +1519,8 @@ State 114
     PLUS      shift, and go to state 68
     MINUS     shift, and go to state 69
     NOT       shift, and go to state 70
+    PARSEINT  shift, and go to state 35
     LPAR      shift, and go to state 71
-    PARSEINT  shift, and go to state 38
 
     MethodInvocation  go to state 73
     ParseArgs         go to state 75
@@ -1538,8 +1538,8 @@ State 115
     PLUS      shift, and go to state 68
     MINUS     shift, and go to state 69
     NOT       shift, and go to state 70
+    PARSEINT  shift, and go to state 35
     LPAR      shift, and go to state 71
-    PARSEINT  shift, and go to state 38
 
     MethodInvocation  go to state 73
     ParseArgs         go to state 75
@@ -1557,8 +1557,8 @@ State 116
     PLUS      shift, and go to state 68
     MINUS     shift, and go to state 69
     NOT       shift, and go to state 70
+    PARSEINT  shift, and go to state 35
     LPAR      shift, and go to state 71
-    PARSEINT  shift, and go to state 38
 
     MethodInvocation  go to state 73
     ParseArgs         go to state 75
@@ -1576,8 +1576,8 @@ State 117
     PLUS      shift, and go to state 68
     MINUS     shift, and go to state 69
     NOT       shift, and go to state 70
+    PARSEINT  shift, and go to state 35
     LPAR      shift, and go to state 71
-    PARSEINT  shift, and go to state 38
 
     MethodInvocation  go to state 73
     ParseArgs         go to state 75
@@ -1595,8 +1595,8 @@ State 118
     PLUS      shift, and go to state 68
     MINUS     shift, and go to state 69
     NOT       shift, and go to state 70
+    PARSEINT  shift, and go to state 35
     LPAR      shift, and go to state 71
-    PARSEINT  shift, and go to state 38
 
     MethodInvocation  go to state 73
     ParseArgs         go to state 75
@@ -1614,8 +1614,8 @@ State 119
     PLUS      shift, and go to state 68
     MINUS     shift, and go to state 69
     NOT       shift, and go to state 70
+    PARSEINT  shift, and go to state 35
     LPAR      shift, and go to state 71
-    PARSEINT  shift, and go to state 38
 
     MethodInvocation  go to state 73
     ParseArgs         go to state 75
@@ -1633,8 +1633,8 @@ State 120
     PLUS      shift, and go to state 68
     MINUS     shift, and go to state 69
     NOT       shift, and go to state 70
+    PARSEINT  shift, and go to state 35
     LPAR      shift, and go to state 71
-    PARSEINT  shift, and go to state 38
 
     MethodInvocation  go to state 73
     ParseArgs         go to state 75
@@ -1652,8 +1652,8 @@ State 121
     PLUS      shift, and go to state 68
     MINUS     shift, and go to state 69
     NOT       shift, and go to state 70
+    PARSEINT  shift, and go to state 35
     LPAR      shift, and go to state 71
-    PARSEINT  shift, and go to state 38
 
     MethodInvocation  go to state 73
     ParseArgs         go to state 75
@@ -1671,8 +1671,8 @@ State 122
     PLUS      shift, and go to state 68
     MINUS     shift, and go to state 69
     NOT       shift, and go to state 70
+    PARSEINT  shift, and go to state 35
     LPAR      shift, and go to state 71
-    PARSEINT  shift, and go to state 38
 
     MethodInvocation  go to state 73
     ParseArgs         go to state 75
@@ -1690,8 +1690,8 @@ State 123
     PLUS      shift, and go to state 68
     MINUS     shift, and go to state 69
     NOT       shift, and go to state 70
+    PARSEINT  shift, and go to state 35
     LPAR      shift, and go to state 71
-    PARSEINT  shift, and go to state 38
 
     MethodInvocation  go to state 73
     ParseArgs         go to state 75
@@ -1709,8 +1709,8 @@ State 124
     PLUS      shift, and go to state 68
     MINUS     shift, and go to state 69
     NOT       shift, and go to state 70
+    PARSEINT  shift, and go to state 35
     LPAR      shift, and go to state 71
-    PARSEINT  shift, and go to state 38
 
     MethodInvocation  go to state 73
     ParseArgs         go to state 75
@@ -1728,8 +1728,8 @@ State 125
     PLUS      shift, and go to state 68
     MINUS     shift, and go to state 69
     NOT       shift, and go to state 70
+    PARSEINT  shift, and go to state 35
     LPAR      shift, and go to state 71
-    PARSEINT  shift, and go to state 38
 
     MethodInvocation  go to state 73
     ParseArgs         go to state 75
@@ -1793,8 +1793,8 @@ State 132
     PLUS      shift, and go to state 68
     MINUS     shift, and go to state 69
     NOT       shift, and go to state 70
+    PARSEINT  shift, and go to state 35
     LPAR      shift, and go to state 71
-    PARSEINT  shift, and go to state 38
 
     MethodInvocation  go to state 73
     Assignment        go to state 74
@@ -1826,33 +1826,12 @@ State 135
 
 State 136
 
-   28 Statement: IF LPAR Expr RPAR • Statement ELSE Statement
-   29          | IF LPAR Expr RPAR • Statement
-
-    error      shift, and go to state 32
-    ID         shift, and go to state 33
-    PRINT      shift, and go to state 34
-    LBRACE     shift, and go to state 35
-    SEMICOLON  shift, and go to state 36
-    IF         shift, and go to state 37
-    PARSEINT   shift, and go to state 38
-    RETURN     shift, and go to state 39
-    WHILE      shift, and go to state 40
-
-    Statement         go to state 165
-    MethodInvocation  go to state 45
-    Assignment        go to state 46
-    ParseArgs         go to state 47
-
-
-State 137
-
    49 ParseArgs: PARSEINT LPAR error RPAR •
 
     $default  reduce using rule 49 (ParseArgs)
 
 
-State 138
+State 137
 
    48 ParseArgs: PARSEINT LPAR ID LSQ • Expr RSQ RPAR
 
@@ -1863,14 +1842,35 @@ State 138
     PLUS      shift, and go to state 68
     MINUS     shift, and go to state 69
     NOT       shift, and go to state 70
+    PARSEINT  shift, and go to state 35
     LPAR      shift, and go to state 71
-    PARSEINT  shift, and go to state 38
 
     MethodInvocation  go to state 73
     Assignment        go to state 74
     ParseArgs         go to state 75
-    Expr              go to state 166
+    Expr              go to state 165
     ExprOp            go to state 77
+
+
+State 138
+
+   28 Statement: IF LPAR Expr RPAR • Statement ELSE Statement
+   29          | IF LPAR Expr RPAR • Statement
+
+    error      shift, and go to state 32
+    ID         shift, and go to state 33
+    PRINT      shift, and go to state 34
+    PARSEINT   shift, and go to state 35
+    LBRACE     shift, and go to state 36
+    SEMICOLON  shift, and go to state 37
+    IF         shift, and go to state 38
+    RETURN     shift, and go to state 39
+    WHILE      shift, and go to state 40
+
+    Statement         go to state 166
+    MethodInvocation  go to state 45
+    Assignment        go to state 46
+    ParseArgs         go to state 47
 
 
 State 139
@@ -2383,10 +2383,10 @@ State 157
     error      shift, and go to state 32
     ID         shift, and go to state 33
     PRINT      shift, and go to state 34
-    LBRACE     shift, and go to state 35
-    SEMICOLON  shift, and go to state 36
-    IF         shift, and go to state 37
-    PARSEINT   shift, and go to state 38
+    PARSEINT   shift, and go to state 35
+    LBRACE     shift, and go to state 36
+    SEMICOLON  shift, and go to state 37
+    IF         shift, and go to state 38
     RETURN     shift, and go to state 39
     WHILE      shift, and go to state 40
 
@@ -2451,19 +2451,19 @@ State 164
 
 State 165
 
-   28 Statement: IF LPAR Expr RPAR Statement • ELSE Statement
-   29          | IF LPAR Expr RPAR Statement •
+   48 ParseArgs: PARSEINT LPAR ID LSQ Expr • RSQ RPAR
 
-    ELSE  shift, and go to state 170
-
-    $default  reduce using rule 29 (Statement)
+    RSQ  shift, and go to state 170
 
 
 State 166
 
-   48 ParseArgs: PARSEINT LPAR ID LSQ Expr • RSQ RPAR
+   28 Statement: IF LPAR Expr RPAR Statement • ELSE Statement
+   29          | IF LPAR Expr RPAR Statement •
 
-    RSQ  shift, and go to state 171
+    ELSE  shift, and go to state 171
+
+    $default  reduce using rule 29 (Statement)
 
 
 State 167
@@ -2493,29 +2493,29 @@ State 169
 
 State 170
 
+   48 ParseArgs: PARSEINT LPAR ID LSQ Expr RSQ • RPAR
+
+    RPAR  shift, and go to state 173
+
+
+State 171
+
    28 Statement: IF LPAR Expr RPAR Statement ELSE • Statement
 
     error      shift, and go to state 32
     ID         shift, and go to state 33
     PRINT      shift, and go to state 34
-    LBRACE     shift, and go to state 35
-    SEMICOLON  shift, and go to state 36
-    IF         shift, and go to state 37
-    PARSEINT   shift, and go to state 38
+    PARSEINT   shift, and go to state 35
+    LBRACE     shift, and go to state 36
+    SEMICOLON  shift, and go to state 37
+    IF         shift, and go to state 38
     RETURN     shift, and go to state 39
     WHILE      shift, and go to state 40
 
-    Statement         go to state 173
+    Statement         go to state 174
     MethodInvocation  go to state 45
     Assignment        go to state 46
     ParseArgs         go to state 47
-
-
-State 171
-
-   48 ParseArgs: PARSEINT LPAR ID LSQ Expr RSQ • RPAR
-
-    RPAR  shift, and go to state 174
 
 
 State 172
@@ -2527,13 +2527,13 @@ State 172
 
 State 173
 
-   28 Statement: IF LPAR Expr RPAR Statement ELSE Statement •
+   48 ParseArgs: PARSEINT LPAR ID LSQ Expr RSQ RPAR •
 
-    $default  reduce using rule 28 (Statement)
+    $default  reduce using rule 48 (ParseArgs)
 
 
 State 174
 
-   48 ParseArgs: PARSEINT LPAR ID LSQ Expr RSQ RPAR •
+   28 Statement: IF LPAR Expr RPAR Statement ELSE Statement •
 
-    $default  reduce using rule 48 (ParseArgs)
+    $default  reduce using rule 28 (Statement)

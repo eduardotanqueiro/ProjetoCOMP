@@ -580,10 +580,10 @@ void check_two_part_op(no* node,char* func_name, int isLogical){
 					//se for parseargs, a variável a ficar com o resultado tem de ser int
 
 					//erro	
-					if( strcmp(op_type1,"int") ){
+					if( strcmp(op_type1,"int") )
 						printf("Line %d, col %d: Operator %s cannot be applied to types %s, %s\n", node->info->line, node->info->col, get_node_operator(node->tipo), op_type1, op_type2);
-						node->notation = "undef";
-					}
+
+					node->notation = "int";
 
 				}
 				else if( !strcmp(node->tipo,"Assign"))
@@ -648,10 +648,10 @@ void check_two_part_op(no* node,char* func_name, int isLogical){
 					//se for parseargs, a variável a ficar com o resultado tem de ser int
 
 					//error	
-					if( strcmp(op_type1,"int")){
+					if( strcmp(op_type1,"int"))
 						printf("Line %d, col %d: Operator %s cannot be applied to types %s, %s\n", node->info->line, node->info->col, get_node_operator(node->tipo), op_type1, op_type2);
-						node->notation = "undef";
-					}
+					
+					node->notation = "int";
 
 				}
 				else if( !strcmp(node->tipo,"Assign")){
@@ -688,13 +688,11 @@ void check_two_part_op(no* node,char* func_name, int isLogical){
 	}
 	else if( op_type1 != NULL && op_type2 != NULL && !strcmp(node->tipo,"ParseArgs")){
 
-							//error	
-		if( strcmp(op_type1,"int") && strcmp(op_type1,"String[]")){
+		//error	
+		if( strcmp(op_type1,"int") && strcmp(op_type1,"String[]"))
 			printf("Line %d, col %d: Operator %s cannot be applied to types %s, %s\n", node->info->line, node->info->col, get_node_operator(node->tipo), op_type1, op_type2);
-			node->notation = "undef";
-		}
-		else
-			node->notation = "int";
+
+		node->notation = "int";
 
 	}
 	else{
@@ -1088,7 +1086,9 @@ char* get_node_operator(char* tipo_no){
 	else if( !strcmp(tipo_no,"Return"))
 		return "return";
 	else if( !strcmp(tipo_no,"If"))
-		return "if";	
+		return "if";
+	else if( !strcmp(tipo_no,"ParseArgs"))
+		return "Integer.parseInt";
 
 	return NULL;				
 }

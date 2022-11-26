@@ -25,9 +25,9 @@ extern int flag_tree;
 %token <info> REALLIT
 %token <info> BOOLLIT
 %token <info> STRLIT
-%token <info> PLUS AND ASSIGN STAR DIV EQ GE GT LE LT MINUS MOD NE NOT OR PRINT DOTLENGTH LSHIFT RSHIFT
+%token <info> PLUS AND ASSIGN STAR DIV EQ GE GT LE LT MINUS MOD NE NOT OR PRINT DOTLENGTH LSHIFT RSHIFT PARSEINT
 
-%token BOOL COMMA LBRACE LPAR LSQ RBRACE RPAR RSQ SEMICOLON ARROW XOR CLASS DOUBLE ELSE IF INT PARSEINT PUBLIC RETURN STATIC STRING VOID WHILE RESERVED
+%token BOOL COMMA LBRACE LPAR LSQ RBRACE RPAR RSQ SEMICOLON ARROW XOR CLASS DOUBLE ELSE IF INT PUBLIC RETURN STATIC STRING VOID WHILE RESERVED
 
 
 
@@ -304,7 +304,7 @@ CommaExprRep: COMMA Expr CommaExprRep {if($2!=NULL){ //Verificar se Expr não é
 
 Assignment: ID ASSIGN Expr {$$=criar_no("Assign",$2);$$->filho=criar_no("Id",$1); adicionar_irmao($$->filho,$3);}
 
-ParseArgs: PARSEINT LPAR ID LSQ Expr RSQ RPAR {$$=criar_no("ParseArgs",gen_token("",line_num, col_num)); $$->filho=criar_no("Id",$3); adicionar_irmao($$->filho,$5);}
+ParseArgs: PARSEINT LPAR ID LSQ Expr RSQ RPAR {$$=criar_no("ParseArgs",$1); $$->filho=criar_no("Id",$3); adicionar_irmao($$->filho,$5);}
         |  PARSEINT LPAR error RPAR           {$$=NULL;flag_tree=0;}
 
 

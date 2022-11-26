@@ -78,23 +78,23 @@ extern int yydebug;
     DOTLENGTH = 279,               /* DOTLENGTH  */
     LSHIFT = 280,                  /* LSHIFT  */
     RSHIFT = 281,                  /* RSHIFT  */
-    BOOL = 282,                    /* BOOL  */
-    COMMA = 283,                   /* COMMA  */
-    LBRACE = 284,                  /* LBRACE  */
-    LPAR = 285,                    /* LPAR  */
-    LSQ = 286,                     /* LSQ  */
-    RBRACE = 287,                  /* RBRACE  */
-    RPAR = 288,                    /* RPAR  */
-    RSQ = 289,                     /* RSQ  */
-    SEMICOLON = 290,               /* SEMICOLON  */
-    ARROW = 291,                   /* ARROW  */
-    XOR = 292,                     /* XOR  */
-    CLASS = 293,                   /* CLASS  */
-    DOUBLE = 294,                  /* DOUBLE  */
-    ELSE = 295,                    /* ELSE  */
-    IF = 296,                      /* IF  */
-    INT = 297,                     /* INT  */
-    PARSEINT = 298,                /* PARSEINT  */
+    PARSEINT = 282,                /* PARSEINT  */
+    BOOL = 283,                    /* BOOL  */
+    COMMA = 284,                   /* COMMA  */
+    LBRACE = 285,                  /* LBRACE  */
+    LPAR = 286,                    /* LPAR  */
+    LSQ = 287,                     /* LSQ  */
+    RBRACE = 288,                  /* RBRACE  */
+    RPAR = 289,                    /* RPAR  */
+    RSQ = 290,                     /* RSQ  */
+    SEMICOLON = 291,               /* SEMICOLON  */
+    ARROW = 292,                   /* ARROW  */
+    XOR = 293,                     /* XOR  */
+    CLASS = 294,                   /* CLASS  */
+    DOUBLE = 295,                  /* DOUBLE  */
+    ELSE = 296,                    /* ELSE  */
+    IF = 297,                      /* IF  */
+    INT = 298,                     /* INT  */
     PUBLIC = 299,                  /* PUBLIC  */
     RETURN = 300,                  /* RETURN  */
     STATIC = 301,                  /* STATIC  */
@@ -134,23 +134,23 @@ extern int yydebug;
 #define DOTLENGTH 279
 #define LSHIFT 280
 #define RSHIFT 281
-#define BOOL 282
-#define COMMA 283
-#define LBRACE 284
-#define LPAR 285
-#define LSQ 286
-#define RBRACE 287
-#define RPAR 288
-#define RSQ 289
-#define SEMICOLON 290
-#define ARROW 291
-#define XOR 292
-#define CLASS 293
-#define DOUBLE 294
-#define ELSE 295
-#define IF 296
-#define INT 297
-#define PARSEINT 298
+#define PARSEINT 282
+#define BOOL 283
+#define COMMA 284
+#define LBRACE 285
+#define LPAR 286
+#define LSQ 287
+#define RBRACE 288
+#define RPAR 289
+#define RSQ 290
+#define SEMICOLON 291
+#define ARROW 292
+#define XOR 293
+#define CLASS 294
+#define DOUBLE 295
+#define ELSE 296
+#define IF 297
+#define INT 298
 #define PUBLIC 299
 #define RETURN 300
 #define STATIC 301
