@@ -76,18 +76,18 @@ extern int yydebug;
     OR = 277,                      /* OR  */
     PRINT = 278,                   /* PRINT  */
     DOTLENGTH = 279,               /* DOTLENGTH  */
-    BOOL = 280,                    /* BOOL  */
-    COMMA = 281,                   /* COMMA  */
-    LBRACE = 282,                  /* LBRACE  */
-    LPAR = 283,                    /* LPAR  */
-    LSQ = 284,                     /* LSQ  */
-    RBRACE = 285,                  /* RBRACE  */
-    RPAR = 286,                    /* RPAR  */
-    RSQ = 287,                     /* RSQ  */
-    SEMICOLON = 288,               /* SEMICOLON  */
-    ARROW = 289,                   /* ARROW  */
-    LSHIFT = 290,                  /* LSHIFT  */
-    RSHIFT = 291,                  /* RSHIFT  */
+    LSHIFT = 280,                  /* LSHIFT  */
+    RSHIFT = 281,                  /* RSHIFT  */
+    BOOL = 282,                    /* BOOL  */
+    COMMA = 283,                   /* COMMA  */
+    LBRACE = 284,                  /* LBRACE  */
+    LPAR = 285,                    /* LPAR  */
+    LSQ = 286,                     /* LSQ  */
+    RBRACE = 287,                  /* RBRACE  */
+    RPAR = 288,                    /* RPAR  */
+    RSQ = 289,                     /* RSQ  */
+    SEMICOLON = 290,               /* SEMICOLON  */
+    ARROW = 291,                   /* ARROW  */
     XOR = 292,                     /* XOR  */
     CLASS = 293,                   /* CLASS  */
     DOUBLE = 294,                  /* DOUBLE  */
@@ -132,18 +132,18 @@ extern int yydebug;
 #define OR 277
 #define PRINT 278
 #define DOTLENGTH 279
-#define BOOL 280
-#define COMMA 281
-#define LBRACE 282
-#define LPAR 283
-#define LSQ 284
-#define RBRACE 285
-#define RPAR 286
-#define RSQ 287
-#define SEMICOLON 288
-#define ARROW 289
-#define LSHIFT 290
-#define RSHIFT 291
+#define LSHIFT 280
+#define RSHIFT 281
+#define BOOL 282
+#define COMMA 283
+#define LBRACE 284
+#define LPAR 285
+#define LSQ 286
+#define RBRACE 287
+#define RPAR 288
+#define RSQ 289
+#define SEMICOLON 290
+#define ARROW 291
 #define XOR 292
 #define CLASS 293
 #define DOUBLE 294

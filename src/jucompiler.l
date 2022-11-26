@@ -95,9 +95,9 @@ true|false  {if(flag_tokens_lex) printf("BOOLLIT(%s)\n",yytext);yylval.info = ge
 
 -">" {if(flag_tokens_lex) printf("ARROW\n");col_num+=yyleng; return ARROW;}
 
-"<""<" {if(flag_tokens_lex) printf("LSHIFT\n");col_num+=yyleng; return LSHIFT;}
+"<""<" {if(flag_tokens_lex) printf("LSHIFT\n");yylval.info = gen_token("", line_num,col_num);col_num+=yyleng; return LSHIFT;}
 
-">"">" {if(flag_tokens_lex) printf("RSHIFT\n");col_num+=yyleng; return RSHIFT;}
+">"">" {if(flag_tokens_lex) printf("RSHIFT\n");yylval.info = gen_token("", line_num,col_num);col_num+=yyleng; return RSHIFT;}
 
 "^" {if(flag_tokens_lex) printf("XOR\n");col_num+=yyleng; return XOR;}
 

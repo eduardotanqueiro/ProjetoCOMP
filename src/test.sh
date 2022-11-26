@@ -72,9 +72,6 @@ if [[ -d meta3 ]]; then
         out=${inp%.java}.out
         tmp=${inp%.java}.out_temp
         flag="-s"
-        if [[ "$inp" == *_e3.java ]]; then
-            flag="-e3"
-        fi
         if $exe $flag < "$inp" > "$tmp"; then
             lines=$(diff $out $tmp | wc -l)
             if [[ $lines -gt 0 ]]; then

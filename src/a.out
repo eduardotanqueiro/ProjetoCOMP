@@ -1,22 +1,24 @@
-Line 8, col 14: Operator .length cannot be applied to type int
-Line 9, col 14: Operator .length cannot be applied to type boolean
-Line 10, col 14: Operator .length cannot be applied to type double
-Line 12, col 13: Cannot find symbol undef
-Line 12, col 18: Operator .length cannot be applied to type undef
-Line 14, col 14: Operator .length cannot be applied to type int
-Line 14, col 11: Operator = cannot be applied to types boolean, int
-===== Class ClassTeste Symbol Table =====
+===== Class divide Symbol Table =====
+num		int
+den		int
 main	(String[])	void
 
 ===== Method main(String[]) Symbol Table =====
 return		void
 args		String[]	param
-b		boolean
-i		int
-d		double
+quo		int
+q		int
+r		int
+check		boolean
 
 Program
-..Id(ClassTeste)
+..Id(divide)
+..FieldDecl
+....Int
+....Id(num)
+..FieldDecl
+....Int
+....Id(den)
 ..MethodDecl
 ....MethodHeader
 ......Void
@@ -27,35 +29,70 @@ Program
 ..........Id(args)
 ....MethodBody
 ......VarDecl
-........Bool
-........Id(b)
+........Int
+........Id(quo)
 ......VarDecl
 ........Int
-........Id(i)
+........Id(q)
 ......VarDecl
-........Double
-........Id(d)
+........Int
+........Id(r)
 ......Assign - int
-........Id(i) - int
-........Length - int
-..........Id(i) - int
-......Assign - int
-........Id(i) - int
-........Length - int
-..........Id(b) - boolean
-......Assign - int
-........Id(i) - int
-........Length - int
-..........Id(d) - double
-......Assign - int
-........Id(i) - int
-........Length - int
+........Id(num) - int
+........ParseArgs - int
 ..........Id(args) - String[]
+..........DecLit(0) - int
 ......Assign - int
-........Id(i) - int
-........Length - int
-..........Id(undef) - undef
+........Id(den) - int
+........ParseArgs - int
+..........Id(args) - String[]
+..........DecLit(1) - int
+......Assign - int
+........Id(q) - int
+........Div - int
+..........Id(num) - int
+..........Id(den) - int
+......Assign - int
+........Id(r) - int
+........Mod - int
+..........Id(num) - int
+..........Id(den) - int
+......Assign - int
+........Id(quo) - int
+........DecLit(0) - int
+......While
+........Le - boolean
+..........Id(den) - int
+..........Id(num) - int
+........Block
+..........Assign - int
+............Id(num) - int
+............Sub - int
+..............Id(num) - int
+..............Id(den) - int
+..........Assign - int
+............Id(quo) - int
+............Add - int
+..............Id(quo) - int
+..............DecLit(1) - int
+......VarDecl
+........Bool
+........Id(check)
 ......Assign - boolean
-........Id(b) - boolean
-........Length - int
-..........Id(i) - int
+........Id(check) - boolean
+........And - boolean
+..........Eq - boolean
+............Id(quo) - int
+............Id(q) - int
+..........Eq - boolean
+............Id(num) - int
+............Id(r) - int
+......If
+........Id(check) - boolean
+........Block
+..........Print
+............Id(quo) - int
+..........Print
+............Id(num) - int
+........Print
+..........Id(check) - boolean

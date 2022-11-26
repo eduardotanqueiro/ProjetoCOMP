@@ -1208,12 +1208,12 @@ YY_RULE_SETUP
 case 33:
 YY_RULE_SETUP
 #line 98 "jucompiler.l"
-{if(flag_tokens_lex) printf("LSHIFT\n");col_num+=yyleng; return LSHIFT;}
+{if(flag_tokens_lex) printf("LSHIFT\n");yylval.info = gen_token("", line_num,col_num);col_num+=yyleng; return LSHIFT;}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
 #line 100 "jucompiler.l"
-{if(flag_tokens_lex) printf("RSHIFT\n");col_num+=yyleng; return RSHIFT;}
+{if(flag_tokens_lex) printf("RSHIFT\n");yylval.info = gen_token("", line_num,col_num);col_num+=yyleng; return RSHIFT;}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP

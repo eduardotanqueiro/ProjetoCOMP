@@ -25,9 +25,9 @@ extern int flag_tree;
 %token <info> REALLIT
 %token <info> BOOLLIT
 %token <info> STRLIT
-%token <info> PLUS AND ASSIGN STAR DIV EQ GE GT LE LT MINUS MOD NE NOT OR PRINT DOTLENGTH
+%token <info> PLUS AND ASSIGN STAR DIV EQ GE GT LE LT MINUS MOD NE NOT OR PRINT DOTLENGTH LSHIFT RSHIFT
 
-%token BOOL COMMA LBRACE LPAR LSQ RBRACE RPAR RSQ SEMICOLON ARROW LSHIFT RSHIFT XOR CLASS DOUBLE ELSE IF INT PARSEINT PUBLIC RETURN STATIC STRING VOID WHILE RESERVED
+%token BOOL COMMA LBRACE LPAR LSQ RBRACE RPAR RSQ SEMICOLON ARROW XOR CLASS DOUBLE ELSE IF INT PARSEINT PUBLIC RETURN STATIC STRING VOID WHILE RESERVED
 
 
 
@@ -331,8 +331,8 @@ ExprOp: LPAR Expr RPAR          {$$=$2;}
     | ExprOp AND ExprOp         {$$=criar_no("And",$2);$$->filho=$1; adicionar_irmao($1, $3);}
     | ExprOp OR ExprOp          {$$=criar_no("Or",$2);$$->filho=$1; adicionar_irmao($1, $3);}
     | ExprOp XOR ExprOp         {$$=criar_no("Xor",gen_token("",line_num, col_num));$$->filho=$1; adicionar_irmao($1, $3);}
-    | ExprOp LSHIFT ExprOp      {$$=criar_no("Lshift",gen_token("",line_num, col_num));$$->filho=$1; adicionar_irmao($1, $3);}
-    | ExprOp RSHIFT ExprOp      {$$=criar_no("Rshift",gen_token("",line_num, col_num));$$->filho=$1; adicionar_irmao($1, $3);}
+    | ExprOp LSHIFT ExprOp      {$$=criar_no("Lshift",$2);$$->filho=$1; adicionar_irmao($1, $3);}
+    | ExprOp RSHIFT ExprOp      {$$=criar_no("Rshift",$2);$$->filho=$1; adicionar_irmao($1, $3);}
     | ExprOp EQ ExprOp          {$$=criar_no("Eq",$2);$$->filho=$1; adicionar_irmao($1, $3);}
     | ExprOp GE ExprOp          {$$=criar_no("Ge",$2);$$->filho=$1; adicionar_irmao($1, $3);}
     | ExprOp GT ExprOp          {$$=criar_no("Gt",$2);$$->filho=$1; adicionar_irmao($1, $3);}
