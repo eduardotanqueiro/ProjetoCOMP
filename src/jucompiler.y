@@ -25,9 +25,9 @@ extern int flag_tree;
 %token <info> REALLIT
 %token <info> BOOLLIT
 %token <info> STRLIT
-%token <info> PLUS AND ASSIGN STAR DIV EQ GE GT LE LT MINUS MOD NE NOT OR PRINT DOTLENGTH LSHIFT RSHIFT PARSEINT
+%token <info> PLUS AND ASSIGN STAR DIV EQ GE GT LE LT MINUS MOD NE NOT OR PRINT DOTLENGTH LSHIFT RSHIFT PARSEINT RETURN
 
-%token BOOL COMMA LBRACE LPAR LSQ RBRACE RPAR RSQ SEMICOLON ARROW XOR CLASS DOUBLE ELSE IF INT PUBLIC RETURN STATIC STRING VOID WHILE RESERVED
+%token BOOL COMMA LBRACE LPAR LSQ RBRACE RPAR RSQ SEMICOLON ARROW XOR CLASS DOUBLE ELSE IF INT PUBLIC STATIC STRING VOID WHILE RESERVED
 
 
 
@@ -262,8 +262,8 @@ Statement: LBRACE StatementRep RBRACE                 {if( contador_irmaos($2)>1
                                                                 $$->filho = tmp; 
                                                                 tmp->filho = $5;} 
                                                         } }
-         | RETURN Expr SEMICOLON                      {$$=criar_no("Return",gen_token("",line_num, col_num)); $$->filho=$2;}
-         | RETURN SEMICOLON                           {$$=criar_no("Return",gen_token("",line_num, col_num));}
+         | RETURN Expr SEMICOLON                      {$$=criar_no("Return",$1); $$->filho=$2;}
+         | RETURN SEMICOLON                           {$$=criar_no("Return",$1);}
          | PRINT LPAR Expr RPAR SEMICOLON             {$$=criar_no("Print",$1);$$->filho=$3;}
          | PRINT LPAR STRLIT RPAR SEMICOLON           {$$=criar_no("Print",$1);$$->filho=criar_no("StrLit",$3);}
          | MethodInvocation SEMICOLON                 {$$=$1;}

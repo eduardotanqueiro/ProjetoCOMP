@@ -702,6 +702,9 @@ void check_two_part_op(no* node,char* func_name, int isLogical){
 		if( strcmp(op_type1,"int") && strcmp(op_type1,"String[]") )
 			printf("Line %d, col %d: Operator %s cannot be applied to types %s, %s\n", node->info->line, node->info->col, get_node_operator(node->tipo), op_type1, op_type2);
 
+		else if( !strcmp(op_type1,"String[]") && strcmp(op_type2,"int"))
+			printf("Line %d, col %d: Operator %s cannot be applied to types %s, %s\n", node->info->line, node->info->col, get_node_operator(node->tipo), op_type1, op_type2);
+
 		node->notation = "int";
 
 	}
@@ -876,8 +879,13 @@ void check_one_part_op(no* node, char* func_name, int isLogical){
 			
 			if( op_type != NULL){
 
-				if( strcmp(op_type,"void")){
+				if( strcmp(op_type,"void")){ //se não for void
 					printf("Line %d, col %d: Incompatible type %s in return statement\n",node->filho->info->line,node->filho->info->col,op_type);
+				}
+				else{
+						//se for void, diferenciar entre um return; e um return *void*, por exemplo
+					if(node->filho != NULL && node->filho->filho != NULL)
+						printf("Line %d, col %d: Incompatible type %s in return statement\n",node->filho->filho->info->line,node->filho->filho->info->col,op_type);
 				}
 			}
 		}

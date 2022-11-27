@@ -79,24 +79,24 @@ extern int yydebug;
     LSHIFT = 280,                  /* LSHIFT  */
     RSHIFT = 281,                  /* RSHIFT  */
     PARSEINT = 282,                /* PARSEINT  */
-    BOOL = 283,                    /* BOOL  */
-    COMMA = 284,                   /* COMMA  */
-    LBRACE = 285,                  /* LBRACE  */
-    LPAR = 286,                    /* LPAR  */
-    LSQ = 287,                     /* LSQ  */
-    RBRACE = 288,                  /* RBRACE  */
-    RPAR = 289,                    /* RPAR  */
-    RSQ = 290,                     /* RSQ  */
-    SEMICOLON = 291,               /* SEMICOLON  */
-    ARROW = 292,                   /* ARROW  */
-    XOR = 293,                     /* XOR  */
-    CLASS = 294,                   /* CLASS  */
-    DOUBLE = 295,                  /* DOUBLE  */
-    ELSE = 296,                    /* ELSE  */
-    IF = 297,                      /* IF  */
-    INT = 298,                     /* INT  */
-    PUBLIC = 299,                  /* PUBLIC  */
-    RETURN = 300,                  /* RETURN  */
+    RETURN = 283,                  /* RETURN  */
+    BOOL = 284,                    /* BOOL  */
+    COMMA = 285,                   /* COMMA  */
+    LBRACE = 286,                  /* LBRACE  */
+    LPAR = 287,                    /* LPAR  */
+    LSQ = 288,                     /* LSQ  */
+    RBRACE = 289,                  /* RBRACE  */
+    RPAR = 290,                    /* RPAR  */
+    RSQ = 291,                     /* RSQ  */
+    SEMICOLON = 292,               /* SEMICOLON  */
+    ARROW = 293,                   /* ARROW  */
+    XOR = 294,                     /* XOR  */
+    CLASS = 295,                   /* CLASS  */
+    DOUBLE = 296,                  /* DOUBLE  */
+    ELSE = 297,                    /* ELSE  */
+    IF = 298,                      /* IF  */
+    INT = 299,                     /* INT  */
+    PUBLIC = 300,                  /* PUBLIC  */
     STATIC = 301,                  /* STATIC  */
     STRING = 302,                  /* STRING  */
     VOID = 303,                    /* VOID  */
@@ -135,24 +135,24 @@ extern int yydebug;
 #define LSHIFT 280
 #define RSHIFT 281
 #define PARSEINT 282
-#define BOOL 283
-#define COMMA 284
-#define LBRACE 285
-#define LPAR 286
-#define LSQ 287
-#define RBRACE 288
-#define RPAR 289
-#define RSQ 290
-#define SEMICOLON 291
-#define ARROW 292
-#define XOR 293
-#define CLASS 294
-#define DOUBLE 295
-#define ELSE 296
-#define IF 297
-#define INT 298
-#define PUBLIC 299
-#define RETURN 300
+#define RETURN 283
+#define BOOL 284
+#define COMMA 285
+#define LBRACE 286
+#define LPAR 287
+#define LSQ 288
+#define RBRACE 289
+#define RPAR 290
+#define RSQ 291
+#define SEMICOLON 292
+#define ARROW 293
+#define XOR 294
+#define CLASS 295
+#define DOUBLE 296
+#define ELSE 297
+#define IF 298
+#define INT 299
+#define PUBLIC 300
 #define STATIC 301
 #define STRING 302
 #define VOID 303

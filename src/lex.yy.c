@@ -1274,7 +1274,7 @@ YY_RULE_SETUP
 case 46:
 YY_RULE_SETUP
 #line 125 "jucompiler.l"
-{if(flag_tokens_lex) printf("RETURN\n");col_num+=yyleng; return RETURN;}
+{if(flag_tokens_lex) printf("RETURN\n");yylval.info = gen_token("", line_num,col_num);col_num+=yyleng; return RETURN;}
 	YY_BREAK
 case 47:
 YY_RULE_SETUP

@@ -122,7 +122,7 @@ Integer"."parseInt {if(flag_tokens_lex) printf("PARSEINT\n");yylval.info = gen_t
 
 public {if(flag_tokens_lex) printf("PUBLIC\n");col_num+=yyleng; return PUBLIC;}
 
-return {if(flag_tokens_lex) printf("RETURN\n");col_num+=yyleng; return RETURN;}
+return {if(flag_tokens_lex) printf("RETURN\n");yylval.info = gen_token("", line_num,col_num);col_num+=yyleng; return RETURN;}
 
 static {if(flag_tokens_lex) printf("STATIC\n");col_num+=yyleng; return STATIC;}
 
