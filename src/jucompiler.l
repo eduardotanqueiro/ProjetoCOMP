@@ -20,8 +20,9 @@
     int flag_tokens_lex = 0;
     int flag_tree=0;
     int flag_syntactic = 1;
-    int flag_lexical=1;
-    int flag_semantic=0;
+    int flag_lexical=0;
+    int flag_semantic=1;
+    int flag_erro_semantic=1;
 %}
 
 expoente [eE]["+"-]?[0-9]([0-9_]*[0-9])?
@@ -177,31 +178,36 @@ void flag_checker(int argc, char *argv[]) {
                 flag_tokens_lex=0;
                 flag_tree = 1;
                 flag_syntactic= 1;
+                flag_semantic=0;
                 }
             else if(!strcmp(argv[i], "-e2")){ // só erro sintático e lexical
             flag_lexical=1;
                 flag_tokens_lex=0;
                 flag_tree=0;
                 flag_syntactic=1;
+                flag_semantic=0;
             }
             else if(!strcmp(argv[i], "-l")){ // só lexical com tokens
             flag_lexical=1;
                 flag_tokens_lex=1;
                 flag_tree=0;
                 flag_syntactic=0;
+                flag_semantic=0;
             }
             else if(!strcmp(argv[i], "-e1")){ // só lexical sem tokens
             flag_lexical=1;
                 flag_tokens_lex=0;
                 flag_tree=0;
                 flag_syntactic=0;
+                flag_semantic=0;
             }
             else if(!strcmp(argv[i], "-s")){ // semantico
-                 flag_lexical=0;
+                flag_lexical=0;
                 flag_tokens_lex=0;
                 flag_tree = 0;
                 flag_syntactic= 1;
                 flag_semantic=1;
+                flag_erro_semantic=0;
             }
             else{
                 printf("Undefined flag!\n");
@@ -229,8 +235,13 @@ if(flag_semantic){
     symtab = create_element(raiz->filho->info->val,"","", 0);
     create_table(symtab,raiz);
     make_notations_ast(raiz,symtab,NULL);
-    printSymbolTable(symtab);
-    print_AST(raiz,0);
+    /* printf("fim anotacoes\n"); */
+    
+    if( !flag_erro_semantic ){
+        printSymbolTable(symtab);
+        /* printf("fim symtab\n"); */
+        print_AST(raiz,0);
+    }
 }
 
 return 0;

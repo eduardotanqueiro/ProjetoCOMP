@@ -1,37 +1,40 @@
-Line 21, col 9: Cannot find symbol args
-Line 19, col 26: Cannot find symbol undef
-Line 19, col 9: Operator Integer.parseInt cannot be applied to types undef, String[]
-Line 18, col 26: Cannot find symbol undef
-Line 18, col 9: Operator Integer.parseInt cannot be applied to types undef, boolean
-Line 17, col 26: Cannot find symbol undef
-Line 17, col 9: Operator Integer.parseInt cannot be applied to types undef, boolean
-Line 16, col 26: Cannot find symbol undef
-Line 16, col 9: Operator Integer.parseInt cannot be applied to types undef, double
-Line 15, col 26: Cannot find symbol undef
-Line 15, col 9: Operator Integer.parseInt cannot be applied to types undef, double
-Line 14, col 26: Cannot find symbol undef
-Line 14, col 9: Operator Integer.parseInt cannot be applied to types undef, int
-Line 13, col 26: Cannot find symbol undef
-Line 13, col 9: Operator Integer.parseInt cannot be applied to types undef, int
-Line 12, col 26: Cannot find symbol undef
-Line 12, col 9: Operator Integer.parseInt cannot be applied to types undef, int
-Line 11, col 26: Cannot find symbol undef
-Line 11, col 9: Operator Integer.parseInt cannot be applied to types undef, int
-Line 10, col 26: Cannot find symbol undef
-Line 10, col 9: Cannot find symbol undef
-Line 10, col 9: Operator Integer.parseInt cannot be applied to types undef, undef
-===== Class ClassTeste Symbol Table =====
+Line 20, col 11: Operator + cannot be applied to type boolean
+Line 21, col 11: Operator + cannot be applied to type boolean
+Line 28, col 12: Operator .length cannot be applied to type int
+Line 29, col 12: Operator .length cannot be applied to type double
+Line 33, col 11: Operator ! cannot be applied to type int
+Line 34, col 11: Operator ! cannot be applied to type double
+Line 38, col 7: Reference to method f(int,int) is ambiguous
+Line 34, col 9: Operator = cannot be applied to types double, boolean
+Line 33, col 9: Operator = cannot be applied to types int, boolean
+Line 21, col 9: Operator = cannot be applied to types boolean, undef
+Line 20, col 9: Operator = cannot be applied to types boolean, undef
+Line 13, col 9: Operator = cannot be applied to types int, double
+===== Class operator_single Symbol Table =====
 main	(String[])	void
+f	(int,double)	void
+f	(double,int)	void
 
 ===== Method main(String[]) Symbol Table =====
 return		void
 args		String[]	param
-b		boolean
 i		int
 d		double
+b		boolean
+tamanho		int
+
+===== Method f(int,double) Symbol Table =====
+return		void
+a		int	param
+b		double	param
+
+===== Method f(double,int) Symbol Table =====
+return		void
+a		double	param
+b		int	param
 
 Program
-..Id(ClassTeste)
+..Id(operator_single)
 ..MethodDecl
 ....MethodHeader
 ......Void
@@ -42,47 +45,93 @@ Program
 ..........Id(args)
 ....MethodBody
 ......VarDecl
-........Bool
-........Id(b)
-......VarDecl
 ........Int
 ........Id(i)
 ......VarDecl
 ........Double
 ........Id(d)
-......ParseArgs - undef
-........Id(undef) - undef
-........Id(undef) - undef
-......ParseArgs - int
-........Id(undef) - undef
-........Lshift - int
-..........DecLit(1) - int
-..........DecLit(1) - int
-......ParseArgs - int
-........Id(undef) - undef
-........DecLit(0) - int
-......ParseArgs - int
-........Id(undef) - undef
+......VarDecl
+........Bool
+........Id(b)
+......Assign - boolean
+........Id(b) - boolean
+........BoolLit(false) - boolean
+......Assign - int
 ........Id(i) - int
-......ParseArgs - int
-........Id(undef) - undef
+........Plus - int
+..........DecLit(5) - int
+......Assign - int
+........Id(i) - int
+........Plus - double
+..........RealLit(2.0) - double
+......Assign - double
+........Id(d) - double
+........Plus - int
+..........DecLit(1) - int
+......Assign - double
+........Id(d) - double
+........Plus - double
+..........RealLit(2.0) - double
+......Assign - boolean
+........Id(b) - boolean
+........Plus - undef
+..........BoolLit(false) - boolean
+......Assign - boolean
+........Id(b) - boolean
+........Plus - undef
+..........BoolLit(true) - boolean
+......VarDecl
+........Int
+........Id(tamanho)
+......Assign - int
+........Id(tamanho) - int
 ........Length - int
 ..........Id(args) - String[]
-......ParseArgs - int
-........Id(undef) - undef
-........RealLit(0.0) - double
-......ParseArgs - int
-........Id(undef) - undef
+......Assign - int
+........Id(i) - int
+........Length - int
+..........Id(i) - int
+......Assign - int
+........Id(i) - int
+........Length - int
+..........Id(d) - double
+......Assign - int
+........Id(i) - int
+........Not - boolean
+..........Id(i) - int
+......Assign - double
 ........Id(d) - double
-......ParseArgs - int
-........Id(undef) - undef
-........BoolLit(true) - boolean
-......ParseArgs - int
-........Id(undef) - undef
+........Not - boolean
+..........Id(d) - double
+......Assign - boolean
 ........Id(b) - boolean
-......ParseArgs - int
-........Id(undef) - undef
-........Id(args) - String[]
-......ParseArgs - int
-........Id(args) - String[]
-........Id(undef) - undef
+........Not - boolean
+..........Id(b) - boolean
+......Call - undef
+........Id(f) - undef
+........DecLit(1) - int
+........DecLit(1) - int
+..MethodDecl
+....MethodHeader
+......Void
+......Id(f)
+......MethodParams
+........ParamDecl
+..........Int
+..........Id(a)
+........ParamDecl
+..........Double
+..........Id(b)
+....MethodBody
+..MethodDecl
+....MethodHeader
+......Void
+......Id(f)
+......MethodParams
+........ParamDecl
+..........Double
+..........Id(a)
+........ParamDecl
+..........Int
+..........Id(b)
+....MethodBody
