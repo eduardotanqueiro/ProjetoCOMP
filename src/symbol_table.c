@@ -593,6 +593,9 @@ void check_two_part_op(no* node,char* func_name, int isLogical){
 					if( !strcmp(op_type1,"boolean") ){
 						printf("Line %d, col %d: Operator %s cannot be applied to types %s, %s\n", node->info->line, node->info->col, get_node_operator(node->tipo), op_type1, op_type2);
 					}
+					else{
+						node->notation = op_type1;
+					}
 
 				}
 				else{
@@ -727,12 +730,11 @@ void check_two_part_op(no* node,char* func_name, int isLogical){
 void check_one_part_op(no* node, char* func_name, int isLogical){
 
 	char* op_type;
-
 	// printf("one part %s %s %s\n",node->tipo,node->filho->tipo,node->filho->info->val);
 
 	//verificar se tem filhos
     if (node->filho == NULL)
-        op_type = "none";
+		op_type = "void";
 
 	//verificar se o filho é uma variável
 	else if( !strcmp(node->filho->tipo,"Id") ){
@@ -754,7 +756,7 @@ void check_one_part_op(no* node, char* func_name, int isLogical){
 
 	// printf("got operator type %s\n",op_type);
 
-	if( op_type != NULL && strcmp(op_type, "undef") ){
+	if( op_type != NULL && strcmp(op_type, "undef") && strcmp(op_type, "void")){
 		//não é null nem undef
 
 		if(isLogical == 1){
@@ -862,7 +864,7 @@ void check_one_part_op(no* node, char* func_name, int isLogical){
 			printf("Line %d, col %d: Operator .length cannot be applied to type %s\n",node->info->line,node->info->col,node->filho->notation);
 		}
 		else if( !strcmp(node->tipo,"Print")){
-			
+
 			if( op_type != NULL){
 				printf("Line %d, col %d: Incompatible type %s in System.out.print statement\n",node->filho->filho->info->line,node->filho->filho->info->col,op_type);
 			}				
@@ -871,9 +873,12 @@ void check_one_part_op(no* node, char* func_name, int isLogical){
 	
 		}
 		else if( !strcmp(node->tipo,"Return")){
-
+			
 			if( op_type != NULL){
-				printf("Line %d, col %d: Incompatible type %s in return statement\n",node->filho->info->line,node->filho->info->col,op_type);
+
+				if( strcmp(op_type,"void")){
+					printf("Line %d, col %d: Incompatible type %s in return statement\n",node->filho->info->line,node->filho->info->col,op_type);
+				}
 			}
 		}
 	}
