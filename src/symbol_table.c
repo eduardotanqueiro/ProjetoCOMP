@@ -775,19 +775,15 @@ void check_one_part_op(no* node, char* func_name, int isLogical){
 	// printf("got operator type %s\n",op_type);
 
 	if( op_type != NULL && strcmp(op_type, "undef") && strcmp(op_type, "void")){
-		//não é null nem undef
+		//não é null nem undef nem void
 
 		if(isLogical == 1){
 			
 			if( !strcmp(node->tipo,"While")){ //se é um while, o filho tem de ser bool, isto é, a expressao entre parenteses
 
-				if( !strcmp(op_type,"boolean")){
-					//tudo em ordem
-				}
-				else{
-					//TODO raise error tipo incompativel
-
-				}
+				if( strcmp(op_type,"boolean"))
+					//raise error tipo incompativel
+					printf("Line %d, col %d: Incompatible type %s in while statement\n", node->filho->info->line, node->filho->info->col, op_type);
 
 
 			}
@@ -907,7 +903,15 @@ void check_one_part_op(no* node, char* func_name, int isLogical){
 				}
 			}
 
+		}else if ( !strcmp(node->tipo,"While")){
+
+			if( strcmp(op_type,"boolean"))
+				//raise error tipo incompativel
+				printf("Line %d, col %d: Incompatible type %s in while statement\n", node->filho->info->line, node->filho->info->col, op_type);
+				
 		}
+
+		
 	}
 
 	// printf("one part fim %s %s %d\n",node->tipo,node->notation,isLogical);

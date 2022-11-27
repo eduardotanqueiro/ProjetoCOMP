@@ -1219,7 +1219,7 @@ YY_RULE_SETUP
 case 35:
 YY_RULE_SETUP
 #line 103 "jucompiler.l"
-{if(flag_tokens_lex) printf("XOR\n");col_num+=yyleng; return XOR;}
+{if(flag_tokens_lex) printf("XOR\n");yylval.info = gen_token("", line_num,col_num);col_num+=yyleng; return XOR;}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP

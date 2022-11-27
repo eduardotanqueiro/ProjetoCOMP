@@ -80,17 +80,17 @@ extern int yydebug;
     RSHIFT = 281,                  /* RSHIFT  */
     PARSEINT = 282,                /* PARSEINT  */
     RETURN = 283,                  /* RETURN  */
-    BOOL = 284,                    /* BOOL  */
-    COMMA = 285,                   /* COMMA  */
-    LBRACE = 286,                  /* LBRACE  */
-    LPAR = 287,                    /* LPAR  */
-    LSQ = 288,                     /* LSQ  */
-    RBRACE = 289,                  /* RBRACE  */
-    RPAR = 290,                    /* RPAR  */
-    RSQ = 291,                     /* RSQ  */
-    SEMICOLON = 292,               /* SEMICOLON  */
-    ARROW = 293,                   /* ARROW  */
-    XOR = 294,                     /* XOR  */
+    XOR = 284,                     /* XOR  */
+    BOOL = 285,                    /* BOOL  */
+    COMMA = 286,                   /* COMMA  */
+    LBRACE = 287,                  /* LBRACE  */
+    LPAR = 288,                    /* LPAR  */
+    LSQ = 289,                     /* LSQ  */
+    RBRACE = 290,                  /* RBRACE  */
+    RPAR = 291,                    /* RPAR  */
+    RSQ = 292,                     /* RSQ  */
+    SEMICOLON = 293,               /* SEMICOLON  */
+    ARROW = 294,                   /* ARROW  */
     CLASS = 295,                   /* CLASS  */
     DOUBLE = 296,                  /* DOUBLE  */
     ELSE = 297,                    /* ELSE  */
@@ -136,17 +136,17 @@ extern int yydebug;
 #define RSHIFT 281
 #define PARSEINT 282
 #define RETURN 283
-#define BOOL 284
-#define COMMA 285
-#define LBRACE 286
-#define LPAR 287
-#define LSQ 288
-#define RBRACE 289
-#define RPAR 290
-#define RSQ 291
-#define SEMICOLON 292
-#define ARROW 293
-#define XOR 294
+#define XOR 284
+#define BOOL 285
+#define COMMA 286
+#define LBRACE 287
+#define LPAR 288
+#define LSQ 289
+#define RBRACE 290
+#define RPAR 291
+#define RSQ 292
+#define SEMICOLON 293
+#define ARROW 294
 #define CLASS 295
 #define DOUBLE 296
 #define ELSE 297

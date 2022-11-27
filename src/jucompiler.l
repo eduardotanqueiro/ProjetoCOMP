@@ -100,7 +100,7 @@ true|false  {if(flag_tokens_lex) printf("BOOLLIT(%s)\n",yytext);yylval.info = ge
 
 ">"">" {if(flag_tokens_lex) printf("RSHIFT\n");yylval.info = gen_token("", line_num,col_num);col_num+=yyleng; return RSHIFT;}
 
-"^" {if(flag_tokens_lex) printf("XOR\n");col_num+=yyleng; return XOR;}
+"^" {if(flag_tokens_lex) printf("XOR\n");yylval.info = gen_token("", line_num,col_num);col_num+=yyleng; return XOR;}
 
 boolean {if(flag_tokens_lex) printf("BOOL\n");col_num+=yyleng; return BOOL;}
 
