@@ -908,7 +908,7 @@ void check_one_part_op(no* node, char* func_name, int isLogical){
 			if( strcmp(op_type,"boolean"))
 				//raise error tipo incompativel
 				printf("Line %d, col %d: Incompatible type %s in while statement\n", node->filho->info->line, node->filho->info->col, op_type);
-				
+
 		}
 
 		
@@ -918,10 +918,41 @@ void check_one_part_op(no* node, char* func_name, int isLogical){
 
 }
 
+/* converte um intlit num long int em C, para verificar se está out of bounds
+*/
+long int get_intlit(char* str_intlit){
+
+	long int fin;
+	int counter = 0;
+	char* aux = (char*)malloc(sizeof(2)); //string auxiliar só com digitos
+	char* lixo;
+
+	for(int i=0; i<strlen(str_intlit); i++){
+		
+		if( isdigit(str_intlit[i]) ){ //se for dígito, concatenamos à string auxiliar
+			aux = (char*)realloc(aux, strlen(aux)+1); //alocar mais memória para a string
+			aux[counter++] = str_intlit[i]; 
+		}
+
+	}
+
+	aux[counter] = '\0'; //colocar o último carater a 0 por precaução
+	fin = strtol(aux,&lixo,10); //converter para long int
+
+	// printf("%s %ld %s\n",str_intlit,fin,lixo);
+	free(aux);
+	return fin;
+}
+
+
 bool isIntDoubleBool(no* node){
 
 	if( !strcmp(node->tipo,"DecLit")){
 		node->notation = "int";
+
+		if( get_intlit(node->info->val) >= 2147483648) //verificar se o int está dentro dos limites
+			printf("Line %d, col %d: Number %s out of bounds\n",node->info->line, node->info->col, node->info->val);
+		
 		return true;
 	}
 	else if( !strcmp(node->tipo,"RealLit")){

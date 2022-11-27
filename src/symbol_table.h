@@ -7,6 +7,8 @@
 #include<stdio.h>
 #include <stdbool.h>
 
+#include<ctype.h>
+
 #define PARAMS_BUFFER_SIZE 512
 
 // typedef struct _t3{
@@ -60,6 +62,7 @@ void check_one_part_op(no* node, char* func_name, int isLogical);
 char* get_var_type(no* var_node,char* func_name);
 int one_part_op(char* tipo);
 int two_part_op(char* tipo);
+long int get_intlit(char* str_intlit);
 bool isIntDoubleBool(no* node);
 bool check_compatible_type(char* func_param, char* call_variable);
 int count_number_char(char* str, char chr);
