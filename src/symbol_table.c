@@ -98,6 +98,7 @@ void get_method_meader(tab_element* method_node, no* no_ast){
 	tab_element* last_elem_method_table = method_node->body;
 
 	char* str_params = (char*)malloc(1);
+	memset(str_params, 0, sizeof(str_params));
 	strcat(str_params, "");
 	no* aux_node = no_ast->filho;
 
@@ -109,12 +110,20 @@ void get_method_meader(tab_element* method_node, no* no_ast){
 		// verificar se a variavel já existe
 		if( search_symbol(method_node->body,aux_node->filho->irmao->info->val,1,1) == NULL){
 
-			aux_elem = create_element(aux_node->filho->irmao->info->val, "", get_type(aux_node->filho->tipo),1); //criar novo elemento para o parametro
-			aux_elem->line = aux_node->filho->irmao->info->line;
-			aux_elem->col = aux_node->filho->irmao->info->col;
+			//verifiar se é reserved
+			if( strlen(aux_node->filho->irmao->info->val) > 1 || isalpha(aux_node->filho->irmao->info->val[0]) ){
+				aux_elem = create_element(aux_node->filho->irmao->info->val, "", get_type(aux_node->filho->tipo),1); //criar novo elemento para o parametro
+				aux_elem->line = aux_node->filho->irmao->info->line;
+				aux_elem->col = aux_node->filho->irmao->info->col;
 
-			last_elem_method_table->body = aux_elem; //adicionar elemento à tabela do metodo
-			last_elem_method_table = aux_elem; //atualizar o ponteiro auxiliar para o ultimo elemento da tabelo do metodo
+				last_elem_method_table->body = aux_elem; //adicionar elemento à tabela do metodo
+				last_elem_method_table = aux_elem; //atualizar o ponteiro auxiliar para o ultimo elemento da tabelo do metodo
+
+
+			}
+			else{
+				printf("Line %d, col %d: Symbol %s is reserved\n", aux_node->filho->irmao->info->line,aux_node->filho->irmao->info->col, aux_node->filho->irmao->info->val);
+			}
 
 			// adicionar o paramatro à string de parametros do metodo
 			if( !strcmp(str_params,"") ){ //se a string está vazia, é o primeiro parametro
@@ -128,6 +137,8 @@ void get_method_meader(tab_element* method_node, no* no_ast){
 				strcat(str_params, ",");
 				strcat(str_params, get_type(aux_node->filho->tipo));
 			}
+
+
 		}
 		else{
 
@@ -175,13 +186,20 @@ void get_method_vars(tab_element* method_node, no* no_ast){
 
 					//verificar se a variavel ainda nao está na tabela
 				if( search_symbol(method_node->body,aux_node->filho->irmao->info->val,1,1) == NULL){
-					aux_new_var = create_element(aux_node->filho->irmao->info->val, "", get_type(aux_node->filho->tipo),0);
-					aux_new_var->line = aux_node->filho->irmao->info->line;
-					aux_new_var->col = aux_node->filho->irmao->info->col;
+
+					if( strlen(aux_node->filho->irmao->info->val) > 1 || isalpha(aux_node->filho->irmao->info->val[0]) ){
+						aux_new_var = create_element(aux_node->filho->irmao->info->val, "", get_type(aux_node->filho->tipo),0);
+						aux_new_var->line = aux_node->filho->irmao->info->line;
+						aux_new_var->col = aux_node->filho->irmao->info->col;
 
 
-					aux_body->body = aux_new_var; //adicionar a variável na tabela do metodo
-					aux_body = aux_new_var;	//atualizar a variavel auxiliar que aponta para o ultimo elemento da tabela do metodo
+						aux_body->body = aux_new_var; //adicionar a variável na tabela do metodo
+						aux_body = aux_new_var;	//atualizar a variavel auxiliar que aponta para o ultimo elemento da tabela do metodo
+					}
+					else{
+						printf("Line %d, col %d: Symbol %s is reserved\n", aux_node->filho->irmao->info->line,aux_node->filho->irmao->info->col, aux_node->filho->irmao->info->val);
+					}
+				
 				}
 				else
 					printf("Line %d, col %d: Symbol %s already defined\n", aux_node->filho->irmao->info->line,aux_node->filho->irmao->info->col, aux_node->filho->irmao->info->val);
@@ -203,11 +221,18 @@ void add_vars(tab_element* tail, no* no_ast){
 
 	//correr o corpo da classe
 	if( search_symbol(symtab,aux_node->filho->irmao->info->val,1,0) == NULL){ //se a var global não existe
-		aux_new_var = create_element(aux_node->filho->irmao->info->val, NULL, get_type(aux_node->filho->tipo),0);
-		aux_new_var->line = aux_node->filho->irmao->info->line;
-		aux_new_var->col = aux_node->filho->irmao->info->col;
-		
-		tail = insert_element(tail,aux_new_var);
+
+		//verificar se não é reserved
+		if(strlen(aux_node->filho->irmao->info->val) > 1 || isalpha(aux_node->filho->irmao->info->val[0])){
+			aux_new_var = create_element(aux_node->filho->irmao->info->val, NULL, get_type(aux_node->filho->tipo),0);
+			aux_new_var->line = aux_node->filho->irmao->info->line;
+			aux_new_var->col = aux_node->filho->irmao->info->col;
+			
+			tail = insert_element(tail,aux_new_var);
+		}
+		else{
+			printf("Line %d, col %d: Symbol %s is reserved\n", aux_node->filho->irmao->info->line,aux_node->filho->irmao->info->col, aux_node->filho->irmao->info->val);
+		}
 	}
 	else
 		printf("Line %d, col %d: Symbol %s already defined\n", aux_node->filho->irmao->info->line, aux_node->filho->irmao->info->col, aux_node->filho->irmao->info->val);
@@ -422,32 +447,36 @@ char* get_var_type(no* var_node,char* func_name){
 
 	//search for the function in the global table
 	tab_element* aux_tab = symtab;
+	tab_element* aux_method;
 	char* type = "undef";
 
-	while(aux_tab != NULL){ //TODO: e se houverem várias funcoes com o mesmo nome?!?!? ERROR ERRO
+	while(aux_tab != NULL){ //e se houverem várias funcoes com o mesmo nome?!?!? ERROR ERRO
 		
-		if( !strcmp(aux_tab->name, func_name) )
-			break;
+		if( !strcmp(aux_tab->name, func_name) ){
 
-		aux_tab = aux_tab->next;
-	}
+			//search for the variable
+			aux_method = aux_tab;
+			while(aux_method != NULL){
 
-	//search for the variable
-	while(aux_tab != NULL){
+				if(aux_method->name != NULL && var_node->info != NULL){ //prevenir SEGFAULT
 
-		if(aux_tab->name != NULL && var_node->info != NULL){ //prevenir SEGFAULT
+					if( !strcmp(aux_method->name, var_node->info->val) ){ //se o nome da variavel está na tabela de simbolos
 
-			if( !strcmp(aux_tab->name, var_node->info->val) ){ //se o nome da variavel está na tabela de simbolos
-
-				if(aux_tab->line < var_node->info->line || (aux_tab->line == var_node->info->line && aux_tab->col < var_node->info->col)){ //se a variavel que procuramos está a ser usada depois de declarada
-					type = (char*)strdup(aux_tab->type);
-					return type;
+						if(aux_method->line < var_node->info->line || (aux_method->line == var_node->info->line && aux_method->col < var_node->info->col)){ //se a variavel que procuramos está a ser usada depois de declarada
+							type = (char*)strdup(aux_method->type);
+							return type;
+						}
+					}
 				}
+
+				aux_method = aux_method->body;
 			}
 		}
 
-		aux_tab = aux_tab->body;
+		aux_tab = aux_tab->next;
+
 	}
+
 
 	//search for global variables
 	aux_tab = symtab;
@@ -905,7 +934,7 @@ void check_one_part_op(no* node, char* func_name, int isLogical){
 				}
 				else{
 					// ?!?!?!??!?!?!?!?
-					//TODO checkar se a funcao devolve void ou não
+					//checkar se a funcao devolve void ou não
 					//se for void, diferenciar entre um return; e um return *void*, por exemplo
 					char* return_type = search_symbol(symtab, func_name, 0,0);
 					if( return_type != NULL && strcmp(return_type,"void")) //se a funcao nao devolver void e tivermos void, erro
@@ -1056,7 +1085,7 @@ int count_number_char(char* str, char chr){
 
 void check_call(no* node, tab_element* elem, char* func_name){
 
-	char* call_params = (char*)malloc(1);
+	char* call_params = (char*)malloc(2);
 	memset(call_params, 0, sizeof(call_params));
 	strcat(call_params, "");
 
@@ -1106,7 +1135,6 @@ void check_call(no* node, tab_element* elem, char* func_name){
 	//no do nome do metodo com os tipos
 	// node->filho->notation = (char*)malloc( strlen(call_params)+3) ;
 	// snprintf( node->filho->notation ,strlen(call_params)+3,"(%s)",call_params);
-
 
 	//temos de ir procurar qual/se existe o método com o nome recebido e que tenha como parâmetros as variáveis recebidas
 	char* return_type = search_method(symtab,node->filho->info->val, call_params);
@@ -1163,6 +1191,8 @@ void check_call(no* node, tab_element* elem, char* func_name){
 
 			//no do nome do metodo com os tipos
 			node->filho->notation = (char*)malloc( strlen( method_candidate->params_list )+3);
+			memset(node->filho->notation, 0, strlen(node->filho->notation));
+			
 			snprintf( node->filho->notation ,strlen( method_candidate->params_list )+3 ,"(%s)", method_candidate->params_list );
 			node->filho->notation[strlen( method_candidate->params_list )+2] = '\0';
 
@@ -1187,13 +1217,12 @@ void check_call(no* node, tab_element* elem, char* func_name){
 	}
 	else{
 		//a funcao existe e tem os mesmo tipo de parametros dos que foram recebidos na chamada
-
 		//no do nome do metodo com os tipos
-		// printf("bop %s %ld %s\n",node->filho->notation, strlen(call_params),call_params);
-		node->filho->notation = (char*)malloc( sizeof(strlen(call_params)+3) ) ; //MALLOC CORRUPTED TOP SIZE
+		// printf("bop %s %ld %s\n",node->filho->notation, sizeof(strlen(call_params)+3),call_params);
+		node->filho->notation = (char*)malloc( strlen(call_params)+3 ) ; //MALLOC CORRUPTED TOP SIZE
 		snprintf( node->filho->notation ,strlen(call_params)+3,"(%s)",call_params);
 		node->filho->notation[strlen(call_params)+2] = '\0';
-	
+
 		//atualizar a notacao do Call
 		node->notation = return_type;
 

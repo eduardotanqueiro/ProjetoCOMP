@@ -83,7 +83,7 @@ void print_AST(no *no, int level)
     }
     else{
         if (strcmp(no->info->val,"") )
-        {
+        {   
             printf("%s(%s) - %s\n", no->tipo, no->info->val,no->notation);
         }
         else{

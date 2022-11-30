@@ -1,15 +1,11 @@
-Line 19, col 20: Symbol a(int) already defined
-Line 5, col 8: Number 2147483648 out of bounds
-Line 10, col 4: Cannot find symbol b
-Line 10, col 6: Operator = cannot be applied to types undef, int
-Line 15, col 8: Number 2147483649 out of bounds
-Line 16, col 4: Cannot find symbol d
-Line 16, col 8: Cannot find symbol c
-Line 16, col 6: Operator = cannot be applied to types undef, undef
-Line 15, col 4: Cannot find symbol d
-Line 15, col 6: Operator = cannot be applied to types undef, int
-Line 21, col 8: Number 10_0000_00000 out of bounds
-Line 21, col 4: Cannot find symbol d
-Line 21, col 6: Operator = cannot be applied to types undef, int
-Line 25, col 26: Cannot find symbol s
-Line 25, col 9: Operator Integer.parseInt cannot be applied to types undef, double
+Line 4, col 23: Symbol c already defined
+Line 4, col 26: Symbol a already defined
+Line 4, col 29: Symbol b already defined
+Line 13, col 11: Symbol ola already defined
+Line 15, col 45: Symbol i already defined
+Line 17, col 13: Symbol i already defined
+Line 18, col 13: Symbol argument already defined
+Line 20, col 16: Symbol i already defined
+Line 23, col 45: Symbol i already defined
+Line 23, col 51: Symbol _ is reserved
+Line 8, col 11: Incompatible type int in if statement

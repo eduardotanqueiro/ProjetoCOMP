@@ -28,8 +28,8 @@ if [[ -d meta3 ]]; then
         out=${inp%.java}.out
         tmp=${inp%.java}.out_temp
         flag="-s"
-        if [[ "$inp" == *_e2.java ]]; then
-            flag="-e2"
+        if [[ "$inp" == *_s.java ]]; then
+            flag=""
         fi
         if $exe $flag < "$inp" > "$tmp"; then 
             lines=$(diff --strip-trailing-cr  <(sort $tmp) <(sort $out) | wc -l) #check files ignoring line order
