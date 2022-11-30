@@ -1299,7 +1299,7 @@ YY_RULE_SETUP
 case 51:
 YY_RULE_SETUP
 #line 135 "jucompiler.l"
-{if(flag_tokens_lex) printf("RESERVED(%s)\n",yytext);col_num+=yyleng; return RESERVED;}
+{if(flag_tokens_lex) printf("RESERVED(%s)\n",yytext); yylval.info = gen_token(yytext, line_num, col_num); col_num+=yyleng; return RESERVED;}
 	YY_BREAK
 case 52:
 YY_RULE_SETUP

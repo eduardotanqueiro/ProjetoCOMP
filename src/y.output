@@ -1,7 +1,7 @@
 Terminals unused in grammar
 
-    ARROW
     RESERVED
+    ARROW
 
 
 Grammar
@@ -139,27 +139,27 @@ Terminals, with rules where they appear
     PARSEINT <info> (282) 48 49
     RETURN <info> (283) 31 32
     XOR <info> (284) 70
-    BOOL (285) 11
-    COMMA (286) 9 20 45
-    LBRACE (287) 1 22 27
-    LPAR (288) 14 15 16 17 28 29 30 33 34 42 43 44 48 49 52 79
-    LSQ (289) 19 48
-    RBRACE (290) 1 22 27
-    RPAR (291) 14 15 16 17 28 29 30 33 34 42 43 44 48 49 52 79
-    RSQ (292) 19 48
-    SEMICOLON (293) 4 7 8 26 31 32 33 34 35 36 37 38 39
-    ARROW (294)
-    CLASS (295) 1
-    DOUBLE (296) 13
-    ELSE (297) 28
-    IF (298) 28 29
-    INT (299) 12
-    PUBLIC (300) 6 7
-    STATIC (301) 6 7
-    STRING (302) 19
-    VOID (303) 15 17
-    WHILE (304) 30
-    RESERVED (305)
+    RESERVED <info> (285)
+    BOOL (286) 11
+    COMMA (287) 9 20 45
+    LBRACE (288) 1 22 27
+    LPAR (289) 14 15 16 17 28 29 30 33 34 42 43 44 48 49 52 79
+    LSQ (290) 19 48
+    RBRACE (291) 1 22 27
+    RPAR (292) 14 15 16 17 28 29 30 33 34 42 43 44 48 49 52 79
+    RSQ (293) 19 48
+    SEMICOLON (294) 4 7 8 26 31 32 33 34 35 36 37 38 39
+    ARROW (295)
+    CLASS (296) 1
+    DOUBLE (297) 13
+    ELSE (298) 28
+    IF (299) 28 29
+    INT (300) 12
+    PUBLIC (301) 6 7
+    STATIC (302) 6 7
+    STRING (303) 19
+    VOID (304) 15 17
+    WHILE (305) 30
 
 
 Nonterminals, with rules where they appear

@@ -6,7 +6,7 @@
 #include<string.h>
 #include<stdio.h>
 #include <stdbool.h>
-
+#include <float.h>
 #include<ctype.h>
 
 #define PARAMS_BUFFER_SIZE 512
@@ -63,6 +63,8 @@ char* get_var_type(no* var_node,char* func_name);
 int one_part_op(char* tipo);
 int two_part_op(char* tipo);
 long int get_intlit(char* str_intlit);
+long double get_reallit(char* str_reallit);
+char* remove_underscore(char* str);
 bool isIntDoubleBool(no* node);
 bool check_compatible_type(char* func_param, char* call_variable);
 int count_number_char(char* str, char chr);

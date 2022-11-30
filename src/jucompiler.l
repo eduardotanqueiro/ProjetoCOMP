@@ -132,7 +132,7 @@ void {if(flag_tokens_lex) printf("VOID\n");col_num+=yyleng; return VOID;}
 
 while {if(flag_tokens_lex) printf("WHILE\n");col_num+=yyleng; return WHILE;}
 
-"+""+"|--|null|Integer|System|{reserved_words} {if(flag_tokens_lex) printf("RESERVED(%s)\n",yytext);col_num+=yyleng; return RESERVED;}
+"+""+"|--|null|Integer|System|{reserved_words} {if(flag_tokens_lex) printf("RESERVED(%s)\n",yytext); yylval.info = gen_token(yytext, line_num, col_num); col_num+=yyleng; return RESERVED;}
 
 ([a-z]|[A-Z]|"_"|"$")([a-z]|[A-Z]|[0-9]|"_"|"$")*   {if(flag_tokens_lex) printf("ID(%s)\n",yytext); yylval.info = gen_token(yytext, line_num, col_num); col_num+=yyleng; return ID;}  
 

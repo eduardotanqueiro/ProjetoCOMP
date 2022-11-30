@@ -31,10 +31,12 @@ if [[ -d meta3 ]]; then
         if [[ "$inp" == *_e2.java ]]; then
             flag="-e2"
         fi
-        if $exe $flag < "$inp" > "$tmp"; then
-            lines=$(diff --strip-trailing-cr $out $tmp | wc -l)
+        if $exe $flag < "$inp" > "$tmp"; then 
+            lines=$(diff --strip-trailing-cr  <(sort $tmp) <(sort $out) | wc -l) #check files ignoring line order
+            #lines=$(diff --strip-trailing-cr $out $tmp | wc -l)
             if [[ $lines -gt 0 ]]; then
-                echo " Wrong Answer, run 'diff $out $tmp' to see the differences"
+                echo " Wrong Answer, run 'diff --strip-trailing-cr  <(sort $tmp) <(sort $out)' to see the differences"
+                #echo " Wrong Answer, run 'diff $out $tmp' to see the differences"
             else
                 accepted=$(( $accepted + 1 ))
             fi

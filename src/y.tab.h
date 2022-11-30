@@ -81,27 +81,27 @@ extern int yydebug;
     PARSEINT = 282,                /* PARSEINT  */
     RETURN = 283,                  /* RETURN  */
     XOR = 284,                     /* XOR  */
-    BOOL = 285,                    /* BOOL  */
-    COMMA = 286,                   /* COMMA  */
-    LBRACE = 287,                  /* LBRACE  */
-    LPAR = 288,                    /* LPAR  */
-    LSQ = 289,                     /* LSQ  */
-    RBRACE = 290,                  /* RBRACE  */
-    RPAR = 291,                    /* RPAR  */
-    RSQ = 292,                     /* RSQ  */
-    SEMICOLON = 293,               /* SEMICOLON  */
-    ARROW = 294,                   /* ARROW  */
-    CLASS = 295,                   /* CLASS  */
-    DOUBLE = 296,                  /* DOUBLE  */
-    ELSE = 297,                    /* ELSE  */
-    IF = 298,                      /* IF  */
-    INT = 299,                     /* INT  */
-    PUBLIC = 300,                  /* PUBLIC  */
-    STATIC = 301,                  /* STATIC  */
-    STRING = 302,                  /* STRING  */
-    VOID = 303,                    /* VOID  */
-    WHILE = 304,                   /* WHILE  */
-    RESERVED = 305                 /* RESERVED  */
+    RESERVED = 285,                /* RESERVED  */
+    BOOL = 286,                    /* BOOL  */
+    COMMA = 287,                   /* COMMA  */
+    LBRACE = 288,                  /* LBRACE  */
+    LPAR = 289,                    /* LPAR  */
+    LSQ = 290,                     /* LSQ  */
+    RBRACE = 291,                  /* RBRACE  */
+    RPAR = 292,                    /* RPAR  */
+    RSQ = 293,                     /* RSQ  */
+    SEMICOLON = 294,               /* SEMICOLON  */
+    ARROW = 295,                   /* ARROW  */
+    CLASS = 296,                   /* CLASS  */
+    DOUBLE = 297,                  /* DOUBLE  */
+    ELSE = 298,                    /* ELSE  */
+    IF = 299,                      /* IF  */
+    INT = 300,                     /* INT  */
+    PUBLIC = 301,                  /* PUBLIC  */
+    STATIC = 302,                  /* STATIC  */
+    STRING = 303,                  /* STRING  */
+    VOID = 304,                    /* VOID  */
+    WHILE = 305                    /* WHILE  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -137,27 +137,27 @@ extern int yydebug;
 #define PARSEINT 282
 #define RETURN 283
 #define XOR 284
-#define BOOL 285
-#define COMMA 286
-#define LBRACE 287
-#define LPAR 288
-#define LSQ 289
-#define RBRACE 290
-#define RPAR 291
-#define RSQ 292
-#define SEMICOLON 293
-#define ARROW 294
-#define CLASS 295
-#define DOUBLE 296
-#define ELSE 297
-#define IF 298
-#define INT 299
-#define PUBLIC 300
-#define STATIC 301
-#define STRING 302
-#define VOID 303
-#define WHILE 304
-#define RESERVED 305
+#define RESERVED 285
+#define BOOL 286
+#define COMMA 287
+#define LBRACE 288
+#define LPAR 289
+#define LSQ 290
+#define RBRACE 291
+#define RPAR 292
+#define RSQ 293
+#define SEMICOLON 294
+#define ARROW 295
+#define CLASS 296
+#define DOUBLE 297
+#define ELSE 298
+#define IF 299
+#define INT 300
+#define PUBLIC 301
+#define STATIC 302
+#define STRING 303
+#define VOID 304
+#define WHILE 305
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
