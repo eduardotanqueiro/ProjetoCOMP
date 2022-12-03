@@ -1,11 +1,13 @@
 #ifndef SYMBOL_TABLE_H
 #define SYMBOL_TABLE_H
+#include <errno.h>
 
 #include "ast.h"
 #include <stdlib.h>
 #include<string.h>
 #include<stdio.h>
 #include <stdbool.h>
+#include <limits.h>
 #include <float.h>
 #include<ctype.h>
 
@@ -63,7 +65,7 @@ char* get_var_type(no* var_node,char* func_name);
 int one_part_op(char* tipo);
 int two_part_op(char* tipo);
 long int get_intlit(char* str_intlit);
-long double get_reallit(char* str_reallit);
+int get_reallit(char* str_reallit);
 char* remove_underscore(char* str);
 bool isIntDoubleBool(no* node);
 bool check_compatible_type(char* func_param, char* call_variable);

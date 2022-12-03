@@ -929,11 +929,16 @@ void check_one_part_op(no* node, char* func_name, int isLogical){
 			
 			if( op_type != NULL){
 
-				if( strcmp(op_type,"void")){ //se não for void
-					printf("Line %d, col %d: Incompatible type %s in return statement\n",node->filho->info->line,node->filho->info->col,op_type);
+				if( strcmp(op_type,"void")){ //se não for void, tem de ser undef
+
+					if( !strcmp(node->filho->tipo,"Call") )
+						printf("Line %d, col %d: Incompatible type %s in return statement\n",node->filho->info->line,node->filho->filho->info->col,op_type);
+					else
+						printf("Line %d, col %d: Incompatible type %s in return statement\n",node->filho->info->line,node->filho->info->col,op_type);
+
 				}
 				else{
-					// ?!?!?!??!?!?!?!?
+
 					//checkar se a funcao devolve void ou não
 					//se for void, diferenciar entre um return; e um return *void*, por exemplo
 					char* return_type = search_symbol(symtab, func_name, 0,0);
@@ -969,19 +974,30 @@ void check_one_part_op(no* node, char* func_name, int isLogical){
 
 }
 
-long double get_reallit(char* str_reallit){
+
+int get_reallit(char* str_reallit){
 
 	char* lixo;
 	char* aux = remove_underscore(str_reallit);
-	long double fin = strtold(aux,&lixo);
-	// printf("%Lf | %s | %lu | %f %f %d %d\n",fin,lixo,sizeof(fin),DBL_MIN,DBL_MAX, fin ==  DBL_MIN, fin > DBL_MAX);
-	free(aux);
-	return fin;
+
+	errno = 0;
+	char * end;	
+	double result = 0;
+	result = strtod(aux, &end); //tentar converter a string para double
+
+	if(result == 0 && (errno != 0 || end == aux)){ //se der erro
+		fprintf(stderr, "Error: input is not a valid double\n");
+		return 1;
+	}
+
+	return 0;
+
 }
 
 char* remove_underscore(char* str){
 
 	char* aux = (char*)malloc(sizeof(2));
+	memset(aux,0, strlen(aux));
 	int counter = 0;
 
 	for(int i=0; i<strlen(str); i++){
@@ -1028,18 +1044,21 @@ bool isIntDoubleBool(no* node){
 	if( !strcmp(node->tipo,"DecLit")){
 		node->notation = "int";
 
-		if( get_intlit(node->info->val) >= 2147483648) //verificar se o int está dentro dos limites
+		if( get_intlit(node->info->val) > INT_MAX) //verificar se o int está dentro dos limites
 			printf("Line %d, col %d: Number %s out of bounds\n",node->info->line, node->info->col, node->info->val);
 
 		return true;
 	}
 	else if( !strcmp(node->tipo,"RealLit")){
-		long double check = get_reallit(node->info->val);
 
-		if( check != 0 && (check <  DBL_MIN || check > DBL_MAX) ){
+		if( get_reallit(node->info->val) ){
 			printf("Line %d, col %d: Number %s out of bounds\n",node->info->line, node->info->col, node->info->val);
-			flag_erro_semantic = 1;
+		    flag_erro_semantic = 1;
 		}
+		// if(  check != 0.0 && (check <  DBL_TRUE_MIN || check > DBL_MAX) ){
+		// 	printf("Line %d, col %d: Number %s out of bounds\n",node->info->line, node->info->col, node->info->val);
+		// 	flag_erro_semantic = 1;
+		// }
 
 		node->notation = "double";
 		return true;
