@@ -96,10 +96,12 @@ void get_method_meader(tab_element* method_node, no* no_ast){
 
 	method_node->body = create_element("return", "", method_node->type,0); 
 	tab_element* last_elem_method_table = method_node->body;
-
-	char* str_params = (char*)malloc(1);
-	memset(str_params, 0, sizeof(str_params));
+ 
+	int str_params_len = 2, new_len;
+	char* str_params = (char*)malloc(2*sizeof(char));
+	memset(str_params, 0, 2);
 	strcat(str_params, "");
+
 	no* aux_node = no_ast->filho;
 
 	tab_element* aux_elem; //elemento auxiliar para adicionar na tabela de variaveis do metodo
@@ -125,37 +127,66 @@ void get_method_meader(tab_element* method_node, no* no_ast){
 				printf("Line %d, col %d: Symbol %s is reserved\n", aux_node->filho->irmao->info->line,aux_node->filho->irmao->info->col, aux_node->filho->irmao->info->val);
 			}
 
+			char* temp;
 			// adicionar o paramatro à string de parametros do metodo
 			if( !strcmp(str_params,"") ){ //se a string está vazia, é o primeiro parametro
 				if(DEBUG) printf("add str params\n");
-				str_params = realloc(str_params, strlen(str_params)+strlen(aux_node->filho->tipo)+1 );
-				strcat(str_params, get_type(aux_node->filho->tipo));
+
+				new_len = str_params_len + strlen(aux_node->filho->tipo) + 1;
+				temp = realloc(str_params, new_len );
+				
+				if(temp != NULL){
+					str_params_len = new_len;
+					str_params = temp; 
+					strcat(str_params, get_type(aux_node->filho->tipo));
+				}
 			}
 			else{
 				if(DEBUG) printf("add str params plus\n");
-				str_params = realloc(str_params, strlen(str_params)+strlen(aux_node->filho->tipo)+2 );
-				strcat(str_params, ",");
-				strcat(str_params, get_type(aux_node->filho->tipo));
-			}
 
+				new_len = str_params_len + strlen(aux_node->filho->tipo) + 2;
+				temp = realloc(str_params, new_len );
+				
+				if(temp != NULL){
+					str_params_len = new_len;
+					str_params = temp;
+					strcat(str_params, ",");
+					strcat(str_params, get_type(aux_node->filho->tipo));
+				}
+			}
 
 		}
 		else{
 
 			//ERRO VARIAVEL JA DEFINIDA
 			printf("Line %d, col %d: Symbol %s already defined\n", aux_node->filho->irmao->info->line,aux_node->filho->irmao->info->col, aux_node->filho->irmao->info->val);
-		
+
+			char* temp;
 			// adicionar o paramatro à string de parametros do metodo
 			if( !strcmp(str_params,"") ){ //se a string está vazia, é o primeiro parametro
 				if(DEBUG) printf("add str params\n");
-				str_params = realloc(str_params, strlen(str_params)+strlen(aux_node->filho->tipo)+1 );
-				strcat(str_params, get_type(aux_node->filho->tipo));
+
+				new_len = str_params_len + strlen(aux_node->filho->tipo) + 1;
+				temp = realloc(str_params, new_len );
+				
+				if(temp != NULL){
+					str_params_len = new_len;
+					str_params = temp; 
+					strcat(str_params, get_type(aux_node->filho->tipo));
+				}
 			}
 			else{
 				if(DEBUG) printf("add str params plus\n");
-				str_params = realloc(str_params, strlen(str_params)+strlen(aux_node->filho->tipo)+2 );
-				strcat(str_params, ",");
-				strcat(str_params, get_type(aux_node->filho->tipo));
+
+				new_len = str_params_len + strlen(aux_node->filho->tipo) + 2;
+				temp = realloc(str_params, new_len );
+				
+				if(temp != NULL){
+					str_params_len = new_len;
+					str_params = temp;
+					strcat(str_params, ",");
+					strcat(str_params, get_type(aux_node->filho->tipo));
+				}
 			}
 
 		}
@@ -241,7 +272,8 @@ void add_vars(tab_element* tail, no* no_ast){
 
 char* get_type(char* original_type){
 
-	char* fixed_type = (char*)malloc(sizeof(13));
+	char* fixed_type = (char*)malloc(sizeof(16));
+	memset(fixed_type, 0, 16);
 
 	if( !strcmp(original_type,"StringArray") )
 		fixed_type = "String[]";
@@ -870,8 +902,10 @@ void check_one_part_op(no* node, char* func_name, int isLogical){
 					if( strcmp(aux->type,op_type)) //isto é, os tipos não coincidem
 					{
 						//raise error tipo incompativel
-						if( ! ( !strcmp(aux->type,"double") && !strcmp(op_type,"int") ) )
+						if( ! ( !strcmp(aux->type,"double") && !strcmp(op_type,"int") ) ){ //estes tipos são compatíveis
 							printf("Line %d, col %d: Incompatible type %s in return statement\n",node->filho->info->line,node->filho->info->col,op_type);
+							break;
+						}
 					}
 				
 				}
@@ -919,7 +953,11 @@ void check_one_part_op(no* node, char* func_name, int isLogical){
 		else if( !strcmp(node->tipo,"Print")){
 
 			if( op_type != NULL){
-				printf("Line %d, col %d: Incompatible type %s in System.out.print statement\n",node->filho->filho->info->line,node->filho->filho->info->col,op_type);
+				if(node->filho->filho != NULL)
+					printf("Line %d, col %d: Incompatible type %s in System.out.print statement\n",node->filho->filho->info->line,node->filho->filho->info->col,op_type);
+				else if(node->filho != NULL)
+					printf("Line %d, col %d: Incompatible type %s in System.out.print statement\n",node->filho->info->line,node->filho->info->col,op_type);
+				
 			}				
 			else
 				printf("Line %d, col %d: Incompatible type null in System.out.print statement\n",node->filho->info->line,node->filho->info->col);
@@ -985,10 +1023,8 @@ int get_reallit(char* str_reallit){
 	double result = 0;
 	result = strtod(aux, &end); //tentar converter a string para double
 
-	if(result == 0 && (errno != 0 || end == aux)){ //se der erro
-		fprintf(stderr, "Error: input is not a valid double\n");
+	if(result == 0 && (errno != 0 || end == aux)) //se der erro
 		return 1;
-	}
 
 	return 0;
 
@@ -996,15 +1032,22 @@ int get_reallit(char* str_reallit){
 
 char* remove_underscore(char* str){
 
+	int aux_len = 2;
 	char* aux = (char*)malloc(sizeof(2));
 	memset(aux,0, strlen(aux));
 	int counter = 0;
 
 	for(int i=0; i<strlen(str); i++){
 		
+		char* temp;
 		if( str[i] != '_' ){ //se for dígito, concatenamos à string auxiliar
-			aux = (char*)realloc(aux, strlen(aux)+1); //alocar mais memória para a string
-			aux[counter++] = str[i]; 
+			
+			temp = (char*)realloc(aux, ++aux_len); //alocar mais memória para a string
+			
+			if(temp != NULL){
+				aux = temp;
+				aux[counter++] = str[i]; 
+			}
 		}
 
 	}
@@ -1017,15 +1060,23 @@ char* remove_underscore(char* str){
 long int get_intlit(char* str_intlit){
 
 	long int fin;
-	int counter = 0;
+	int counter = 0, aux_len = 2;
 	char* aux = (char*)malloc(sizeof(2)); //string auxiliar só com digitos
+	memset(aux, 0, strlen(aux));
 	char* lixo;
 
 	for(int i=0; i<strlen(str_intlit); i++){
 		
+		char* temp;
+
 		if( isdigit(str_intlit[i]) ){ //se for dígito, concatenamos à string auxiliar
-			aux = (char*)realloc(aux, strlen(aux)+1); //alocar mais memória para a string
-			aux[counter++] = str_intlit[i]; 
+
+			temp = (char*)realloc(aux, ++aux_len); //alocar mais memória para a string
+
+			if(temp != NULL){
+				aux = temp; 
+				aux[counter++] = str_intlit[i]; 
+			}
 		}
 
 	}
@@ -1104,8 +1155,9 @@ int count_number_char(char* str, char chr){
 
 void check_call(no* node, tab_element* elem, char* func_name){
 
+	int call_params_len = 2, new_size;
 	char* call_params = (char*)malloc(2);
-	memset(call_params, 0, sizeof(call_params));
+	memset(call_params, 0, call_params_len);
 	strcat(call_params, "");
 
 
@@ -1127,14 +1179,28 @@ void check_call(no* node, tab_element* elem, char* func_name){
 			// printf("%s\n",aux_params->notation);
 		}
 
-
+		char* temp;
 		//constante ou Call
 		if(strlen(call_params) == 0){ //se é o primeiro parametro
-			call_params = realloc(call_params, sizeof(call_params + strlen(aux_params->notation)));
+			
+			new_size = call_params_len + strlen(aux_params->notation);
+			temp = realloc(call_params, new_size);
+			
+			if(temp != NULL){
+				call_params = temp; 
+				call_params_len = new_size;
+			}
 		}
 		else{ //se já existirem parametros
-			call_params = realloc(call_params, sizeof(call_params + strlen(aux_params->notation) + 1));
-			strcat(call_params,",");
+
+			new_size = call_params_len + strlen(aux_params->notation) + 1;
+			temp = realloc(call_params, new_size);
+			
+			if(temp != NULL){
+				call_params_len = new_size;
+				call_params = temp; 
+				strcat(call_params,",");
+			}
 		}
 
 
@@ -1238,7 +1304,10 @@ void check_call(no* node, tab_element* elem, char* func_name){
 		//a funcao existe e tem os mesmo tipo de parametros dos que foram recebidos na chamada
 		//no do nome do metodo com os tipos
 		// printf("bop %s %ld %s\n",node->filho->notation, sizeof(strlen(call_params)+3),call_params);
-		node->filho->notation = (char*)malloc( strlen(call_params)+3 ) ; //MALLOC CORRUPTED TOP SIZE
+		// printf("p %p %ld %s\n",node->filho->notation,strlen(call_params),call_params);
+		node->filho->notation = (char*)malloc( (strlen(call_params)+3) * sizeof(char) ) ; //MALLOC CORRUPTED TOP SIZE
+		memset(node->filho->notation,0,strlen(call_params)+3);
+
 		snprintf( node->filho->notation ,strlen(call_params)+3,"(%s)",call_params);
 		node->filho->notation[strlen(call_params)+2] = '\0';
 
