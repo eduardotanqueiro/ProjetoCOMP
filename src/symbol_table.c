@@ -371,8 +371,51 @@ void printSymbolTable(tab_element* elem) {
     printf("\n");
 }
 
+char* get_method_params(no* node){
+	//recebe o MethodParams
+	no* aux =  node->filho->filho->irmao->irmao->filho; //Primeiro ParamDecl
 
-void make_notations_ast(no* node, tab_element* tab, char* func){
+	int str_params_len = 2, new_len;
+	char* str_params = (char*)malloc(2*sizeof(char));
+	memset(str_params, 0, 2);
+	strcat(str_params, "");
+
+	while(aux != NULL){
+
+		char* temp;
+
+		// adicionar o paramatro à string de parametros do metodo
+		if( !strcmp(str_params,"") ){ //se a string está vazia, é o primeiro parametro
+
+			new_len = str_params_len + strlen(aux->filho->tipo) + 1;
+			temp = realloc(str_params, new_len );
+			
+			if(temp != NULL){
+				str_params_len = new_len;
+				str_params = temp; 
+				strcat(str_params, get_type(aux->filho->tipo));
+			}
+		}
+		else{
+
+			new_len = str_params_len + strlen(aux->filho->tipo) + 2;
+			temp = realloc(str_params, new_len );
+			
+			if(temp != NULL){
+				str_params_len = new_len;
+				str_params = temp;
+				strcat(str_params, ",");
+				strcat(str_params, get_type(aux->filho->tipo));
+			}
+		}
+
+		aux = aux->irmao;
+	}
+
+	return str_params;
+}
+
+void make_notations_ast(no* node, tab_element* tab, char* func, char* func_params){
 
 	// if(node == NULL) 
 	// 	printf("NULL EXCEPTION\n");
@@ -386,25 +429,29 @@ void make_notations_ast(no* node, tab_element* tab, char* func){
 		//verificar se existe
 		if( search_symbol(tab, func_name, 0,0) != NULL ){ //TODO VERIFICAR COM PARAMETROS
 
+			char* new_func_params = get_method_params(node);
+
+			//printf("%s(%s)\n", func_name, new_func_params);
+
 			//se existe, vamos iterar dentro do metodo
 			if(node->filho != NULL)
-				make_notations_ast(node->filho, tab, func_name); //agora estamos a iterar dentro deste metodo
+				make_notations_ast(node->filho, tab, func_name, new_func_params); //agora estamos a iterar dentro deste metodo
 			
 
 		}
 		
 		//metodo nao declarado ou entao seguir para o proximo metodo
 		if(node->irmao != NULL)
-			make_notations_ast(node->irmao, tab, NULL);
+			make_notations_ast(node->irmao, tab, func, func_params);
 
 	}
 	else{
 		//contínuamos a correr a árvore para baixo, estamos dentro de uma funcao
 		if(node->filho != NULL)
-			make_notations_ast(node->filho, tab, func);
+			make_notations_ast(node->filho, tab, func, func_params);
 
 		if(node->irmao != NULL)
-			make_notations_ast(node->irmao, tab, func);
+			make_notations_ast(node->irmao, tab, func, func_params);
 
 	}
 
@@ -414,13 +461,13 @@ void make_notations_ast(no* node, tab_element* tab, char* func){
 		//done in the function before
 	}
 	else if( (logical = two_part_op(node->tipo)) ){
-		check_two_part_op(node,func,logical);
+		check_two_part_op(node,func,logical,func_params);
 	}
 	else if ( logical = one_part_op(node->tipo) ){
-		check_one_part_op(node,func,logical);
+		check_one_part_op(node,func,logical, func_params);
 	}
 	else if( !strcmp(node->tipo,"Call")){
-		check_call(node, tab, func);
+		check_call(node, tab, func, func_params);
 	}
 
 
@@ -475,7 +522,7 @@ int one_part_op(char* tipo){
 	return 0;
 }
 
-char* get_var_type(no* var_node,char* func_name){
+char* get_var_type(no* var_node,char* func_name, char* func_params){
 
 	//search for the function in the global table
 	tab_element* aux_tab = symtab->next; //TODO: NEXT OU NÃO?
@@ -485,7 +532,8 @@ char* get_var_type(no* var_node,char* func_name){
 	while(aux_tab != NULL){ //TODO e se houverem várias funcoes com o mesmo nome?!?!?
 		
 		//printf("aux %s | org %s\n",aux_tab->name,func_name);
-		if( !strcmp(aux_tab->name, func_name) ){
+		if( !strcmp(aux_tab->name, func_name) && func_params != NULL && aux_tab->params_list != NULL && !strcmp(aux_tab->params_list,func_params) ){
+			// printf("aux %s | org %s\n",aux_tab->params_list,func_params);
 
 			//search for the variable in the function table
 			aux_method = aux_tab->body; //TODO BODY???
@@ -528,7 +576,7 @@ char* get_var_type(no* var_node,char* func_name){
 }
 
 
-void check_two_part_op(no* node,char* func_name, int isLogical){
+void check_two_part_op(no* node,char* func_name, int isLogical, char* func_params){
 
 	char* op_type1, *op_type2;
 
@@ -540,7 +588,7 @@ void check_two_part_op(no* node,char* func_name, int isLogical){
 
 
 		//is buscar o tipo da variável
-		op_type1 = get_var_type(node->filho,func_name);
+		op_type1 = get_var_type(node->filho,func_name,func_params);
 		node->filho->notation = (char*)strdup(op_type1);
 
 		//raise error se for undef
@@ -555,7 +603,7 @@ void check_two_part_op(no* node,char* func_name, int isLogical){
 	if( !strcmp(node->filho->irmao->tipo,"Id") ){
 
 		//is buscar o tipo da variável
-		op_type2 = get_var_type(node->filho->irmao,func_name);
+		op_type2 = get_var_type(node->filho->irmao,func_name, func_params);
 		node->filho->irmao->notation = (char*)strdup(op_type2);
 
 		//raise error se for undef
@@ -817,10 +865,11 @@ void check_two_part_op(no* node,char* func_name, int isLogical){
 	}
 }
 
-void check_one_part_op(no* node, char* func_name, int isLogical){
+void check_one_part_op(no* node, char* func_name, int isLogical, char* func_params){
 
 	char* op_type;
 	// printf("one part %s %s %s\n",node->tipo,node->filho->tipo,node->filho->info->val);
+	//printf("one part %s %s %s\n",node->tipo,node->filho->tipo,func_params);
 
 	//verificar se tem filhos
     if (node->filho == NULL)
@@ -830,7 +879,7 @@ void check_one_part_op(no* node, char* func_name, int isLogical){
 	else if( !strcmp(node->filho->tipo,"Id") ){
 		
 		//is buscar o tipo da variável
-		op_type = get_var_type(node->filho,func_name);
+		op_type = get_var_type(node->filho,func_name, func_params);
 		node->filho->notation = (char*)strdup(op_type);
 		// printf("one part node notation %s\n",node->notation);
 
@@ -897,12 +946,13 @@ void check_one_part_op(no* node, char* func_name, int isLogical){
 			//temos de ir verificar se o tipo de return coincide com a declaracao do metodo
 			tab_element* aux = symtab;
 
-			//TODO erro
-		
+			//TODO RUNTIME ERROR ALGURES AQUI
+			
 			while(aux != NULL){
-
-				if( !strcmp(aux->name,func_name)){  //encontrámos a funcao 
-													//TODO: checkar com parametros
+				
+				//printf("func %s | fixed %s\n",aux->params_list,func_params);
+				if( !strcmp(aux->name,func_name) && func_params != NULL && aux->params_list != NULL &&!strcmp(aux->params_list,func_params) ){  //encontrámos a funcao 
+					//verificamos se o params_list não é NULL porque as variaveis globais têm essa variáve a NULL
 
 					if( strcmp(aux->type,op_type)) //isto é, os tipos não coincidem
 					{
@@ -919,6 +969,7 @@ void check_one_part_op(no* node, char* func_name, int isLogical){
 
 				aux = aux->next;
 			}
+			
 
 		}
 		else if( !strcmp(node->tipo,"Length") ){
@@ -1161,7 +1212,7 @@ int count_number_char(char* str, char chr){
 	return count;
 }
 
-void check_call(no* node, tab_element* elem, char* func_name){
+void check_call(no* node, tab_element* elem, char* func_name, char* func_params){
 
 	int call_params_len = 2, new_size;
 	char* call_params = (char*)malloc(2);
@@ -1176,11 +1227,11 @@ void check_call(no* node, tab_element* elem, char* func_name){
 		if( !strcmp(aux_params->tipo,"Id") ){
 
 			//verificar se a variavel existe
-			char* var_type = get_var_type(aux_params,func_name);
+			char* var_type = get_var_type(aux_params,func_name, func_params);
 			aux_params->notation = var_type; // atualizar o tipo do nó
 
 			if ( !strcmp(var_type,"undef") ){
-				//erro
+				//erro TODO precisa?
 				printf("Line %d, col %d: Cannot find symbol %s\n",aux_params->info->line, aux_params->info->col, aux_params->info->val);
 			}
 		}else{

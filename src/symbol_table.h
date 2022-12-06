@@ -58,10 +58,10 @@ void printSymbolTable(tab_element* elem);
 char* get_type(char* original_type);
 char* search_symbol(tab_element* func, char* name, int isVar, int inMethod);
 char* search_method(tab_element* func, char* name, char* params_list);
-void make_notations_ast(no* node, tab_element* elem, char* func);
-void check_two_part_op(no* node,char* func_name, int isLogical);
-void check_one_part_op(no* node, char* func_name, int isLogical);
-char* get_var_type(no* var_node,char* func_name);
+void make_notations_ast(no* node, tab_element* elem, char* func, char* func_params);
+void check_two_part_op(no* node,char* func_name, int isLogical, char* func_params);
+void check_one_part_op(no* node, char* func_name, int isLogical, char* func_params);
+char* get_var_type(no* var_node,char* func_name, char* func_params);
 int one_part_op(char* tipo);
 int two_part_op(char* tipo);
 long int get_intlit(char* str_intlit);
@@ -70,6 +70,8 @@ char* remove_underscore(char* str);
 bool isIntDoubleBool(no* node);
 bool check_compatible_type(char* func_param, char* call_variable);
 int count_number_char(char* str, char chr);
-void check_call(no* node, tab_element* elem, char* func_name);
+void check_call(no* node, tab_element* elem, char* func_name, char* func_params);
 char* get_node_operator(char* tipo_no);
+
+char* get_method_params(no* node);
 #endif

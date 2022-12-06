@@ -2480,7 +2480,7 @@ if (flag_tree){
 if(flag_semantic){
     symtab = create_element(raiz->filho->info->val,"","", 0);
     create_table(symtab,raiz);
-    make_notations_ast(raiz,symtab,NULL);
+    make_notations_ast(raiz,symtab,NULL,NULL);
     /* printf("fim anotacoes\n"); */
     
     if( !flag_erro_semantic ){
