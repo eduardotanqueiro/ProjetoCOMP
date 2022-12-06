@@ -478,18 +478,20 @@ int one_part_op(char* tipo){
 char* get_var_type(no* var_node,char* func_name){
 
 	//search for the function in the global table
-	tab_element* aux_tab = symtab;
+	tab_element* aux_tab = symtab->next; //TODO: NEXT OU NÃO?
 	tab_element* aux_method;
 	char* type = "undef";
 
-	while(aux_tab != NULL){ //e se houverem várias funcoes com o mesmo nome?!?!? ERROR ERRO
+	while(aux_tab != NULL){ //TODO e se houverem várias funcoes com o mesmo nome?!?!?
 		
+		//printf("aux %s | org %s\n",aux_tab->name,func_name);
 		if( !strcmp(aux_tab->name, func_name) ){
 
-			//search for the variable
-			aux_method = aux_tab;
+			//search for the variable in the function table
+			aux_method = aux_tab->body; //TODO BODY???
 			while(aux_method != NULL){
-
+				
+				//printf("method_var %s | ext_var %s\n",aux_method->name,var_node->info->val);
 				if(aux_method->name != NULL && var_node->info != NULL){ //prevenir SEGFAULT
 
 					if( !strcmp(aux_method->name, var_node->info->val) ){ //se o nome da variavel está na tabela de simbolos
@@ -895,12 +897,16 @@ void check_one_part_op(no* node, char* func_name, int isLogical){
 			//temos de ir verificar se o tipo de return coincide com a declaracao do metodo
 			tab_element* aux = symtab;
 
+			//TODO erro
+		
 			while(aux != NULL){
 
-				if( !strcmp(aux->name,func_name)){  //encontrámos a funcao
+				if( !strcmp(aux->name,func_name)){  //encontrámos a funcao 
+													//TODO: checkar com parametros
 
 					if( strcmp(aux->type,op_type)) //isto é, os tipos não coincidem
 					{
+						//printf("%s %s\n",aux->type,op_type);
 						//raise error tipo incompativel
 						if( ! ( !strcmp(aux->type,"double") && !strcmp(op_type,"int") ) ){ //estes tipos são compatíveis
 							printf("Line %d, col %d: Incompatible type %s in return statement\n",node->filho->info->line,node->filho->info->col,op_type);
@@ -972,7 +978,8 @@ void check_one_part_op(no* node, char* func_name, int isLogical){
 					if( !strcmp(node->filho->tipo,"Call") )
 						printf("Line %d, col %d: Incompatible type %s in return statement\n",node->filho->info->line,node->filho->filho->info->col,op_type);
 					else
-						printf("Line %d, col %d: Incompatible type %s in return statement\n",node->filho->info->line,node->filho->info->col,op_type);
+						printf("Line %d, col %d: Incompatible type %s in return statement\n",node->filho->info->line,node->filho->info->col,op_type); //TODO filho?!
+					
 
 				}
 				else{
@@ -989,6 +996,7 @@ void check_one_part_op(no* node, char* func_name, int isLogical){
 							printf("Line %d, col %d: Incompatible type %s in return statement\n",node->filho->info->line,node->filho->info->col,op_type);
 				
 				}
+				
 			}
 
 		}else if ( !strcmp(node->tipo,"While")){
