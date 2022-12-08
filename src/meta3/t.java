@@ -2,10 +2,13 @@
 class x{
 
     public static int f(int a){
-        return a;
+        boolean a;
+        a = true;
     }
-    public static double f(double a){
-        return a;
+
+    public static int f(int a){
+        int x;
+        x = 1;
     }
 
 

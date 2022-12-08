@@ -25,6 +25,7 @@ no *criar_no(char *tipo, info* tok)
     novo_no->info = tok;
 
     novo_no->notation = NULL;
+    novo_no->is_valid = 1;
 
     return novo_no;
 }

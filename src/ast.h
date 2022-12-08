@@ -18,7 +18,9 @@ typedef struct No{
 
         struct No* irmao;
         struct No* filho;
+
         char* notation;
+        int is_valid; //aux variable for errors on duplicate methods
 }no;
 
 no* criar_no(char* tipo, info* info);

@@ -81,8 +81,11 @@ void add_method(tab_element* tail, no* node){
 		tail = insert_element(tail, new_method);
 	}
 	else{
+
 		//erro metodo já existe
 		printf("Line %d, col %d: Symbol %s(%s) already defined\n", node->filho->filho->irmao->info->line, node->filho->filho->irmao->info->col, aux_name, new_method->params_list);
+		node->is_valid = 0;
+	
 	}
 
 }
@@ -434,7 +437,7 @@ void make_notations_ast(no* node, tab_element* tab, char* func, char* func_param
 			//printf("%s(%s)\n", func_name, new_func_params);
 
 			//se existe, vamos iterar dentro do metodo
-			if(node->filho != NULL)
+			if(node->filho != NULL && node->is_valid) //se tiver filho e se o metodo é valido (não é repetido)
 				make_notations_ast(node->filho, tab, func_name, new_func_params); //agora estamos a iterar dentro deste metodo
 			
 
