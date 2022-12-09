@@ -2478,7 +2478,7 @@ if (flag_tree){
     print_AST(raiz,0);
 }
 if(flag_semantic){
-    symtab = create_element(raiz->filho->info->val,"","", 0);
+    symtab = create_element(raiz->filho->info->val,"","", 0); // Criar elemento com o nome da classe
     create_table(symtab,raiz);
     make_notations_ast(raiz,symtab,NULL,NULL);
     /* printf("fim anotacoes\n"); */

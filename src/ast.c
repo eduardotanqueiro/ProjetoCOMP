@@ -1,11 +1,11 @@
-    //  Eduardo Carneiro - 2020240332
-    //  Ricardo Silva - 2020227184
+//  Eduardo Carneiro - 2020240332
+//  Ricardo Silva - 2020227184
 #include "ast.h"
 
+info *gen_token(char *val, int line, int col)
+{
 
-info* gen_token(char* val, int line, int col){
-
-    info* tok = (info*) malloc(sizeof(info));
+    info *tok = (info *)malloc(sizeof(info));
     tok->val = (char *)strdup(val);
     tok->line = line;
     tok->col = col;
@@ -13,7 +13,7 @@ info* gen_token(char* val, int line, int col){
     return tok;
 }
 
-no *criar_no(char *tipo, info* tok)
+no *criar_no(char *tipo, info *tok)
 {
 
     no *novo_no = (no *)malloc(sizeof(no));
@@ -73,22 +73,26 @@ void print_AST(no *no, int level)
     //     //printf("null\n");
     //     return;
     // }
-    if( no->notation == NULL ){
-        if (strcmp(no->info->val,"") )
+    if (no->notation == NULL)
+    {
+        if (strcmp(no->info->val, ""))
         {
             printf("%s(%s)\n", no->tipo, no->info->val);
         }
-        else{
+        else
+        {
             printf("%s\n", no->tipo);
         }
     }
-    else{
-        if (strcmp(no->info->val,"") )
-        {   
-            printf("%s(%s) - %s\n", no->tipo, no->info->val,no->notation);
+    else
+    {
+        if (strcmp(no->info->val, ""))
+        {
+            printf("%s(%s) - %s\n", no->tipo, no->info->val, no->notation);
         }
-        else{
-            printf("%s - %s\n", no->tipo,no->notation);
+        else
+        {
+            printf("%s - %s\n", no->tipo, no->notation);
         }
     }
 
