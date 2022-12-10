@@ -271,7 +271,7 @@ char *get_type(char *original_type)
 		fixed_type = (char *)strdup(original_type);
 		fixed_type[0] = fixed_type[0] + 32; // Passar primeira letra pra minuscula
 
-		if (!strcmp(fixed_type, "bool"))
+		if (!strcmp(original_type, "Bool"))
 			strcat(fixed_type, "ean");
 	}
 
@@ -1162,7 +1162,7 @@ bool isIntDoubleBool(no *node)
 		if (get_reallit(node->info->val))
 		{
 			printf("Line %d, col %d: Number %s out of bounds\n", node->info->line, node->info->col, node->info->val);
-			// flag_erro_semantic = 1;
+			flag_erro_semantic = 1;
 		}
 		// if(  check != 0.0 && (check <  DBL_TRUE_MIN || check > DBL_MAX) ){
 		// 	printf("Line %d, col %d: Number %s out of bounds\n",node->info->line, node->info->col, node->info->val);
@@ -1441,4 +1441,15 @@ char *get_node_operator(char *tipo_no)
 	else if (!strcmp(tipo_no, "Xor"))
 		return "^";
 	return NULL;
+}
+
+void freeSymbolTable(tab_element* node){
+
+	if(node->body)
+		freeSymbolTable(node->body);
+
+	if(node->next)
+		freeSymbolTable(node->next);
+	
+	free(node);
 }

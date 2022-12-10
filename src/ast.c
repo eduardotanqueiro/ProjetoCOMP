@@ -101,7 +101,10 @@ void print_AST(no *no, int level)
     if (no->irmao)
         print_AST(no->irmao, level);
 
-    // if printTree and hasError==False limpa a memória depois de printar!!
+    //free
+    if(no->tipo != NULL)
+        free(no->tipo);
+
     free(no);
 }
 

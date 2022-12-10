@@ -242,6 +242,8 @@ if(flag_semantic){
         /* printf("fim symtab\n"); */
         print_AST(raiz,0);
     }
+
+    freeSymbolTable(symtab);
 }
 
 return 0;
