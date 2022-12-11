@@ -75,5 +75,5 @@ int count_number_char(char *str, char chr);
 void check_call(no *node, tab_element *elem, char *func_name, char *func_params);
 char *get_node_operator(char *tipo_no);
 char *get_method_params(no *node);
-void freeSymbolTable(tab_element* node);
+void freeSymbolTable(tab_element *node);
 #endif
