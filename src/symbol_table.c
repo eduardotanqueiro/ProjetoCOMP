@@ -1509,6 +1509,7 @@ char *get_node_operator(char *tipo_no)
 	return NULL;
 }
 
+
 void freeSymbolTable(tab_element* node){
 
 	if(node->body)
@@ -1516,6 +1517,6 @@ void freeSymbolTable(tab_element* node){
 
 	if(node->next)
 		freeSymbolTable(node->next);
-
+	
 	free(node);
 }
