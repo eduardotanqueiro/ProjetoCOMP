@@ -986,7 +986,7 @@ void check_one_part_op(no *node, char *func_name, int isLogical, char *func_para
 				if (strcmp(op_type, "boolean"))
 				{
 					// raise error tipo incompativel
-					if (node->filho->filho != NULL && (two_part_op(node->filho->tipo) != 1))
+					if (node->filho->filho != NULL && (two_part_op(node->filho->tipo) == 0))
 						printf("Line %d, col %d: Incompatible type %s in while statement\n", node->filho->filho->info->line, node->filho->filho->info->col, op_type);
 					else
 						printf("Line %d, col %d: Incompatible type %s in while statement\n", node->filho->info->line, node->filho->info->col, op_type);
@@ -1004,7 +1004,7 @@ void check_one_part_op(no *node, char *func_name, int isLogical, char *func_para
 			{
 				if (strcmp(op_type, "boolean"))
 				{
-					if (node->filho->filho != NULL && (two_part_op(node->filho->tipo) != 1))
+					if (node->filho->filho != NULL && (two_part_op(node->filho->tipo) == 0))
 						printf("Line %d, col %d: Incompatible type %s in if statement\n", node->filho->filho->info->line, node->filho->filho->info->col, op_type);
 					else
 						printf("Line %d, col %d: Incompatible type %s in if statement\n", node->filho->info->line, node->filho->info->col, op_type);
@@ -1076,7 +1076,7 @@ void check_one_part_op(no *node, char *func_name, int isLogical, char *func_para
 
 			if (!strcmp(op_type, "String[]"))
 			{
-				if (node->filho->filho != NULL && (two_part_op(node->filho->tipo) != 1))
+				if (node->filho->filho != NULL && (two_part_op(node->filho->tipo) == 0))
 					printf("Line %d, col %d: Incompatible type %s in System.out.print statement\n", node->filho->filho->info->line, node->filho->filho->info->col, op_type);
 				else
 					printf("Line %d, col %d: Incompatible type %s in System.out.print statement\n", node->filho->info->line, node->filho->info->col, op_type);
@@ -1097,7 +1097,7 @@ void check_one_part_op(no *node, char *func_name, int isLogical, char *func_para
 
 			if (op_type != NULL)
 			{
-				if (node->filho->filho != NULL && (two_part_op(node->filho->tipo) != 1))
+				if (node->filho->filho != NULL && (two_part_op(node->filho->tipo) == 0))
 					printf("Line %d, col %d: Incompatible type %s in System.out.print statement\n", node->filho->filho->info->line, node->filho->filho->info->col, op_type);
 				else if (node->filho != NULL)
 					printf("Line %d, col %d: Incompatible type %s in System.out.print statement\n", node->filho->info->line, node->filho->info->col, op_type);
@@ -1164,7 +1164,7 @@ void check_one_part_op(no *node, char *func_name, int isLogical, char *func_para
 			if (strcmp(op_type, "boolean"))
 			{
 				// raise error tipo incompativel
-				if (node->filho->filho != NULL && (two_part_op(node->filho->tipo) != 1))
+				if (node->filho->filho != NULL && (two_part_op(node->filho->tipo) == 0))
 					printf("Line %d, col %d: Incompatible type %s in while statement\n", node->filho->filho->info->line, node->filho->filho->info->col, op_type);
 				else
 					printf("Line %d, col %d: Incompatible type %s in while statement\n", node->filho->info->line, node->filho->info->col, op_type);
@@ -1174,7 +1174,7 @@ void check_one_part_op(no *node, char *func_name, int isLogical, char *func_para
 		{
 			if (strcmp(op_type, "boolean"))
 			{
-				if (node->filho->filho != NULL && (two_part_op(node->filho->tipo) != 1))
+				if (node->filho->filho != NULL && (two_part_op(node->filho->tipo) == 0))
 					printf("Line %d, col %d: Incompatible type %s in if statement\n", node->filho->filho->info->line, node->filho->filho->info->col, op_type);
 				else
 					printf("Line %d, col %d: Incompatible type %s in if statement\n", node->filho->info->line, node->filho->info->col, op_type);
