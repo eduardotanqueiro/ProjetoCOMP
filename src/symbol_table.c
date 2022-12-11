@@ -1142,39 +1142,17 @@ void check_one_part_op(no *node, char *func_name, int isLogical, char *func_para
 
 int get_reallit(char *str_reallit)
 {
-	char *aux = (char *)malloc(sizeof(char) * 500); // variável auxiliar para ficar com o conteudo de str_reallit
-	int encontrou = 0, zero = 0, i = 0, j = 0;
-	double temp;
 
-	while (str_reallit[i] != '\0')
-	{
-		if ((str_reallit[i] >= '0' && str_reallit[i] <= '9') || str_reallit[i] == 'e' || str_reallit[i] == 'E' || str_reallit[i] == '.' || str_reallit[i] == '-')
-		{
-			if (str_reallit[i] == 'e' || str_reallit[i] == 'E')
-			{
-				// Encontrou um expoente
-				encontrou = 1;
-			}
-			if (str_reallit[i] != '.' && str_reallit[i] != '0' && !encontrou)
-			{
-				// Ultimo resultado -> Se nunca encontrou um expoente e se ultimo valor é diferente de '.' e de '0'
-				zero = 1;
-			}
-			aux[j] = str_reallit[i];
-			j++;
-		}
-		i++;
-	}
-	aux[j] = '\0';
+	char *aux = remove_underscore(str_reallit);
 
-	if (zero)
-	{
-		temp = atof(aux);
-		if (temp > DBL_MAX || temp == 0 || isinf(temp))
-		{
-			return 1;
-		}
-	}
+	errno = 0;
+	char *end;
+	double result = 0;
+	result = strtod(aux, &end); // tentar converter a string para double
+
+	if ( result == 0 && (errno != 0 || end == aux)) // se der erro (strtod devolve 0 em caso de erro / pode mudar o valor do errno)
+		return 1;
+
 	return 0;
 }
 

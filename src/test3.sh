@@ -23,7 +23,7 @@ total=0
 
 if [[ -d meta3 ]]; then
     for inp in meta3/*.java; do
-        total=$(( $total + 1 ))
+    total=$(( $total + 1 ))
         echo "$inp"
         out=${inp%.java}.out
         tmp=${inp%.java}.out_temp

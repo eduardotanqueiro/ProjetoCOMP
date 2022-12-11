@@ -1,10 +1,10 @@
-Terminais não usados na gramática
+Terminals unused in grammar
 
     RESERVED
     ARROW
 
 
-Gramática
+Grammar
 
     0 $accept: Program $end
 
@@ -108,7 +108,7 @@ Gramática
    79       | LPAR error RPAR
 
 
-Terminais, com regras onde aparecem
+Terminals, with rules where they appear
 
     $end (0) 0
     error (256) 8 39 44 49 79
@@ -162,727 +162,727 @@ Terminais, com regras onde aparecem
     WHILE (305) 30
 
 
-Não terminais, com regras onde aparecem
+Nonterminals, with rules where they appear
 
     $accept (51)
-        à esquerda: 0
+        on left: 0
     Program <node> (52)
-        à esquerda: 1
-        à direita: 0
+        on left: 1
+        on right: 0
     MethodFieldSemicolonRep <node> (53)
-        à esquerda: 2 3 4 5
-        à direita: 1 2 3 4
+        on left: 2 3 4 5
+        on right: 1 2 3 4
     MethodDecl <node> (54)
-        à esquerda: 6
-        à direita: 2
+        on left: 6
+        on right: 2
     FieldDecl <node> (55)
-        à esquerda: 7 8
-        à direita: 3
+        on left: 7 8
+        on right: 3
     CommaIdRep <node> (56)
-        à esquerda: 9 10
-        à direita: 7 9 26
+        on left: 9 10
+        on right: 7 9 26
     Type <node> (57)
-        à esquerda: 11 12 13
-        à direita: 7 14 16 18 20 26
+        on left: 11 12 13
+        on right: 7 14 16 18 20 26
     MethodHeader <node> (58)
-        à esquerda: 14 15 16 17
-        à direita: 6
+        on left: 14 15 16 17
+        on right: 6
     FormalParams <node> (59)
-        à esquerda: 18 19
-        à direita: 14 15
+        on left: 18 19
+        on right: 14 15
     CommaTypeIdRep <node> (60)
-        à esquerda: 20 21
-        à direita: 18 20
+        on left: 20 21
+        on right: 18 20
     MethodBody <node> (61)
-        à esquerda: 22
-        à direita: 6
+        on left: 22
+        on right: 6
     StatementVarRep <node> (62)
-        à esquerda: 23 24 25
-        à direita: 22 23 24
+        on left: 23 24 25
+        on right: 22 23 24
     VarDecl <node> (63)
-        à esquerda: 26
-        à direita: 24
+        on left: 26
+        on right: 24
     Statement <node> (64)
-        à esquerda: 27 28 29 30 31 32 33 34 35 36 37 38 39
-        à direita: 23 28 29 30 40
+        on left: 27 28 29 30 31 32 33 34 35 36 37 38 39
+        on right: 23 28 29 30 40
     StatementRep <node> (65)
-        à esquerda: 40 41
-        à direita: 27 40
+        on left: 40 41
+        on right: 27 40
     MethodInvocation <node> (66)
-        à esquerda: 42 43 44
-        à direita: 35 53
+        on left: 42 43 44
+        on right: 35 53
     CommaExprRep <node> (67)
-        à esquerda: 45 46
-        à direita: 43 45
+        on left: 45 46
+        on right: 43 45
     Assignment <node> (68)
-        à esquerda: 47
-        à direita: 36 51
+        on left: 47
+        on right: 36 51
     ParseArgs <node> (69)
-        à esquerda: 48 49
-        à direita: 37 54
+        on left: 48 49
+        on right: 37 54
     Expr <node> (70)
-        à esquerda: 50 51
-        à direita: 28 29 30 31 33 43 45 47 48 52
+        on left: 50 51
+        on right: 28 29 30 31 33 43 45 47 48 52
     ExprOp <node> (71)
-        à esquerda: 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79
-        à direita: 50 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78
+        on left: 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79
+        on right: 50 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78
 
 
-Estado 0
+State 0
 
     0 $accept: • Program $end
 
-    CLASS  troca e vai para estado 1
+    CLASS  shift, and go to state 1
 
-    Program  vai para estado 2
+    Program  go to state 2
 
 
-Estado 1
+State 1
 
     1 Program: CLASS • ID LBRACE MethodFieldSemicolonRep RBRACE
 
-    ID  troca e vai para estado 3
+    ID  shift, and go to state 3
 
 
-Estado 2
+State 2
 
     0 $accept: Program • $end
 
-    $end  troca e vai para estado 4
+    $end  shift, and go to state 4
 
 
-Estado 3
+State 3
 
     1 Program: CLASS ID • LBRACE MethodFieldSemicolonRep RBRACE
 
-    LBRACE  troca e vai para estado 5
+    LBRACE  shift, and go to state 5
 
 
-Estado 4
+State 4
 
     0 $accept: Program $end •
 
-    $default  aceitar
+    $default  accept
 
 
-Estado 5
+State 5
 
     1 Program: CLASS ID LBRACE • MethodFieldSemicolonRep RBRACE
 
-    error      troca e vai para estado 6
-    SEMICOLON  troca e vai para estado 7
-    PUBLIC     troca e vai para estado 8
+    error      shift, and go to state 6
+    SEMICOLON  shift, and go to state 7
+    PUBLIC     shift, and go to state 8
 
-    RBRACE  redução com regra 5 (MethodFieldSemicolonRep)
+    RBRACE  reduce using rule 5 (MethodFieldSemicolonRep)
 
-    MethodFieldSemicolonRep  vai para estado 9
-    MethodDecl               vai para estado 10
-    FieldDecl                vai para estado 11
+    MethodFieldSemicolonRep  go to state 9
+    MethodDecl               go to state 10
+    FieldDecl                go to state 11
 
 
-Estado 6
+State 6
 
     8 FieldDecl: error • SEMICOLON
 
-    SEMICOLON  troca e vai para estado 12
+    SEMICOLON  shift, and go to state 12
 
 
-Estado 7
+State 7
 
     4 MethodFieldSemicolonRep: SEMICOLON • MethodFieldSemicolonRep
 
-    error      troca e vai para estado 6
-    SEMICOLON  troca e vai para estado 7
-    PUBLIC     troca e vai para estado 8
+    error      shift, and go to state 6
+    SEMICOLON  shift, and go to state 7
+    PUBLIC     shift, and go to state 8
 
-    RBRACE  redução com regra 5 (MethodFieldSemicolonRep)
+    RBRACE  reduce using rule 5 (MethodFieldSemicolonRep)
 
-    MethodFieldSemicolonRep  vai para estado 13
-    MethodDecl               vai para estado 10
-    FieldDecl                vai para estado 11
+    MethodFieldSemicolonRep  go to state 13
+    MethodDecl               go to state 10
+    FieldDecl                go to state 11
 
 
-Estado 8
+State 8
 
     6 MethodDecl: PUBLIC • STATIC MethodHeader MethodBody
     7 FieldDecl: PUBLIC • STATIC Type ID CommaIdRep SEMICOLON
 
-    STATIC  troca e vai para estado 14
+    STATIC  shift, and go to state 14
 
 
-Estado 9
+State 9
 
     1 Program: CLASS ID LBRACE MethodFieldSemicolonRep • RBRACE
 
-    RBRACE  troca e vai para estado 15
+    RBRACE  shift, and go to state 15
 
 
-Estado 10
+State 10
 
     2 MethodFieldSemicolonRep: MethodDecl • MethodFieldSemicolonRep
 
-    error      troca e vai para estado 6
-    SEMICOLON  troca e vai para estado 7
-    PUBLIC     troca e vai para estado 8
+    error      shift, and go to state 6
+    SEMICOLON  shift, and go to state 7
+    PUBLIC     shift, and go to state 8
 
-    RBRACE  redução com regra 5 (MethodFieldSemicolonRep)
+    RBRACE  reduce using rule 5 (MethodFieldSemicolonRep)
 
-    MethodFieldSemicolonRep  vai para estado 16
-    MethodDecl               vai para estado 10
-    FieldDecl                vai para estado 11
+    MethodFieldSemicolonRep  go to state 16
+    MethodDecl               go to state 10
+    FieldDecl                go to state 11
 
 
-Estado 11
+State 11
 
     3 MethodFieldSemicolonRep: FieldDecl • MethodFieldSemicolonRep
 
-    error      troca e vai para estado 6
-    SEMICOLON  troca e vai para estado 7
-    PUBLIC     troca e vai para estado 8
+    error      shift, and go to state 6
+    SEMICOLON  shift, and go to state 7
+    PUBLIC     shift, and go to state 8
 
-    RBRACE  redução com regra 5 (MethodFieldSemicolonRep)
+    RBRACE  reduce using rule 5 (MethodFieldSemicolonRep)
 
-    MethodFieldSemicolonRep  vai para estado 17
-    MethodDecl               vai para estado 10
-    FieldDecl                vai para estado 11
+    MethodFieldSemicolonRep  go to state 17
+    MethodDecl               go to state 10
+    FieldDecl                go to state 11
 
 
-Estado 12
+State 12
 
     8 FieldDecl: error SEMICOLON •
 
-    $default  redução com regra 8 (FieldDecl)
+    $default  reduce using rule 8 (FieldDecl)
 
 
-Estado 13
+State 13
 
     4 MethodFieldSemicolonRep: SEMICOLON MethodFieldSemicolonRep •
 
-    $default  redução com regra 4 (MethodFieldSemicolonRep)
+    $default  reduce using rule 4 (MethodFieldSemicolonRep)
 
 
-Estado 14
+State 14
 
     6 MethodDecl: PUBLIC STATIC • MethodHeader MethodBody
     7 FieldDecl: PUBLIC STATIC • Type ID CommaIdRep SEMICOLON
 
-    BOOL    troca e vai para estado 18
-    DOUBLE  troca e vai para estado 19
-    INT     troca e vai para estado 20
-    VOID    troca e vai para estado 21
+    BOOL    shift, and go to state 18
+    DOUBLE  shift, and go to state 19
+    INT     shift, and go to state 20
+    VOID    shift, and go to state 21
 
-    Type          vai para estado 22
-    MethodHeader  vai para estado 23
+    Type          go to state 22
+    MethodHeader  go to state 23
 
 
-Estado 15
+State 15
 
     1 Program: CLASS ID LBRACE MethodFieldSemicolonRep RBRACE •
 
-    $default  redução com regra 1 (Program)
+    $default  reduce using rule 1 (Program)
 
 
-Estado 16
+State 16
 
     2 MethodFieldSemicolonRep: MethodDecl MethodFieldSemicolonRep •
 
-    $default  redução com regra 2 (MethodFieldSemicolonRep)
+    $default  reduce using rule 2 (MethodFieldSemicolonRep)
 
 
-Estado 17
+State 17
 
     3 MethodFieldSemicolonRep: FieldDecl MethodFieldSemicolonRep •
 
-    $default  redução com regra 3 (MethodFieldSemicolonRep)
+    $default  reduce using rule 3 (MethodFieldSemicolonRep)
 
 
-Estado 18
+State 18
 
    11 Type: BOOL •
 
-    $default  redução com regra 11 (Type)
+    $default  reduce using rule 11 (Type)
 
 
-Estado 19
+State 19
 
    13 Type: DOUBLE •
 
-    $default  redução com regra 13 (Type)
+    $default  reduce using rule 13 (Type)
 
 
-Estado 20
+State 20
 
    12 Type: INT •
 
-    $default  redução com regra 12 (Type)
+    $default  reduce using rule 12 (Type)
 
 
-Estado 21
+State 21
 
    15 MethodHeader: VOID • ID LPAR FormalParams RPAR
    17             | VOID • ID LPAR RPAR
 
-    ID  troca e vai para estado 24
+    ID  shift, and go to state 24
 
 
-Estado 22
+State 22
 
     7 FieldDecl: PUBLIC STATIC Type • ID CommaIdRep SEMICOLON
    14 MethodHeader: Type • ID LPAR FormalParams RPAR
    16             | Type • ID LPAR RPAR
 
-    ID  troca e vai para estado 25
+    ID  shift, and go to state 25
 
 
-Estado 23
+State 23
 
     6 MethodDecl: PUBLIC STATIC MethodHeader • MethodBody
 
-    LBRACE  troca e vai para estado 26
+    LBRACE  shift, and go to state 26
 
-    MethodBody  vai para estado 27
+    MethodBody  go to state 27
 
 
-Estado 24
+State 24
 
    15 MethodHeader: VOID ID • LPAR FormalParams RPAR
    17             | VOID ID • LPAR RPAR
 
-    LPAR  troca e vai para estado 28
+    LPAR  shift, and go to state 28
 
 
-Estado 25
+State 25
 
     7 FieldDecl: PUBLIC STATIC Type ID • CommaIdRep SEMICOLON
    14 MethodHeader: Type ID • LPAR FormalParams RPAR
    16             | Type ID • LPAR RPAR
 
-    COMMA  troca e vai para estado 29
-    LPAR   troca e vai para estado 30
+    COMMA  shift, and go to state 29
+    LPAR   shift, and go to state 30
 
-    $default  redução com regra 10 (CommaIdRep)
+    $default  reduce using rule 10 (CommaIdRep)
 
-    CommaIdRep  vai para estado 31
+    CommaIdRep  go to state 31
 
 
-Estado 26
+State 26
 
    22 MethodBody: LBRACE • StatementVarRep RBRACE
 
-    error      troca e vai para estado 32
-    ID         troca e vai para estado 33
-    PRINT      troca e vai para estado 34
-    PARSEINT   troca e vai para estado 35
-    RETURN     troca e vai para estado 36
-    BOOL       troca e vai para estado 18
-    LBRACE     troca e vai para estado 37
-    SEMICOLON  troca e vai para estado 38
-    DOUBLE     troca e vai para estado 19
-    IF         troca e vai para estado 39
-    INT        troca e vai para estado 20
-    WHILE      troca e vai para estado 40
+    error      shift, and go to state 32
+    ID         shift, and go to state 33
+    PRINT      shift, and go to state 34
+    PARSEINT   shift, and go to state 35
+    RETURN     shift, and go to state 36
+    BOOL       shift, and go to state 18
+    LBRACE     shift, and go to state 37
+    SEMICOLON  shift, and go to state 38
+    DOUBLE     shift, and go to state 19
+    IF         shift, and go to state 39
+    INT        shift, and go to state 20
+    WHILE      shift, and go to state 40
 
-    RBRACE  redução com regra 25 (StatementVarRep)
+    RBRACE  reduce using rule 25 (StatementVarRep)
 
-    Type              vai para estado 41
-    StatementVarRep   vai para estado 42
-    VarDecl           vai para estado 43
-    Statement         vai para estado 44
-    MethodInvocation  vai para estado 45
-    Assignment        vai para estado 46
-    ParseArgs         vai para estado 47
+    Type              go to state 41
+    StatementVarRep   go to state 42
+    VarDecl           go to state 43
+    Statement         go to state 44
+    MethodInvocation  go to state 45
+    Assignment        go to state 46
+    ParseArgs         go to state 47
 
 
-Estado 27
+State 27
 
     6 MethodDecl: PUBLIC STATIC MethodHeader MethodBody •
 
-    $default  redução com regra 6 (MethodDecl)
+    $default  reduce using rule 6 (MethodDecl)
 
 
-Estado 28
+State 28
 
    15 MethodHeader: VOID ID LPAR • FormalParams RPAR
    17             | VOID ID LPAR • RPAR
 
-    BOOL    troca e vai para estado 18
-    RPAR    troca e vai para estado 48
-    DOUBLE  troca e vai para estado 19
-    INT     troca e vai para estado 20
-    STRING  troca e vai para estado 49
+    BOOL    shift, and go to state 18
+    RPAR    shift, and go to state 48
+    DOUBLE  shift, and go to state 19
+    INT     shift, and go to state 20
+    STRING  shift, and go to state 49
 
-    Type          vai para estado 50
-    FormalParams  vai para estado 51
+    Type          go to state 50
+    FormalParams  go to state 51
 
 
-Estado 29
+State 29
 
     9 CommaIdRep: COMMA • ID CommaIdRep
 
-    ID  troca e vai para estado 52
+    ID  shift, and go to state 52
 
 
-Estado 30
+State 30
 
    14 MethodHeader: Type ID LPAR • FormalParams RPAR
    16             | Type ID LPAR • RPAR
 
-    BOOL    troca e vai para estado 18
-    RPAR    troca e vai para estado 53
-    DOUBLE  troca e vai para estado 19
-    INT     troca e vai para estado 20
-    STRING  troca e vai para estado 49
+    BOOL    shift, and go to state 18
+    RPAR    shift, and go to state 53
+    DOUBLE  shift, and go to state 19
+    INT     shift, and go to state 20
+    STRING  shift, and go to state 49
 
-    Type          vai para estado 50
-    FormalParams  vai para estado 54
+    Type          go to state 50
+    FormalParams  go to state 54
 
 
-Estado 31
+State 31
 
     7 FieldDecl: PUBLIC STATIC Type ID CommaIdRep • SEMICOLON
 
-    SEMICOLON  troca e vai para estado 55
+    SEMICOLON  shift, and go to state 55
 
 
-Estado 32
+State 32
 
    39 Statement: error • SEMICOLON
 
-    SEMICOLON  troca e vai para estado 56
+    SEMICOLON  shift, and go to state 56
 
 
-Estado 33
+State 33
 
    42 MethodInvocation: ID • LPAR RPAR
    43                 | ID • LPAR Expr CommaExprRep RPAR
    44                 | ID • LPAR error RPAR
    47 Assignment: ID • ASSIGN Expr
 
-    ASSIGN  troca e vai para estado 57
-    LPAR    troca e vai para estado 58
+    ASSIGN  shift, and go to state 57
+    LPAR    shift, and go to state 58
 
 
-Estado 34
+State 34
 
    33 Statement: PRINT • LPAR Expr RPAR SEMICOLON
    34          | PRINT • LPAR STRLIT RPAR SEMICOLON
 
-    LPAR  troca e vai para estado 59
+    LPAR  shift, and go to state 59
 
 
-Estado 35
+State 35
 
    48 ParseArgs: PARSEINT • LPAR ID LSQ Expr RSQ RPAR
    49          | PARSEINT • LPAR error RPAR
 
-    LPAR  troca e vai para estado 60
+    LPAR  shift, and go to state 60
 
 
-Estado 36
+State 36
 
    31 Statement: RETURN • Expr SEMICOLON
    32          | RETURN • SEMICOLON
 
-    ID         troca e vai para estado 61
-    INTLIT     troca e vai para estado 62
-    REALLIT    troca e vai para estado 63
-    BOOLLIT    troca e vai para estado 64
-    PLUS       troca e vai para estado 65
-    MINUS      troca e vai para estado 66
-    NOT        troca e vai para estado 67
-    PARSEINT   troca e vai para estado 35
-    LPAR       troca e vai para estado 68
-    SEMICOLON  troca e vai para estado 69
+    ID         shift, and go to state 61
+    INTLIT     shift, and go to state 62
+    REALLIT    shift, and go to state 63
+    BOOLLIT    shift, and go to state 64
+    PLUS       shift, and go to state 65
+    MINUS      shift, and go to state 66
+    NOT        shift, and go to state 67
+    PARSEINT   shift, and go to state 35
+    LPAR       shift, and go to state 68
+    SEMICOLON  shift, and go to state 69
 
-    MethodInvocation  vai para estado 70
-    Assignment        vai para estado 71
-    ParseArgs         vai para estado 72
-    Expr              vai para estado 73
-    ExprOp            vai para estado 74
+    MethodInvocation  go to state 70
+    Assignment        go to state 71
+    ParseArgs         go to state 72
+    Expr              go to state 73
+    ExprOp            go to state 74
 
 
-Estado 37
+State 37
 
    27 Statement: LBRACE • StatementRep RBRACE
 
-    error      troca e vai para estado 32
-    ID         troca e vai para estado 33
-    PRINT      troca e vai para estado 34
-    PARSEINT   troca e vai para estado 35
-    RETURN     troca e vai para estado 36
-    LBRACE     troca e vai para estado 37
-    SEMICOLON  troca e vai para estado 38
-    IF         troca e vai para estado 39
-    WHILE      troca e vai para estado 40
+    error      shift, and go to state 32
+    ID         shift, and go to state 33
+    PRINT      shift, and go to state 34
+    PARSEINT   shift, and go to state 35
+    RETURN     shift, and go to state 36
+    LBRACE     shift, and go to state 37
+    SEMICOLON  shift, and go to state 38
+    IF         shift, and go to state 39
+    WHILE      shift, and go to state 40
 
-    RBRACE  redução com regra 41 (StatementRep)
+    RBRACE  reduce using rule 41 (StatementRep)
 
-    Statement         vai para estado 75
-    StatementRep      vai para estado 76
-    MethodInvocation  vai para estado 45
-    Assignment        vai para estado 46
-    ParseArgs         vai para estado 47
+    Statement         go to state 75
+    StatementRep      go to state 76
+    MethodInvocation  go to state 45
+    Assignment        go to state 46
+    ParseArgs         go to state 47
 
 
-Estado 38
+State 38
 
    38 Statement: SEMICOLON •
 
-    $default  redução com regra 38 (Statement)
+    $default  reduce using rule 38 (Statement)
 
 
-Estado 39
+State 39
 
    28 Statement: IF • LPAR Expr RPAR Statement ELSE Statement
    29          | IF • LPAR Expr RPAR Statement
 
-    LPAR  troca e vai para estado 77
+    LPAR  shift, and go to state 77
 
 
-Estado 40
+State 40
 
    30 Statement: WHILE • LPAR Expr RPAR Statement
 
-    LPAR  troca e vai para estado 78
+    LPAR  shift, and go to state 78
 
 
-Estado 41
+State 41
 
    26 VarDecl: Type • ID CommaIdRep SEMICOLON
 
-    ID  troca e vai para estado 79
+    ID  shift, and go to state 79
 
 
-Estado 42
+State 42
 
    22 MethodBody: LBRACE StatementVarRep • RBRACE
 
-    RBRACE  troca e vai para estado 80
+    RBRACE  shift, and go to state 80
 
 
-Estado 43
+State 43
 
    24 StatementVarRep: VarDecl • StatementVarRep
 
-    error      troca e vai para estado 32
-    ID         troca e vai para estado 33
-    PRINT      troca e vai para estado 34
-    PARSEINT   troca e vai para estado 35
-    RETURN     troca e vai para estado 36
-    BOOL       troca e vai para estado 18
-    LBRACE     troca e vai para estado 37
-    SEMICOLON  troca e vai para estado 38
-    DOUBLE     troca e vai para estado 19
-    IF         troca e vai para estado 39
-    INT        troca e vai para estado 20
-    WHILE      troca e vai para estado 40
+    error      shift, and go to state 32
+    ID         shift, and go to state 33
+    PRINT      shift, and go to state 34
+    PARSEINT   shift, and go to state 35
+    RETURN     shift, and go to state 36
+    BOOL       shift, and go to state 18
+    LBRACE     shift, and go to state 37
+    SEMICOLON  shift, and go to state 38
+    DOUBLE     shift, and go to state 19
+    IF         shift, and go to state 39
+    INT        shift, and go to state 20
+    WHILE      shift, and go to state 40
 
-    RBRACE  redução com regra 25 (StatementVarRep)
+    RBRACE  reduce using rule 25 (StatementVarRep)
 
-    Type              vai para estado 41
-    StatementVarRep   vai para estado 81
-    VarDecl           vai para estado 43
-    Statement         vai para estado 44
-    MethodInvocation  vai para estado 45
-    Assignment        vai para estado 46
-    ParseArgs         vai para estado 47
+    Type              go to state 41
+    StatementVarRep   go to state 81
+    VarDecl           go to state 43
+    Statement         go to state 44
+    MethodInvocation  go to state 45
+    Assignment        go to state 46
+    ParseArgs         go to state 47
 
 
-Estado 44
+State 44
 
    23 StatementVarRep: Statement • StatementVarRep
 
-    error      troca e vai para estado 32
-    ID         troca e vai para estado 33
-    PRINT      troca e vai para estado 34
-    PARSEINT   troca e vai para estado 35
-    RETURN     troca e vai para estado 36
-    BOOL       troca e vai para estado 18
-    LBRACE     troca e vai para estado 37
-    SEMICOLON  troca e vai para estado 38
-    DOUBLE     troca e vai para estado 19
-    IF         troca e vai para estado 39
-    INT        troca e vai para estado 20
-    WHILE      troca e vai para estado 40
+    error      shift, and go to state 32
+    ID         shift, and go to state 33
+    PRINT      shift, and go to state 34
+    PARSEINT   shift, and go to state 35
+    RETURN     shift, and go to state 36
+    BOOL       shift, and go to state 18
+    LBRACE     shift, and go to state 37
+    SEMICOLON  shift, and go to state 38
+    DOUBLE     shift, and go to state 19
+    IF         shift, and go to state 39
+    INT        shift, and go to state 20
+    WHILE      shift, and go to state 40
 
-    RBRACE  redução com regra 25 (StatementVarRep)
+    RBRACE  reduce using rule 25 (StatementVarRep)
 
-    Type              vai para estado 41
-    StatementVarRep   vai para estado 82
-    VarDecl           vai para estado 43
-    Statement         vai para estado 44
-    MethodInvocation  vai para estado 45
-    Assignment        vai para estado 46
-    ParseArgs         vai para estado 47
+    Type              go to state 41
+    StatementVarRep   go to state 82
+    VarDecl           go to state 43
+    Statement         go to state 44
+    MethodInvocation  go to state 45
+    Assignment        go to state 46
+    ParseArgs         go to state 47
 
 
-Estado 45
+State 45
 
    35 Statement: MethodInvocation • SEMICOLON
 
-    SEMICOLON  troca e vai para estado 83
+    SEMICOLON  shift, and go to state 83
 
 
-Estado 46
+State 46
 
    36 Statement: Assignment • SEMICOLON
 
-    SEMICOLON  troca e vai para estado 84
+    SEMICOLON  shift, and go to state 84
 
 
-Estado 47
+State 47
 
    37 Statement: ParseArgs • SEMICOLON
 
-    SEMICOLON  troca e vai para estado 85
+    SEMICOLON  shift, and go to state 85
 
 
-Estado 48
+State 48
 
    17 MethodHeader: VOID ID LPAR RPAR •
 
-    $default  redução com regra 17 (MethodHeader)
+    $default  reduce using rule 17 (MethodHeader)
 
 
-Estado 49
+State 49
 
    19 FormalParams: STRING • LSQ RSQ ID
 
-    LSQ  troca e vai para estado 86
+    LSQ  shift, and go to state 86
 
 
-Estado 50
+State 50
 
    18 FormalParams: Type • ID CommaTypeIdRep
 
-    ID  troca e vai para estado 87
+    ID  shift, and go to state 87
 
 
-Estado 51
+State 51
 
    15 MethodHeader: VOID ID LPAR FormalParams • RPAR
 
-    RPAR  troca e vai para estado 88
+    RPAR  shift, and go to state 88
 
 
-Estado 52
+State 52
 
     9 CommaIdRep: COMMA ID • CommaIdRep
 
-    COMMA  troca e vai para estado 29
+    COMMA  shift, and go to state 29
 
-    $default  redução com regra 10 (CommaIdRep)
+    $default  reduce using rule 10 (CommaIdRep)
 
-    CommaIdRep  vai para estado 89
+    CommaIdRep  go to state 89
 
 
-Estado 53
+State 53
 
    16 MethodHeader: Type ID LPAR RPAR •
 
-    $default  redução com regra 16 (MethodHeader)
+    $default  reduce using rule 16 (MethodHeader)
 
 
-Estado 54
+State 54
 
    14 MethodHeader: Type ID LPAR FormalParams • RPAR
 
-    RPAR  troca e vai para estado 90
+    RPAR  shift, and go to state 90
 
 
-Estado 55
+State 55
 
     7 FieldDecl: PUBLIC STATIC Type ID CommaIdRep SEMICOLON •
 
-    $default  redução com regra 7 (FieldDecl)
+    $default  reduce using rule 7 (FieldDecl)
 
 
-Estado 56
+State 56
 
    39 Statement: error SEMICOLON •
 
-    $default  redução com regra 39 (Statement)
+    $default  reduce using rule 39 (Statement)
 
 
-Estado 57
+State 57
 
    47 Assignment: ID ASSIGN • Expr
 
-    ID        troca e vai para estado 61
-    INTLIT    troca e vai para estado 62
-    REALLIT   troca e vai para estado 63
-    BOOLLIT   troca e vai para estado 64
-    PLUS      troca e vai para estado 65
-    MINUS     troca e vai para estado 66
-    NOT       troca e vai para estado 67
-    PARSEINT  troca e vai para estado 35
-    LPAR      troca e vai para estado 68
+    ID        shift, and go to state 61
+    INTLIT    shift, and go to state 62
+    REALLIT   shift, and go to state 63
+    BOOLLIT   shift, and go to state 64
+    PLUS      shift, and go to state 65
+    MINUS     shift, and go to state 66
+    NOT       shift, and go to state 67
+    PARSEINT  shift, and go to state 35
+    LPAR      shift, and go to state 68
 
-    MethodInvocation  vai para estado 70
-    Assignment        vai para estado 71
-    ParseArgs         vai para estado 72
-    Expr              vai para estado 91
-    ExprOp            vai para estado 74
+    MethodInvocation  go to state 70
+    Assignment        go to state 71
+    ParseArgs         go to state 72
+    Expr              go to state 91
+    ExprOp            go to state 74
 
 
-Estado 58
+State 58
 
    42 MethodInvocation: ID LPAR • RPAR
    43                 | ID LPAR • Expr CommaExprRep RPAR
    44                 | ID LPAR • error RPAR
 
-    error     troca e vai para estado 92
-    ID        troca e vai para estado 61
-    INTLIT    troca e vai para estado 62
-    REALLIT   troca e vai para estado 63
-    BOOLLIT   troca e vai para estado 64
-    PLUS      troca e vai para estado 65
-    MINUS     troca e vai para estado 66
-    NOT       troca e vai para estado 67
-    PARSEINT  troca e vai para estado 35
-    LPAR      troca e vai para estado 68
-    RPAR      troca e vai para estado 93
+    error     shift, and go to state 92
+    ID        shift, and go to state 61
+    INTLIT    shift, and go to state 62
+    REALLIT   shift, and go to state 63
+    BOOLLIT   shift, and go to state 64
+    PLUS      shift, and go to state 65
+    MINUS     shift, and go to state 66
+    NOT       shift, and go to state 67
+    PARSEINT  shift, and go to state 35
+    LPAR      shift, and go to state 68
+    RPAR      shift, and go to state 93
 
-    MethodInvocation  vai para estado 70
-    Assignment        vai para estado 71
-    ParseArgs         vai para estado 72
-    Expr              vai para estado 94
-    ExprOp            vai para estado 74
+    MethodInvocation  go to state 70
+    Assignment        go to state 71
+    ParseArgs         go to state 72
+    Expr              go to state 94
+    ExprOp            go to state 74
 
 
-Estado 59
+State 59
 
    33 Statement: PRINT LPAR • Expr RPAR SEMICOLON
    34          | PRINT LPAR • STRLIT RPAR SEMICOLON
 
-    ID        troca e vai para estado 61
-    INTLIT    troca e vai para estado 62
-    REALLIT   troca e vai para estado 63
-    BOOLLIT   troca e vai para estado 64
-    STRLIT    troca e vai para estado 95
-    PLUS      troca e vai para estado 65
-    MINUS     troca e vai para estado 66
-    NOT       troca e vai para estado 67
-    PARSEINT  troca e vai para estado 35
-    LPAR      troca e vai para estado 68
+    ID        shift, and go to state 61
+    INTLIT    shift, and go to state 62
+    REALLIT   shift, and go to state 63
+    BOOLLIT   shift, and go to state 64
+    STRLIT    shift, and go to state 95
+    PLUS      shift, and go to state 65
+    MINUS     shift, and go to state 66
+    NOT       shift, and go to state 67
+    PARSEINT  shift, and go to state 35
+    LPAR      shift, and go to state 68
 
-    MethodInvocation  vai para estado 70
-    Assignment        vai para estado 71
-    ParseArgs         vai para estado 72
-    Expr              vai para estado 96
-    ExprOp            vai para estado 74
+    MethodInvocation  go to state 70
+    Assignment        go to state 71
+    ParseArgs         go to state 72
+    Expr              go to state 96
+    ExprOp            go to state 74
 
 
-Estado 60
+State 60
 
    48 ParseArgs: PARSEINT LPAR • ID LSQ Expr RSQ RPAR
    49          | PARSEINT LPAR • error RPAR
 
-    error  troca e vai para estado 97
-    ID     troca e vai para estado 98
+    error  shift, and go to state 97
+    ID     shift, and go to state 98
 
 
-Estado 61
+State 61
 
    42 MethodInvocation: ID • LPAR RPAR
    43                 | ID • LPAR Expr CommaExprRep RPAR
@@ -891,150 +891,150 @@ Estado 61
    55 ExprOp: ID •
    56       | ID • DOTLENGTH
 
-    ASSIGN     troca e vai para estado 57
-    DOTLENGTH  troca e vai para estado 99
-    LPAR       troca e vai para estado 58
+    ASSIGN     shift, and go to state 57
+    DOTLENGTH  shift, and go to state 99
+    LPAR       shift, and go to state 58
 
-    $default  redução com regra 55 (ExprOp)
+    $default  reduce using rule 55 (ExprOp)
 
 
-Estado 62
+State 62
 
    57 ExprOp: INTLIT •
 
-    $default  redução com regra 57 (ExprOp)
+    $default  reduce using rule 57 (ExprOp)
 
 
-Estado 63
+State 63
 
    58 ExprOp: REALLIT •
 
-    $default  redução com regra 58 (ExprOp)
+    $default  reduce using rule 58 (ExprOp)
 
 
-Estado 64
+State 64
 
    59 ExprOp: BOOLLIT •
 
-    $default  redução com regra 59 (ExprOp)
+    $default  reduce using rule 59 (ExprOp)
 
 
-Estado 65
+State 65
 
    62 ExprOp: PLUS • ExprOp
 
-    ID        troca e vai para estado 100
-    INTLIT    troca e vai para estado 62
-    REALLIT   troca e vai para estado 63
-    BOOLLIT   troca e vai para estado 64
-    PLUS      troca e vai para estado 65
-    MINUS     troca e vai para estado 66
-    NOT       troca e vai para estado 67
-    PARSEINT  troca e vai para estado 35
-    LPAR      troca e vai para estado 68
+    ID        shift, and go to state 100
+    INTLIT    shift, and go to state 62
+    REALLIT   shift, and go to state 63
+    BOOLLIT   shift, and go to state 64
+    PLUS      shift, and go to state 65
+    MINUS     shift, and go to state 66
+    NOT       shift, and go to state 67
+    PARSEINT  shift, and go to state 35
+    LPAR      shift, and go to state 68
 
-    MethodInvocation  vai para estado 70
-    ParseArgs         vai para estado 72
-    ExprOp            vai para estado 101
+    MethodInvocation  go to state 70
+    ParseArgs         go to state 72
+    ExprOp            go to state 101
 
 
-Estado 66
+State 66
 
    60 ExprOp: MINUS • ExprOp
 
-    ID        troca e vai para estado 100
-    INTLIT    troca e vai para estado 62
-    REALLIT   troca e vai para estado 63
-    BOOLLIT   troca e vai para estado 64
-    PLUS      troca e vai para estado 65
-    MINUS     troca e vai para estado 66
-    NOT       troca e vai para estado 67
-    PARSEINT  troca e vai para estado 35
-    LPAR      troca e vai para estado 68
+    ID        shift, and go to state 100
+    INTLIT    shift, and go to state 62
+    REALLIT   shift, and go to state 63
+    BOOLLIT   shift, and go to state 64
+    PLUS      shift, and go to state 65
+    MINUS     shift, and go to state 66
+    NOT       shift, and go to state 67
+    PARSEINT  shift, and go to state 35
+    LPAR      shift, and go to state 68
 
-    MethodInvocation  vai para estado 70
-    ParseArgs         vai para estado 72
-    ExprOp            vai para estado 102
+    MethodInvocation  go to state 70
+    ParseArgs         go to state 72
+    ExprOp            go to state 102
 
 
-Estado 67
+State 67
 
    61 ExprOp: NOT • ExprOp
 
-    ID        troca e vai para estado 100
-    INTLIT    troca e vai para estado 62
-    REALLIT   troca e vai para estado 63
-    BOOLLIT   troca e vai para estado 64
-    PLUS      troca e vai para estado 65
-    MINUS     troca e vai para estado 66
-    NOT       troca e vai para estado 67
-    PARSEINT  troca e vai para estado 35
-    LPAR      troca e vai para estado 68
+    ID        shift, and go to state 100
+    INTLIT    shift, and go to state 62
+    REALLIT   shift, and go to state 63
+    BOOLLIT   shift, and go to state 64
+    PLUS      shift, and go to state 65
+    MINUS     shift, and go to state 66
+    NOT       shift, and go to state 67
+    PARSEINT  shift, and go to state 35
+    LPAR      shift, and go to state 68
 
-    MethodInvocation  vai para estado 70
-    ParseArgs         vai para estado 72
-    ExprOp            vai para estado 103
+    MethodInvocation  go to state 70
+    ParseArgs         go to state 72
+    ExprOp            go to state 103
 
 
-Estado 68
+State 68
 
    52 ExprOp: LPAR • Expr RPAR
    79       | LPAR • error RPAR
 
-    error     troca e vai para estado 104
-    ID        troca e vai para estado 61
-    INTLIT    troca e vai para estado 62
-    REALLIT   troca e vai para estado 63
-    BOOLLIT   troca e vai para estado 64
-    PLUS      troca e vai para estado 65
-    MINUS     troca e vai para estado 66
-    NOT       troca e vai para estado 67
-    PARSEINT  troca e vai para estado 35
-    LPAR      troca e vai para estado 68
+    error     shift, and go to state 104
+    ID        shift, and go to state 61
+    INTLIT    shift, and go to state 62
+    REALLIT   shift, and go to state 63
+    BOOLLIT   shift, and go to state 64
+    PLUS      shift, and go to state 65
+    MINUS     shift, and go to state 66
+    NOT       shift, and go to state 67
+    PARSEINT  shift, and go to state 35
+    LPAR      shift, and go to state 68
 
-    MethodInvocation  vai para estado 70
-    Assignment        vai para estado 71
-    ParseArgs         vai para estado 72
-    Expr              vai para estado 105
-    ExprOp            vai para estado 74
+    MethodInvocation  go to state 70
+    Assignment        go to state 71
+    ParseArgs         go to state 72
+    Expr              go to state 105
+    ExprOp            go to state 74
 
 
-Estado 69
+State 69
 
    32 Statement: RETURN SEMICOLON •
 
-    $default  redução com regra 32 (Statement)
+    $default  reduce using rule 32 (Statement)
 
 
-Estado 70
+State 70
 
    53 ExprOp: MethodInvocation •
 
-    $default  redução com regra 53 (ExprOp)
+    $default  reduce using rule 53 (ExprOp)
 
 
-Estado 71
+State 71
 
    51 Expr: Assignment •
 
-    $default  redução com regra 51 (Expr)
+    $default  reduce using rule 51 (Expr)
 
 
-Estado 72
+State 72
 
    54 ExprOp: ParseArgs •
 
-    $default  redução com regra 54 (ExprOp)
+    $default  reduce using rule 54 (ExprOp)
 
 
-Estado 73
+State 73
 
    31 Statement: RETURN Expr • SEMICOLON
 
-    SEMICOLON  troca e vai para estado 106
+    SEMICOLON  shift, and go to state 106
 
 
-Estado 74
+State 74
 
    50 Expr: ExprOp •
    63 ExprOp: ExprOp • PLUS ExprOp
@@ -1054,259 +1054,259 @@ Estado 74
    77       | ExprOp • LT ExprOp
    78       | ExprOp • NE ExprOp
 
-    PLUS    troca e vai para estado 107
-    AND     troca e vai para estado 108
-    STAR    troca e vai para estado 109
-    DIV     troca e vai para estado 110
-    EQ      troca e vai para estado 111
-    GE      troca e vai para estado 112
-    GT      troca e vai para estado 113
-    LE      troca e vai para estado 114
-    LT      troca e vai para estado 115
-    MINUS   troca e vai para estado 116
-    MOD     troca e vai para estado 117
-    NE      troca e vai para estado 118
-    OR      troca e vai para estado 119
-    LSHIFT  troca e vai para estado 120
-    RSHIFT  troca e vai para estado 121
-    XOR     troca e vai para estado 122
+    PLUS    shift, and go to state 107
+    AND     shift, and go to state 108
+    STAR    shift, and go to state 109
+    DIV     shift, and go to state 110
+    EQ      shift, and go to state 111
+    GE      shift, and go to state 112
+    GT      shift, and go to state 113
+    LE      shift, and go to state 114
+    LT      shift, and go to state 115
+    MINUS   shift, and go to state 116
+    MOD     shift, and go to state 117
+    NE      shift, and go to state 118
+    OR      shift, and go to state 119
+    LSHIFT  shift, and go to state 120
+    RSHIFT  shift, and go to state 121
+    XOR     shift, and go to state 122
 
-    $default  redução com regra 50 (Expr)
+    $default  reduce using rule 50 (Expr)
 
 
-Estado 75
+State 75
 
    40 StatementRep: Statement • StatementRep
 
-    error      troca e vai para estado 32
-    ID         troca e vai para estado 33
-    PRINT      troca e vai para estado 34
-    PARSEINT   troca e vai para estado 35
-    RETURN     troca e vai para estado 36
-    LBRACE     troca e vai para estado 37
-    SEMICOLON  troca e vai para estado 38
-    IF         troca e vai para estado 39
-    WHILE      troca e vai para estado 40
+    error      shift, and go to state 32
+    ID         shift, and go to state 33
+    PRINT      shift, and go to state 34
+    PARSEINT   shift, and go to state 35
+    RETURN     shift, and go to state 36
+    LBRACE     shift, and go to state 37
+    SEMICOLON  shift, and go to state 38
+    IF         shift, and go to state 39
+    WHILE      shift, and go to state 40
 
-    RBRACE  redução com regra 41 (StatementRep)
+    RBRACE  reduce using rule 41 (StatementRep)
 
-    Statement         vai para estado 75
-    StatementRep      vai para estado 123
-    MethodInvocation  vai para estado 45
-    Assignment        vai para estado 46
-    ParseArgs         vai para estado 47
+    Statement         go to state 75
+    StatementRep      go to state 123
+    MethodInvocation  go to state 45
+    Assignment        go to state 46
+    ParseArgs         go to state 47
 
 
-Estado 76
+State 76
 
    27 Statement: LBRACE StatementRep • RBRACE
 
-    RBRACE  troca e vai para estado 124
+    RBRACE  shift, and go to state 124
 
 
-Estado 77
+State 77
 
    28 Statement: IF LPAR • Expr RPAR Statement ELSE Statement
    29          | IF LPAR • Expr RPAR Statement
 
-    ID        troca e vai para estado 61
-    INTLIT    troca e vai para estado 62
-    REALLIT   troca e vai para estado 63
-    BOOLLIT   troca e vai para estado 64
-    PLUS      troca e vai para estado 65
-    MINUS     troca e vai para estado 66
-    NOT       troca e vai para estado 67
-    PARSEINT  troca e vai para estado 35
-    LPAR      troca e vai para estado 68
+    ID        shift, and go to state 61
+    INTLIT    shift, and go to state 62
+    REALLIT   shift, and go to state 63
+    BOOLLIT   shift, and go to state 64
+    PLUS      shift, and go to state 65
+    MINUS     shift, and go to state 66
+    NOT       shift, and go to state 67
+    PARSEINT  shift, and go to state 35
+    LPAR      shift, and go to state 68
 
-    MethodInvocation  vai para estado 70
-    Assignment        vai para estado 71
-    ParseArgs         vai para estado 72
-    Expr              vai para estado 125
-    ExprOp            vai para estado 74
+    MethodInvocation  go to state 70
+    Assignment        go to state 71
+    ParseArgs         go to state 72
+    Expr              go to state 125
+    ExprOp            go to state 74
 
 
-Estado 78
+State 78
 
    30 Statement: WHILE LPAR • Expr RPAR Statement
 
-    ID        troca e vai para estado 61
-    INTLIT    troca e vai para estado 62
-    REALLIT   troca e vai para estado 63
-    BOOLLIT   troca e vai para estado 64
-    PLUS      troca e vai para estado 65
-    MINUS     troca e vai para estado 66
-    NOT       troca e vai para estado 67
-    PARSEINT  troca e vai para estado 35
-    LPAR      troca e vai para estado 68
+    ID        shift, and go to state 61
+    INTLIT    shift, and go to state 62
+    REALLIT   shift, and go to state 63
+    BOOLLIT   shift, and go to state 64
+    PLUS      shift, and go to state 65
+    MINUS     shift, and go to state 66
+    NOT       shift, and go to state 67
+    PARSEINT  shift, and go to state 35
+    LPAR      shift, and go to state 68
 
-    MethodInvocation  vai para estado 70
-    Assignment        vai para estado 71
-    ParseArgs         vai para estado 72
-    Expr              vai para estado 126
-    ExprOp            vai para estado 74
+    MethodInvocation  go to state 70
+    Assignment        go to state 71
+    ParseArgs         go to state 72
+    Expr              go to state 126
+    ExprOp            go to state 74
 
 
-Estado 79
+State 79
 
    26 VarDecl: Type ID • CommaIdRep SEMICOLON
 
-    COMMA  troca e vai para estado 29
+    COMMA  shift, and go to state 29
 
-    $default  redução com regra 10 (CommaIdRep)
+    $default  reduce using rule 10 (CommaIdRep)
 
-    CommaIdRep  vai para estado 127
+    CommaIdRep  go to state 127
 
 
-Estado 80
+State 80
 
    22 MethodBody: LBRACE StatementVarRep RBRACE •
 
-    $default  redução com regra 22 (MethodBody)
+    $default  reduce using rule 22 (MethodBody)
 
 
-Estado 81
+State 81
 
    24 StatementVarRep: VarDecl StatementVarRep •
 
-    $default  redução com regra 24 (StatementVarRep)
+    $default  reduce using rule 24 (StatementVarRep)
 
 
-Estado 82
+State 82
 
    23 StatementVarRep: Statement StatementVarRep •
 
-    $default  redução com regra 23 (StatementVarRep)
+    $default  reduce using rule 23 (StatementVarRep)
 
 
-Estado 83
+State 83
 
    35 Statement: MethodInvocation SEMICOLON •
 
-    $default  redução com regra 35 (Statement)
+    $default  reduce using rule 35 (Statement)
 
 
-Estado 84
+State 84
 
    36 Statement: Assignment SEMICOLON •
 
-    $default  redução com regra 36 (Statement)
+    $default  reduce using rule 36 (Statement)
 
 
-Estado 85
+State 85
 
    37 Statement: ParseArgs SEMICOLON •
 
-    $default  redução com regra 37 (Statement)
+    $default  reduce using rule 37 (Statement)
 
 
-Estado 86
+State 86
 
    19 FormalParams: STRING LSQ • RSQ ID
 
-    RSQ  troca e vai para estado 128
+    RSQ  shift, and go to state 128
 
 
-Estado 87
+State 87
 
    18 FormalParams: Type ID • CommaTypeIdRep
 
-    COMMA  troca e vai para estado 129
+    COMMA  shift, and go to state 129
 
-    $default  redução com regra 21 (CommaTypeIdRep)
+    $default  reduce using rule 21 (CommaTypeIdRep)
 
-    CommaTypeIdRep  vai para estado 130
+    CommaTypeIdRep  go to state 130
 
 
-Estado 88
+State 88
 
    15 MethodHeader: VOID ID LPAR FormalParams RPAR •
 
-    $default  redução com regra 15 (MethodHeader)
+    $default  reduce using rule 15 (MethodHeader)
 
 
-Estado 89
+State 89
 
     9 CommaIdRep: COMMA ID CommaIdRep •
 
-    $default  redução com regra 9 (CommaIdRep)
+    $default  reduce using rule 9 (CommaIdRep)
 
 
-Estado 90
+State 90
 
    14 MethodHeader: Type ID LPAR FormalParams RPAR •
 
-    $default  redução com regra 14 (MethodHeader)
+    $default  reduce using rule 14 (MethodHeader)
 
 
-Estado 91
+State 91
 
    47 Assignment: ID ASSIGN Expr •
 
-    $default  redução com regra 47 (Assignment)
+    $default  reduce using rule 47 (Assignment)
 
 
-Estado 92
+State 92
 
    44 MethodInvocation: ID LPAR error • RPAR
 
-    RPAR  troca e vai para estado 131
+    RPAR  shift, and go to state 131
 
 
-Estado 93
+State 93
 
    42 MethodInvocation: ID LPAR RPAR •
 
-    $default  redução com regra 42 (MethodInvocation)
+    $default  reduce using rule 42 (MethodInvocation)
 
 
-Estado 94
+State 94
 
    43 MethodInvocation: ID LPAR Expr • CommaExprRep RPAR
 
-    COMMA  troca e vai para estado 132
+    COMMA  shift, and go to state 132
 
-    $default  redução com regra 46 (CommaExprRep)
+    $default  reduce using rule 46 (CommaExprRep)
 
-    CommaExprRep  vai para estado 133
+    CommaExprRep  go to state 133
 
 
-Estado 95
+State 95
 
    34 Statement: PRINT LPAR STRLIT • RPAR SEMICOLON
 
-    RPAR  troca e vai para estado 134
+    RPAR  shift, and go to state 134
 
 
-Estado 96
+State 96
 
    33 Statement: PRINT LPAR Expr • RPAR SEMICOLON
 
-    RPAR  troca e vai para estado 135
+    RPAR  shift, and go to state 135
 
 
-Estado 97
+State 97
 
    49 ParseArgs: PARSEINT LPAR error • RPAR
 
-    RPAR  troca e vai para estado 136
+    RPAR  shift, and go to state 136
 
 
-Estado 98
+State 98
 
    48 ParseArgs: PARSEINT LPAR ID • LSQ Expr RSQ RPAR
 
-    LSQ  troca e vai para estado 137
+    LSQ  shift, and go to state 137
 
 
-Estado 99
+State 99
 
    56 ExprOp: ID DOTLENGTH •
 
-    $default  redução com regra 56 (ExprOp)
+    $default  reduce using rule 56 (ExprOp)
 
 
-Estado 100
+State 100
 
    42 MethodInvocation: ID • LPAR RPAR
    43                 | ID • LPAR Expr CommaExprRep RPAR
@@ -1314,13 +1314,13 @@ Estado 100
    55 ExprOp: ID •
    56       | ID • DOTLENGTH
 
-    DOTLENGTH  troca e vai para estado 99
-    LPAR       troca e vai para estado 58
+    DOTLENGTH  shift, and go to state 99
+    LPAR       shift, and go to state 58
 
-    $default  redução com regra 55 (ExprOp)
+    $default  reduce using rule 55 (ExprOp)
 
 
-Estado 101
+State 101
 
    62 ExprOp: PLUS ExprOp •
    63       | ExprOp • PLUS ExprOp
@@ -1340,10 +1340,10 @@ Estado 101
    77       | ExprOp • LT ExprOp
    78       | ExprOp • NE ExprOp
 
-    $default  redução com regra 62 (ExprOp)
+    $default  reduce using rule 62 (ExprOp)
 
 
-Estado 102
+State 102
 
    60 ExprOp: MINUS ExprOp •
    63       | ExprOp • PLUS ExprOp
@@ -1363,10 +1363,10 @@ Estado 102
    77       | ExprOp • LT ExprOp
    78       | ExprOp • NE ExprOp
 
-    $default  redução com regra 60 (ExprOp)
+    $default  reduce using rule 60 (ExprOp)
 
 
-Estado 103
+State 103
 
    61 ExprOp: NOT ExprOp •
    63       | ExprOp • PLUS ExprOp
@@ -1386,487 +1386,487 @@ Estado 103
    77       | ExprOp • LT ExprOp
    78       | ExprOp • NE ExprOp
 
-    $default  redução com regra 61 (ExprOp)
+    $default  reduce using rule 61 (ExprOp)
 
 
-Estado 104
+State 104
 
    79 ExprOp: LPAR error • RPAR
 
-    RPAR  troca e vai para estado 138
+    RPAR  shift, and go to state 138
 
 
-Estado 105
+State 105
 
    52 ExprOp: LPAR Expr • RPAR
 
-    RPAR  troca e vai para estado 139
+    RPAR  shift, and go to state 139
 
 
-Estado 106
+State 106
 
    31 Statement: RETURN Expr SEMICOLON •
 
-    $default  redução com regra 31 (Statement)
+    $default  reduce using rule 31 (Statement)
 
 
-Estado 107
+State 107
 
    63 ExprOp: ExprOp PLUS • ExprOp
 
-    ID        troca e vai para estado 100
-    INTLIT    troca e vai para estado 62
-    REALLIT   troca e vai para estado 63
-    BOOLLIT   troca e vai para estado 64
-    PLUS      troca e vai para estado 65
-    MINUS     troca e vai para estado 66
-    NOT       troca e vai para estado 67
-    PARSEINT  troca e vai para estado 35
-    LPAR      troca e vai para estado 68
+    ID        shift, and go to state 100
+    INTLIT    shift, and go to state 62
+    REALLIT   shift, and go to state 63
+    BOOLLIT   shift, and go to state 64
+    PLUS      shift, and go to state 65
+    MINUS     shift, and go to state 66
+    NOT       shift, and go to state 67
+    PARSEINT  shift, and go to state 35
+    LPAR      shift, and go to state 68
 
-    MethodInvocation  vai para estado 70
-    ParseArgs         vai para estado 72
-    ExprOp            vai para estado 140
+    MethodInvocation  go to state 70
+    ParseArgs         go to state 72
+    ExprOp            go to state 140
 
 
-Estado 108
+State 108
 
    68 ExprOp: ExprOp AND • ExprOp
 
-    ID        troca e vai para estado 100
-    INTLIT    troca e vai para estado 62
-    REALLIT   troca e vai para estado 63
-    BOOLLIT   troca e vai para estado 64
-    PLUS      troca e vai para estado 65
-    MINUS     troca e vai para estado 66
-    NOT       troca e vai para estado 67
-    PARSEINT  troca e vai para estado 35
-    LPAR      troca e vai para estado 68
+    ID        shift, and go to state 100
+    INTLIT    shift, and go to state 62
+    REALLIT   shift, and go to state 63
+    BOOLLIT   shift, and go to state 64
+    PLUS      shift, and go to state 65
+    MINUS     shift, and go to state 66
+    NOT       shift, and go to state 67
+    PARSEINT  shift, and go to state 35
+    LPAR      shift, and go to state 68
 
-    MethodInvocation  vai para estado 70
-    ParseArgs         vai para estado 72
-    ExprOp            vai para estado 141
+    MethodInvocation  go to state 70
+    ParseArgs         go to state 72
+    ExprOp            go to state 141
 
 
-Estado 109
+State 109
 
    65 ExprOp: ExprOp STAR • ExprOp
 
-    ID        troca e vai para estado 100
-    INTLIT    troca e vai para estado 62
-    REALLIT   troca e vai para estado 63
-    BOOLLIT   troca e vai para estado 64
-    PLUS      troca e vai para estado 65
-    MINUS     troca e vai para estado 66
-    NOT       troca e vai para estado 67
-    PARSEINT  troca e vai para estado 35
-    LPAR      troca e vai para estado 68
+    ID        shift, and go to state 100
+    INTLIT    shift, and go to state 62
+    REALLIT   shift, and go to state 63
+    BOOLLIT   shift, and go to state 64
+    PLUS      shift, and go to state 65
+    MINUS     shift, and go to state 66
+    NOT       shift, and go to state 67
+    PARSEINT  shift, and go to state 35
+    LPAR      shift, and go to state 68
 
-    MethodInvocation  vai para estado 70
-    ParseArgs         vai para estado 72
-    ExprOp            vai para estado 142
+    MethodInvocation  go to state 70
+    ParseArgs         go to state 72
+    ExprOp            go to state 142
 
 
-Estado 110
+State 110
 
    66 ExprOp: ExprOp DIV • ExprOp
 
-    ID        troca e vai para estado 100
-    INTLIT    troca e vai para estado 62
-    REALLIT   troca e vai para estado 63
-    BOOLLIT   troca e vai para estado 64
-    PLUS      troca e vai para estado 65
-    MINUS     troca e vai para estado 66
-    NOT       troca e vai para estado 67
-    PARSEINT  troca e vai para estado 35
-    LPAR      troca e vai para estado 68
+    ID        shift, and go to state 100
+    INTLIT    shift, and go to state 62
+    REALLIT   shift, and go to state 63
+    BOOLLIT   shift, and go to state 64
+    PLUS      shift, and go to state 65
+    MINUS     shift, and go to state 66
+    NOT       shift, and go to state 67
+    PARSEINT  shift, and go to state 35
+    LPAR      shift, and go to state 68
 
-    MethodInvocation  vai para estado 70
-    ParseArgs         vai para estado 72
-    ExprOp            vai para estado 143
+    MethodInvocation  go to state 70
+    ParseArgs         go to state 72
+    ExprOp            go to state 143
 
 
-Estado 111
+State 111
 
    73 ExprOp: ExprOp EQ • ExprOp
 
-    ID        troca e vai para estado 100
-    INTLIT    troca e vai para estado 62
-    REALLIT   troca e vai para estado 63
-    BOOLLIT   troca e vai para estado 64
-    PLUS      troca e vai para estado 65
-    MINUS     troca e vai para estado 66
-    NOT       troca e vai para estado 67
-    PARSEINT  troca e vai para estado 35
-    LPAR      troca e vai para estado 68
+    ID        shift, and go to state 100
+    INTLIT    shift, and go to state 62
+    REALLIT   shift, and go to state 63
+    BOOLLIT   shift, and go to state 64
+    PLUS      shift, and go to state 65
+    MINUS     shift, and go to state 66
+    NOT       shift, and go to state 67
+    PARSEINT  shift, and go to state 35
+    LPAR      shift, and go to state 68
 
-    MethodInvocation  vai para estado 70
-    ParseArgs         vai para estado 72
-    ExprOp            vai para estado 144
+    MethodInvocation  go to state 70
+    ParseArgs         go to state 72
+    ExprOp            go to state 144
 
 
-Estado 112
+State 112
 
    74 ExprOp: ExprOp GE • ExprOp
 
-    ID        troca e vai para estado 100
-    INTLIT    troca e vai para estado 62
-    REALLIT   troca e vai para estado 63
-    BOOLLIT   troca e vai para estado 64
-    PLUS      troca e vai para estado 65
-    MINUS     troca e vai para estado 66
-    NOT       troca e vai para estado 67
-    PARSEINT  troca e vai para estado 35
-    LPAR      troca e vai para estado 68
+    ID        shift, and go to state 100
+    INTLIT    shift, and go to state 62
+    REALLIT   shift, and go to state 63
+    BOOLLIT   shift, and go to state 64
+    PLUS      shift, and go to state 65
+    MINUS     shift, and go to state 66
+    NOT       shift, and go to state 67
+    PARSEINT  shift, and go to state 35
+    LPAR      shift, and go to state 68
 
-    MethodInvocation  vai para estado 70
-    ParseArgs         vai para estado 72
-    ExprOp            vai para estado 145
+    MethodInvocation  go to state 70
+    ParseArgs         go to state 72
+    ExprOp            go to state 145
 
 
-Estado 113
+State 113
 
    75 ExprOp: ExprOp GT • ExprOp
 
-    ID        troca e vai para estado 100
-    INTLIT    troca e vai para estado 62
-    REALLIT   troca e vai para estado 63
-    BOOLLIT   troca e vai para estado 64
-    PLUS      troca e vai para estado 65
-    MINUS     troca e vai para estado 66
-    NOT       troca e vai para estado 67
-    PARSEINT  troca e vai para estado 35
-    LPAR      troca e vai para estado 68
+    ID        shift, and go to state 100
+    INTLIT    shift, and go to state 62
+    REALLIT   shift, and go to state 63
+    BOOLLIT   shift, and go to state 64
+    PLUS      shift, and go to state 65
+    MINUS     shift, and go to state 66
+    NOT       shift, and go to state 67
+    PARSEINT  shift, and go to state 35
+    LPAR      shift, and go to state 68
 
-    MethodInvocation  vai para estado 70
-    ParseArgs         vai para estado 72
-    ExprOp            vai para estado 146
+    MethodInvocation  go to state 70
+    ParseArgs         go to state 72
+    ExprOp            go to state 146
 
 
-Estado 114
+State 114
 
    76 ExprOp: ExprOp LE • ExprOp
 
-    ID        troca e vai para estado 100
-    INTLIT    troca e vai para estado 62
-    REALLIT   troca e vai para estado 63
-    BOOLLIT   troca e vai para estado 64
-    PLUS      troca e vai para estado 65
-    MINUS     troca e vai para estado 66
-    NOT       troca e vai para estado 67
-    PARSEINT  troca e vai para estado 35
-    LPAR      troca e vai para estado 68
+    ID        shift, and go to state 100
+    INTLIT    shift, and go to state 62
+    REALLIT   shift, and go to state 63
+    BOOLLIT   shift, and go to state 64
+    PLUS      shift, and go to state 65
+    MINUS     shift, and go to state 66
+    NOT       shift, and go to state 67
+    PARSEINT  shift, and go to state 35
+    LPAR      shift, and go to state 68
 
-    MethodInvocation  vai para estado 70
-    ParseArgs         vai para estado 72
-    ExprOp            vai para estado 147
+    MethodInvocation  go to state 70
+    ParseArgs         go to state 72
+    ExprOp            go to state 147
 
 
-Estado 115
+State 115
 
    77 ExprOp: ExprOp LT • ExprOp
 
-    ID        troca e vai para estado 100
-    INTLIT    troca e vai para estado 62
-    REALLIT   troca e vai para estado 63
-    BOOLLIT   troca e vai para estado 64
-    PLUS      troca e vai para estado 65
-    MINUS     troca e vai para estado 66
-    NOT       troca e vai para estado 67
-    PARSEINT  troca e vai para estado 35
-    LPAR      troca e vai para estado 68
+    ID        shift, and go to state 100
+    INTLIT    shift, and go to state 62
+    REALLIT   shift, and go to state 63
+    BOOLLIT   shift, and go to state 64
+    PLUS      shift, and go to state 65
+    MINUS     shift, and go to state 66
+    NOT       shift, and go to state 67
+    PARSEINT  shift, and go to state 35
+    LPAR      shift, and go to state 68
 
-    MethodInvocation  vai para estado 70
-    ParseArgs         vai para estado 72
-    ExprOp            vai para estado 148
+    MethodInvocation  go to state 70
+    ParseArgs         go to state 72
+    ExprOp            go to state 148
 
 
-Estado 116
+State 116
 
    64 ExprOp: ExprOp MINUS • ExprOp
 
-    ID        troca e vai para estado 100
-    INTLIT    troca e vai para estado 62
-    REALLIT   troca e vai para estado 63
-    BOOLLIT   troca e vai para estado 64
-    PLUS      troca e vai para estado 65
-    MINUS     troca e vai para estado 66
-    NOT       troca e vai para estado 67
-    PARSEINT  troca e vai para estado 35
-    LPAR      troca e vai para estado 68
+    ID        shift, and go to state 100
+    INTLIT    shift, and go to state 62
+    REALLIT   shift, and go to state 63
+    BOOLLIT   shift, and go to state 64
+    PLUS      shift, and go to state 65
+    MINUS     shift, and go to state 66
+    NOT       shift, and go to state 67
+    PARSEINT  shift, and go to state 35
+    LPAR      shift, and go to state 68
 
-    MethodInvocation  vai para estado 70
-    ParseArgs         vai para estado 72
-    ExprOp            vai para estado 149
+    MethodInvocation  go to state 70
+    ParseArgs         go to state 72
+    ExprOp            go to state 149
 
 
-Estado 117
+State 117
 
    67 ExprOp: ExprOp MOD • ExprOp
 
-    ID        troca e vai para estado 100
-    INTLIT    troca e vai para estado 62
-    REALLIT   troca e vai para estado 63
-    BOOLLIT   troca e vai para estado 64
-    PLUS      troca e vai para estado 65
-    MINUS     troca e vai para estado 66
-    NOT       troca e vai para estado 67
-    PARSEINT  troca e vai para estado 35
-    LPAR      troca e vai para estado 68
+    ID        shift, and go to state 100
+    INTLIT    shift, and go to state 62
+    REALLIT   shift, and go to state 63
+    BOOLLIT   shift, and go to state 64
+    PLUS      shift, and go to state 65
+    MINUS     shift, and go to state 66
+    NOT       shift, and go to state 67
+    PARSEINT  shift, and go to state 35
+    LPAR      shift, and go to state 68
 
-    MethodInvocation  vai para estado 70
-    ParseArgs         vai para estado 72
-    ExprOp            vai para estado 150
+    MethodInvocation  go to state 70
+    ParseArgs         go to state 72
+    ExprOp            go to state 150
 
 
-Estado 118
+State 118
 
    78 ExprOp: ExprOp NE • ExprOp
 
-    ID        troca e vai para estado 100
-    INTLIT    troca e vai para estado 62
-    REALLIT   troca e vai para estado 63
-    BOOLLIT   troca e vai para estado 64
-    PLUS      troca e vai para estado 65
-    MINUS     troca e vai para estado 66
-    NOT       troca e vai para estado 67
-    PARSEINT  troca e vai para estado 35
-    LPAR      troca e vai para estado 68
+    ID        shift, and go to state 100
+    INTLIT    shift, and go to state 62
+    REALLIT   shift, and go to state 63
+    BOOLLIT   shift, and go to state 64
+    PLUS      shift, and go to state 65
+    MINUS     shift, and go to state 66
+    NOT       shift, and go to state 67
+    PARSEINT  shift, and go to state 35
+    LPAR      shift, and go to state 68
 
-    MethodInvocation  vai para estado 70
-    ParseArgs         vai para estado 72
-    ExprOp            vai para estado 151
+    MethodInvocation  go to state 70
+    ParseArgs         go to state 72
+    ExprOp            go to state 151
 
 
-Estado 119
+State 119
 
    69 ExprOp: ExprOp OR • ExprOp
 
-    ID        troca e vai para estado 100
-    INTLIT    troca e vai para estado 62
-    REALLIT   troca e vai para estado 63
-    BOOLLIT   troca e vai para estado 64
-    PLUS      troca e vai para estado 65
-    MINUS     troca e vai para estado 66
-    NOT       troca e vai para estado 67
-    PARSEINT  troca e vai para estado 35
-    LPAR      troca e vai para estado 68
+    ID        shift, and go to state 100
+    INTLIT    shift, and go to state 62
+    REALLIT   shift, and go to state 63
+    BOOLLIT   shift, and go to state 64
+    PLUS      shift, and go to state 65
+    MINUS     shift, and go to state 66
+    NOT       shift, and go to state 67
+    PARSEINT  shift, and go to state 35
+    LPAR      shift, and go to state 68
 
-    MethodInvocation  vai para estado 70
-    ParseArgs         vai para estado 72
-    ExprOp            vai para estado 152
+    MethodInvocation  go to state 70
+    ParseArgs         go to state 72
+    ExprOp            go to state 152
 
 
-Estado 120
+State 120
 
    71 ExprOp: ExprOp LSHIFT • ExprOp
 
-    ID        troca e vai para estado 100
-    INTLIT    troca e vai para estado 62
-    REALLIT   troca e vai para estado 63
-    BOOLLIT   troca e vai para estado 64
-    PLUS      troca e vai para estado 65
-    MINUS     troca e vai para estado 66
-    NOT       troca e vai para estado 67
-    PARSEINT  troca e vai para estado 35
-    LPAR      troca e vai para estado 68
+    ID        shift, and go to state 100
+    INTLIT    shift, and go to state 62
+    REALLIT   shift, and go to state 63
+    BOOLLIT   shift, and go to state 64
+    PLUS      shift, and go to state 65
+    MINUS     shift, and go to state 66
+    NOT       shift, and go to state 67
+    PARSEINT  shift, and go to state 35
+    LPAR      shift, and go to state 68
 
-    MethodInvocation  vai para estado 70
-    ParseArgs         vai para estado 72
-    ExprOp            vai para estado 153
+    MethodInvocation  go to state 70
+    ParseArgs         go to state 72
+    ExprOp            go to state 153
 
 
-Estado 121
+State 121
 
    72 ExprOp: ExprOp RSHIFT • ExprOp
 
-    ID        troca e vai para estado 100
-    INTLIT    troca e vai para estado 62
-    REALLIT   troca e vai para estado 63
-    BOOLLIT   troca e vai para estado 64
-    PLUS      troca e vai para estado 65
-    MINUS     troca e vai para estado 66
-    NOT       troca e vai para estado 67
-    PARSEINT  troca e vai para estado 35
-    LPAR      troca e vai para estado 68
+    ID        shift, and go to state 100
+    INTLIT    shift, and go to state 62
+    REALLIT   shift, and go to state 63
+    BOOLLIT   shift, and go to state 64
+    PLUS      shift, and go to state 65
+    MINUS     shift, and go to state 66
+    NOT       shift, and go to state 67
+    PARSEINT  shift, and go to state 35
+    LPAR      shift, and go to state 68
 
-    MethodInvocation  vai para estado 70
-    ParseArgs         vai para estado 72
-    ExprOp            vai para estado 154
+    MethodInvocation  go to state 70
+    ParseArgs         go to state 72
+    ExprOp            go to state 154
 
 
-Estado 122
+State 122
 
    70 ExprOp: ExprOp XOR • ExprOp
 
-    ID        troca e vai para estado 100
-    INTLIT    troca e vai para estado 62
-    REALLIT   troca e vai para estado 63
-    BOOLLIT   troca e vai para estado 64
-    PLUS      troca e vai para estado 65
-    MINUS     troca e vai para estado 66
-    NOT       troca e vai para estado 67
-    PARSEINT  troca e vai para estado 35
-    LPAR      troca e vai para estado 68
+    ID        shift, and go to state 100
+    INTLIT    shift, and go to state 62
+    REALLIT   shift, and go to state 63
+    BOOLLIT   shift, and go to state 64
+    PLUS      shift, and go to state 65
+    MINUS     shift, and go to state 66
+    NOT       shift, and go to state 67
+    PARSEINT  shift, and go to state 35
+    LPAR      shift, and go to state 68
 
-    MethodInvocation  vai para estado 70
-    ParseArgs         vai para estado 72
-    ExprOp            vai para estado 155
+    MethodInvocation  go to state 70
+    ParseArgs         go to state 72
+    ExprOp            go to state 155
 
 
-Estado 123
+State 123
 
    40 StatementRep: Statement StatementRep •
 
-    $default  redução com regra 40 (StatementRep)
+    $default  reduce using rule 40 (StatementRep)
 
 
-Estado 124
+State 124
 
    27 Statement: LBRACE StatementRep RBRACE •
 
-    $default  redução com regra 27 (Statement)
+    $default  reduce using rule 27 (Statement)
 
 
-Estado 125
+State 125
 
    28 Statement: IF LPAR Expr • RPAR Statement ELSE Statement
    29          | IF LPAR Expr • RPAR Statement
 
-    RPAR  troca e vai para estado 156
+    RPAR  shift, and go to state 156
 
 
-Estado 126
+State 126
 
    30 Statement: WHILE LPAR Expr • RPAR Statement
 
-    RPAR  troca e vai para estado 157
+    RPAR  shift, and go to state 157
 
 
-Estado 127
+State 127
 
    26 VarDecl: Type ID CommaIdRep • SEMICOLON
 
-    SEMICOLON  troca e vai para estado 158
+    SEMICOLON  shift, and go to state 158
 
 
-Estado 128
+State 128
 
    19 FormalParams: STRING LSQ RSQ • ID
 
-    ID  troca e vai para estado 159
+    ID  shift, and go to state 159
 
 
-Estado 129
+State 129
 
    20 CommaTypeIdRep: COMMA • Type ID CommaTypeIdRep
 
-    BOOL    troca e vai para estado 18
-    DOUBLE  troca e vai para estado 19
-    INT     troca e vai para estado 20
+    BOOL    shift, and go to state 18
+    DOUBLE  shift, and go to state 19
+    INT     shift, and go to state 20
 
-    Type  vai para estado 160
+    Type  go to state 160
 
 
-Estado 130
+State 130
 
    18 FormalParams: Type ID CommaTypeIdRep •
 
-    $default  redução com regra 18 (FormalParams)
+    $default  reduce using rule 18 (FormalParams)
 
 
-Estado 131
+State 131
 
    44 MethodInvocation: ID LPAR error RPAR •
 
-    $default  redução com regra 44 (MethodInvocation)
+    $default  reduce using rule 44 (MethodInvocation)
 
 
-Estado 132
+State 132
 
    45 CommaExprRep: COMMA • Expr CommaExprRep
 
-    ID        troca e vai para estado 61
-    INTLIT    troca e vai para estado 62
-    REALLIT   troca e vai para estado 63
-    BOOLLIT   troca e vai para estado 64
-    PLUS      troca e vai para estado 65
-    MINUS     troca e vai para estado 66
-    NOT       troca e vai para estado 67
-    PARSEINT  troca e vai para estado 35
-    LPAR      troca e vai para estado 68
+    ID        shift, and go to state 61
+    INTLIT    shift, and go to state 62
+    REALLIT   shift, and go to state 63
+    BOOLLIT   shift, and go to state 64
+    PLUS      shift, and go to state 65
+    MINUS     shift, and go to state 66
+    NOT       shift, and go to state 67
+    PARSEINT  shift, and go to state 35
+    LPAR      shift, and go to state 68
 
-    MethodInvocation  vai para estado 70
-    Assignment        vai para estado 71
-    ParseArgs         vai para estado 72
-    Expr              vai para estado 161
-    ExprOp            vai para estado 74
+    MethodInvocation  go to state 70
+    Assignment        go to state 71
+    ParseArgs         go to state 72
+    Expr              go to state 161
+    ExprOp            go to state 74
 
 
-Estado 133
+State 133
 
    43 MethodInvocation: ID LPAR Expr CommaExprRep • RPAR
 
-    RPAR  troca e vai para estado 162
+    RPAR  shift, and go to state 162
 
 
-Estado 134
+State 134
 
    34 Statement: PRINT LPAR STRLIT RPAR • SEMICOLON
 
-    SEMICOLON  troca e vai para estado 163
+    SEMICOLON  shift, and go to state 163
 
 
-Estado 135
+State 135
 
    33 Statement: PRINT LPAR Expr RPAR • SEMICOLON
 
-    SEMICOLON  troca e vai para estado 164
+    SEMICOLON  shift, and go to state 164
 
 
-Estado 136
+State 136
 
    49 ParseArgs: PARSEINT LPAR error RPAR •
 
-    $default  redução com regra 49 (ParseArgs)
+    $default  reduce using rule 49 (ParseArgs)
 
 
-Estado 137
+State 137
 
    48 ParseArgs: PARSEINT LPAR ID LSQ • Expr RSQ RPAR
 
-    ID        troca e vai para estado 61
-    INTLIT    troca e vai para estado 62
-    REALLIT   troca e vai para estado 63
-    BOOLLIT   troca e vai para estado 64
-    PLUS      troca e vai para estado 65
-    MINUS     troca e vai para estado 66
-    NOT       troca e vai para estado 67
-    PARSEINT  troca e vai para estado 35
-    LPAR      troca e vai para estado 68
+    ID        shift, and go to state 61
+    INTLIT    shift, and go to state 62
+    REALLIT   shift, and go to state 63
+    BOOLLIT   shift, and go to state 64
+    PLUS      shift, and go to state 65
+    MINUS     shift, and go to state 66
+    NOT       shift, and go to state 67
+    PARSEINT  shift, and go to state 35
+    LPAR      shift, and go to state 68
 
-    MethodInvocation  vai para estado 70
-    Assignment        vai para estado 71
-    ParseArgs         vai para estado 72
-    Expr              vai para estado 165
-    ExprOp            vai para estado 74
+    MethodInvocation  go to state 70
+    Assignment        go to state 71
+    ParseArgs         go to state 72
+    Expr              go to state 165
+    ExprOp            go to state 74
 
 
-Estado 138
+State 138
 
    79 ExprOp: LPAR error RPAR •
 
-    $default  redução com regra 79 (ExprOp)
+    $default  reduce using rule 79 (ExprOp)
 
 
-Estado 139
+State 139
 
    52 ExprOp: LPAR Expr RPAR •
 
-    $default  redução com regra 52 (ExprOp)
+    $default  reduce using rule 52 (ExprOp)
 
 
-Estado 140
+State 140
 
    63 ExprOp: ExprOp • PLUS ExprOp
    63       | ExprOp PLUS ExprOp •
@@ -1886,14 +1886,14 @@ Estado 140
    77       | ExprOp • LT ExprOp
    78       | ExprOp • NE ExprOp
 
-    STAR  troca e vai para estado 109
-    DIV   troca e vai para estado 110
-    MOD   troca e vai para estado 117
+    STAR  shift, and go to state 109
+    DIV   shift, and go to state 110
+    MOD   shift, and go to state 117
 
-    $default  redução com regra 63 (ExprOp)
+    $default  reduce using rule 63 (ExprOp)
 
 
-Estado 141
+State 141
 
    63 ExprOp: ExprOp • PLUS ExprOp
    64       | ExprOp • MINUS ExprOp
@@ -1913,25 +1913,25 @@ Estado 141
    77       | ExprOp • LT ExprOp
    78       | ExprOp • NE ExprOp
 
-    PLUS    troca e vai para estado 107
-    STAR    troca e vai para estado 109
-    DIV     troca e vai para estado 110
-    EQ      troca e vai para estado 111
-    GE      troca e vai para estado 112
-    GT      troca e vai para estado 113
-    LE      troca e vai para estado 114
-    LT      troca e vai para estado 115
-    MINUS   troca e vai para estado 116
-    MOD     troca e vai para estado 117
-    NE      troca e vai para estado 118
-    LSHIFT  troca e vai para estado 120
-    RSHIFT  troca e vai para estado 121
-    XOR     troca e vai para estado 122
+    PLUS    shift, and go to state 107
+    STAR    shift, and go to state 109
+    DIV     shift, and go to state 110
+    EQ      shift, and go to state 111
+    GE      shift, and go to state 112
+    GT      shift, and go to state 113
+    LE      shift, and go to state 114
+    LT      shift, and go to state 115
+    MINUS   shift, and go to state 116
+    MOD     shift, and go to state 117
+    NE      shift, and go to state 118
+    LSHIFT  shift, and go to state 120
+    RSHIFT  shift, and go to state 121
+    XOR     shift, and go to state 122
 
-    $default  redução com regra 68 (ExprOp)
+    $default  reduce using rule 68 (ExprOp)
 
 
-Estado 142
+State 142
 
    63 ExprOp: ExprOp • PLUS ExprOp
    64       | ExprOp • MINUS ExprOp
@@ -1951,10 +1951,10 @@ Estado 142
    77       | ExprOp • LT ExprOp
    78       | ExprOp • NE ExprOp
 
-    $default  redução com regra 65 (ExprOp)
+    $default  reduce using rule 65 (ExprOp)
 
 
-Estado 143
+State 143
 
    63 ExprOp: ExprOp • PLUS ExprOp
    64       | ExprOp • MINUS ExprOp
@@ -1974,10 +1974,10 @@ Estado 143
    77       | ExprOp • LT ExprOp
    78       | ExprOp • NE ExprOp
 
-    $default  redução com regra 66 (ExprOp)
+    $default  reduce using rule 66 (ExprOp)
 
 
-Estado 144
+State 144
 
    63 ExprOp: ExprOp • PLUS ExprOp
    64       | ExprOp • MINUS ExprOp
@@ -1997,22 +1997,22 @@ Estado 144
    77       | ExprOp • LT ExprOp
    78       | ExprOp • NE ExprOp
 
-    PLUS    troca e vai para estado 107
-    STAR    troca e vai para estado 109
-    DIV     troca e vai para estado 110
-    GE      troca e vai para estado 112
-    GT      troca e vai para estado 113
-    LE      troca e vai para estado 114
-    LT      troca e vai para estado 115
-    MINUS   troca e vai para estado 116
-    MOD     troca e vai para estado 117
-    LSHIFT  troca e vai para estado 120
-    RSHIFT  troca e vai para estado 121
+    PLUS    shift, and go to state 107
+    STAR    shift, and go to state 109
+    DIV     shift, and go to state 110
+    GE      shift, and go to state 112
+    GT      shift, and go to state 113
+    LE      shift, and go to state 114
+    LT      shift, and go to state 115
+    MINUS   shift, and go to state 116
+    MOD     shift, and go to state 117
+    LSHIFT  shift, and go to state 120
+    RSHIFT  shift, and go to state 121
 
-    $default  redução com regra 73 (ExprOp)
+    $default  reduce using rule 73 (ExprOp)
 
 
-Estado 145
+State 145
 
    63 ExprOp: ExprOp • PLUS ExprOp
    64       | ExprOp • MINUS ExprOp
@@ -2032,18 +2032,18 @@ Estado 145
    77       | ExprOp • LT ExprOp
    78       | ExprOp • NE ExprOp
 
-    PLUS    troca e vai para estado 107
-    STAR    troca e vai para estado 109
-    DIV     troca e vai para estado 110
-    MINUS   troca e vai para estado 116
-    MOD     troca e vai para estado 117
-    LSHIFT  troca e vai para estado 120
-    RSHIFT  troca e vai para estado 121
+    PLUS    shift, and go to state 107
+    STAR    shift, and go to state 109
+    DIV     shift, and go to state 110
+    MINUS   shift, and go to state 116
+    MOD     shift, and go to state 117
+    LSHIFT  shift, and go to state 120
+    RSHIFT  shift, and go to state 121
 
-    $default  redução com regra 74 (ExprOp)
+    $default  reduce using rule 74 (ExprOp)
 
 
-Estado 146
+State 146
 
    63 ExprOp: ExprOp • PLUS ExprOp
    64       | ExprOp • MINUS ExprOp
@@ -2063,18 +2063,18 @@ Estado 146
    77       | ExprOp • LT ExprOp
    78       | ExprOp • NE ExprOp
 
-    PLUS    troca e vai para estado 107
-    STAR    troca e vai para estado 109
-    DIV     troca e vai para estado 110
-    MINUS   troca e vai para estado 116
-    MOD     troca e vai para estado 117
-    LSHIFT  troca e vai para estado 120
-    RSHIFT  troca e vai para estado 121
+    PLUS    shift, and go to state 107
+    STAR    shift, and go to state 109
+    DIV     shift, and go to state 110
+    MINUS   shift, and go to state 116
+    MOD     shift, and go to state 117
+    LSHIFT  shift, and go to state 120
+    RSHIFT  shift, and go to state 121
 
-    $default  redução com regra 75 (ExprOp)
+    $default  reduce using rule 75 (ExprOp)
 
 
-Estado 147
+State 147
 
    63 ExprOp: ExprOp • PLUS ExprOp
    64       | ExprOp • MINUS ExprOp
@@ -2094,18 +2094,18 @@ Estado 147
    77       | ExprOp • LT ExprOp
    78       | ExprOp • NE ExprOp
 
-    PLUS    troca e vai para estado 107
-    STAR    troca e vai para estado 109
-    DIV     troca e vai para estado 110
-    MINUS   troca e vai para estado 116
-    MOD     troca e vai para estado 117
-    LSHIFT  troca e vai para estado 120
-    RSHIFT  troca e vai para estado 121
+    PLUS    shift, and go to state 107
+    STAR    shift, and go to state 109
+    DIV     shift, and go to state 110
+    MINUS   shift, and go to state 116
+    MOD     shift, and go to state 117
+    LSHIFT  shift, and go to state 120
+    RSHIFT  shift, and go to state 121
 
-    $default  redução com regra 76 (ExprOp)
+    $default  reduce using rule 76 (ExprOp)
 
 
-Estado 148
+State 148
 
    63 ExprOp: ExprOp • PLUS ExprOp
    64       | ExprOp • MINUS ExprOp
@@ -2125,18 +2125,18 @@ Estado 148
    77       | ExprOp LT ExprOp •
    78       | ExprOp • NE ExprOp
 
-    PLUS    troca e vai para estado 107
-    STAR    troca e vai para estado 109
-    DIV     troca e vai para estado 110
-    MINUS   troca e vai para estado 116
-    MOD     troca e vai para estado 117
-    LSHIFT  troca e vai para estado 120
-    RSHIFT  troca e vai para estado 121
+    PLUS    shift, and go to state 107
+    STAR    shift, and go to state 109
+    DIV     shift, and go to state 110
+    MINUS   shift, and go to state 116
+    MOD     shift, and go to state 117
+    LSHIFT  shift, and go to state 120
+    RSHIFT  shift, and go to state 121
 
-    $default  redução com regra 77 (ExprOp)
+    $default  reduce using rule 77 (ExprOp)
 
 
-Estado 149
+State 149
 
    63 ExprOp: ExprOp • PLUS ExprOp
    64       | ExprOp • MINUS ExprOp
@@ -2156,14 +2156,14 @@ Estado 149
    77       | ExprOp • LT ExprOp
    78       | ExprOp • NE ExprOp
 
-    STAR  troca e vai para estado 109
-    DIV   troca e vai para estado 110
-    MOD   troca e vai para estado 117
+    STAR  shift, and go to state 109
+    DIV   shift, and go to state 110
+    MOD   shift, and go to state 117
 
-    $default  redução com regra 64 (ExprOp)
+    $default  reduce using rule 64 (ExprOp)
 
 
-Estado 150
+State 150
 
    63 ExprOp: ExprOp • PLUS ExprOp
    64       | ExprOp • MINUS ExprOp
@@ -2183,10 +2183,10 @@ Estado 150
    77       | ExprOp • LT ExprOp
    78       | ExprOp • NE ExprOp
 
-    $default  redução com regra 67 (ExprOp)
+    $default  reduce using rule 67 (ExprOp)
 
 
-Estado 151
+State 151
 
    63 ExprOp: ExprOp • PLUS ExprOp
    64       | ExprOp • MINUS ExprOp
@@ -2206,22 +2206,22 @@ Estado 151
    78       | ExprOp • NE ExprOp
    78       | ExprOp NE ExprOp •
 
-    PLUS    troca e vai para estado 107
-    STAR    troca e vai para estado 109
-    DIV     troca e vai para estado 110
-    GE      troca e vai para estado 112
-    GT      troca e vai para estado 113
-    LE      troca e vai para estado 114
-    LT      troca e vai para estado 115
-    MINUS   troca e vai para estado 116
-    MOD     troca e vai para estado 117
-    LSHIFT  troca e vai para estado 120
-    RSHIFT  troca e vai para estado 121
+    PLUS    shift, and go to state 107
+    STAR    shift, and go to state 109
+    DIV     shift, and go to state 110
+    GE      shift, and go to state 112
+    GT      shift, and go to state 113
+    LE      shift, and go to state 114
+    LT      shift, and go to state 115
+    MINUS   shift, and go to state 116
+    MOD     shift, and go to state 117
+    LSHIFT  shift, and go to state 120
+    RSHIFT  shift, and go to state 121
 
-    $default  redução com regra 78 (ExprOp)
+    $default  reduce using rule 78 (ExprOp)
 
 
-Estado 152
+State 152
 
    63 ExprOp: ExprOp • PLUS ExprOp
    64       | ExprOp • MINUS ExprOp
@@ -2241,26 +2241,26 @@ Estado 152
    77       | ExprOp • LT ExprOp
    78       | ExprOp • NE ExprOp
 
-    PLUS    troca e vai para estado 107
-    AND     troca e vai para estado 108
-    STAR    troca e vai para estado 109
-    DIV     troca e vai para estado 110
-    EQ      troca e vai para estado 111
-    GE      troca e vai para estado 112
-    GT      troca e vai para estado 113
-    LE      troca e vai para estado 114
-    LT      troca e vai para estado 115
-    MINUS   troca e vai para estado 116
-    MOD     troca e vai para estado 117
-    NE      troca e vai para estado 118
-    LSHIFT  troca e vai para estado 120
-    RSHIFT  troca e vai para estado 121
-    XOR     troca e vai para estado 122
+    PLUS    shift, and go to state 107
+    AND     shift, and go to state 108
+    STAR    shift, and go to state 109
+    DIV     shift, and go to state 110
+    EQ      shift, and go to state 111
+    GE      shift, and go to state 112
+    GT      shift, and go to state 113
+    LE      shift, and go to state 114
+    LT      shift, and go to state 115
+    MINUS   shift, and go to state 116
+    MOD     shift, and go to state 117
+    NE      shift, and go to state 118
+    LSHIFT  shift, and go to state 120
+    RSHIFT  shift, and go to state 121
+    XOR     shift, and go to state 122
 
-    $default  redução com regra 69 (ExprOp)
+    $default  reduce using rule 69 (ExprOp)
 
 
-Estado 153
+State 153
 
    63 ExprOp: ExprOp • PLUS ExprOp
    64       | ExprOp • MINUS ExprOp
@@ -2280,16 +2280,16 @@ Estado 153
    77       | ExprOp • LT ExprOp
    78       | ExprOp • NE ExprOp
 
-    PLUS   troca e vai para estado 107
-    STAR   troca e vai para estado 109
-    DIV    troca e vai para estado 110
-    MINUS  troca e vai para estado 116
-    MOD    troca e vai para estado 117
+    PLUS   shift, and go to state 107
+    STAR   shift, and go to state 109
+    DIV    shift, and go to state 110
+    MINUS  shift, and go to state 116
+    MOD    shift, and go to state 117
 
-    $default  redução com regra 71 (ExprOp)
+    $default  reduce using rule 71 (ExprOp)
 
 
-Estado 154
+State 154
 
    63 ExprOp: ExprOp • PLUS ExprOp
    64       | ExprOp • MINUS ExprOp
@@ -2309,16 +2309,16 @@ Estado 154
    77       | ExprOp • LT ExprOp
    78       | ExprOp • NE ExprOp
 
-    PLUS   troca e vai para estado 107
-    STAR   troca e vai para estado 109
-    DIV    troca e vai para estado 110
-    MINUS  troca e vai para estado 116
-    MOD    troca e vai para estado 117
+    PLUS   shift, and go to state 107
+    STAR   shift, and go to state 109
+    DIV    shift, and go to state 110
+    MINUS  shift, and go to state 116
+    MOD    shift, and go to state 117
 
-    $default  redução com regra 72 (ExprOp)
+    $default  reduce using rule 72 (ExprOp)
 
 
-Estado 155
+State 155
 
    63 ExprOp: ExprOp • PLUS ExprOp
    64       | ExprOp • MINUS ExprOp
@@ -2338,202 +2338,202 @@ Estado 155
    77       | ExprOp • LT ExprOp
    78       | ExprOp • NE ExprOp
 
-    PLUS    troca e vai para estado 107
-    STAR    troca e vai para estado 109
-    DIV     troca e vai para estado 110
-    EQ      troca e vai para estado 111
-    GE      troca e vai para estado 112
-    GT      troca e vai para estado 113
-    LE      troca e vai para estado 114
-    LT      troca e vai para estado 115
-    MINUS   troca e vai para estado 116
-    MOD     troca e vai para estado 117
-    NE      troca e vai para estado 118
-    LSHIFT  troca e vai para estado 120
-    RSHIFT  troca e vai para estado 121
+    PLUS    shift, and go to state 107
+    STAR    shift, and go to state 109
+    DIV     shift, and go to state 110
+    EQ      shift, and go to state 111
+    GE      shift, and go to state 112
+    GT      shift, and go to state 113
+    LE      shift, and go to state 114
+    LT      shift, and go to state 115
+    MINUS   shift, and go to state 116
+    MOD     shift, and go to state 117
+    NE      shift, and go to state 118
+    LSHIFT  shift, and go to state 120
+    RSHIFT  shift, and go to state 121
 
-    $default  redução com regra 70 (ExprOp)
+    $default  reduce using rule 70 (ExprOp)
 
 
-Estado 156
+State 156
 
    28 Statement: IF LPAR Expr RPAR • Statement ELSE Statement
    29          | IF LPAR Expr RPAR • Statement
 
-    error      troca e vai para estado 32
-    ID         troca e vai para estado 33
-    PRINT      troca e vai para estado 34
-    PARSEINT   troca e vai para estado 35
-    RETURN     troca e vai para estado 36
-    LBRACE     troca e vai para estado 37
-    SEMICOLON  troca e vai para estado 38
-    IF         troca e vai para estado 39
-    WHILE      troca e vai para estado 40
+    error      shift, and go to state 32
+    ID         shift, and go to state 33
+    PRINT      shift, and go to state 34
+    PARSEINT   shift, and go to state 35
+    RETURN     shift, and go to state 36
+    LBRACE     shift, and go to state 37
+    SEMICOLON  shift, and go to state 38
+    IF         shift, and go to state 39
+    WHILE      shift, and go to state 40
 
-    Statement         vai para estado 166
-    MethodInvocation  vai para estado 45
-    Assignment        vai para estado 46
-    ParseArgs         vai para estado 47
+    Statement         go to state 166
+    MethodInvocation  go to state 45
+    Assignment        go to state 46
+    ParseArgs         go to state 47
 
 
-Estado 157
+State 157
 
    30 Statement: WHILE LPAR Expr RPAR • Statement
 
-    error      troca e vai para estado 32
-    ID         troca e vai para estado 33
-    PRINT      troca e vai para estado 34
-    PARSEINT   troca e vai para estado 35
-    RETURN     troca e vai para estado 36
-    LBRACE     troca e vai para estado 37
-    SEMICOLON  troca e vai para estado 38
-    IF         troca e vai para estado 39
-    WHILE      troca e vai para estado 40
+    error      shift, and go to state 32
+    ID         shift, and go to state 33
+    PRINT      shift, and go to state 34
+    PARSEINT   shift, and go to state 35
+    RETURN     shift, and go to state 36
+    LBRACE     shift, and go to state 37
+    SEMICOLON  shift, and go to state 38
+    IF         shift, and go to state 39
+    WHILE      shift, and go to state 40
 
-    Statement         vai para estado 167
-    MethodInvocation  vai para estado 45
-    Assignment        vai para estado 46
-    ParseArgs         vai para estado 47
+    Statement         go to state 167
+    MethodInvocation  go to state 45
+    Assignment        go to state 46
+    ParseArgs         go to state 47
 
 
-Estado 158
+State 158
 
    26 VarDecl: Type ID CommaIdRep SEMICOLON •
 
-    $default  redução com regra 26 (VarDecl)
+    $default  reduce using rule 26 (VarDecl)
 
 
-Estado 159
+State 159
 
    19 FormalParams: STRING LSQ RSQ ID •
 
-    $default  redução com regra 19 (FormalParams)
+    $default  reduce using rule 19 (FormalParams)
 
 
-Estado 160
+State 160
 
    20 CommaTypeIdRep: COMMA Type • ID CommaTypeIdRep
 
-    ID  troca e vai para estado 168
+    ID  shift, and go to state 168
 
 
-Estado 161
+State 161
 
    45 CommaExprRep: COMMA Expr • CommaExprRep
 
-    COMMA  troca e vai para estado 132
+    COMMA  shift, and go to state 132
 
-    $default  redução com regra 46 (CommaExprRep)
+    $default  reduce using rule 46 (CommaExprRep)
 
-    CommaExprRep  vai para estado 169
+    CommaExprRep  go to state 169
 
 
-Estado 162
+State 162
 
    43 MethodInvocation: ID LPAR Expr CommaExprRep RPAR •
 
-    $default  redução com regra 43 (MethodInvocation)
+    $default  reduce using rule 43 (MethodInvocation)
 
 
-Estado 163
+State 163
 
    34 Statement: PRINT LPAR STRLIT RPAR SEMICOLON •
 
-    $default  redução com regra 34 (Statement)
+    $default  reduce using rule 34 (Statement)
 
 
-Estado 164
+State 164
 
    33 Statement: PRINT LPAR Expr RPAR SEMICOLON •
 
-    $default  redução com regra 33 (Statement)
+    $default  reduce using rule 33 (Statement)
 
 
-Estado 165
+State 165
 
    48 ParseArgs: PARSEINT LPAR ID LSQ Expr • RSQ RPAR
 
-    RSQ  troca e vai para estado 170
+    RSQ  shift, and go to state 170
 
 
-Estado 166
+State 166
 
    28 Statement: IF LPAR Expr RPAR Statement • ELSE Statement
    29          | IF LPAR Expr RPAR Statement •
 
-    ELSE  troca e vai para estado 171
+    ELSE  shift, and go to state 171
 
-    $default  redução com regra 29 (Statement)
+    $default  reduce using rule 29 (Statement)
 
 
-Estado 167
+State 167
 
    30 Statement: WHILE LPAR Expr RPAR Statement •
 
-    $default  redução com regra 30 (Statement)
+    $default  reduce using rule 30 (Statement)
 
 
-Estado 168
+State 168
 
    20 CommaTypeIdRep: COMMA Type ID • CommaTypeIdRep
 
-    COMMA  troca e vai para estado 129
+    COMMA  shift, and go to state 129
 
-    $default  redução com regra 21 (CommaTypeIdRep)
+    $default  reduce using rule 21 (CommaTypeIdRep)
 
-    CommaTypeIdRep  vai para estado 172
+    CommaTypeIdRep  go to state 172
 
 
-Estado 169
+State 169
 
    45 CommaExprRep: COMMA Expr CommaExprRep •
 
-    $default  redução com regra 45 (CommaExprRep)
+    $default  reduce using rule 45 (CommaExprRep)
 
 
-Estado 170
+State 170
 
    48 ParseArgs: PARSEINT LPAR ID LSQ Expr RSQ • RPAR
 
-    RPAR  troca e vai para estado 173
+    RPAR  shift, and go to state 173
 
 
-Estado 171
+State 171
 
    28 Statement: IF LPAR Expr RPAR Statement ELSE • Statement
 
-    error      troca e vai para estado 32
-    ID         troca e vai para estado 33
-    PRINT      troca e vai para estado 34
-    PARSEINT   troca e vai para estado 35
-    RETURN     troca e vai para estado 36
-    LBRACE     troca e vai para estado 37
-    SEMICOLON  troca e vai para estado 38
-    IF         troca e vai para estado 39
-    WHILE      troca e vai para estado 40
+    error      shift, and go to state 32
+    ID         shift, and go to state 33
+    PRINT      shift, and go to state 34
+    PARSEINT   shift, and go to state 35
+    RETURN     shift, and go to state 36
+    LBRACE     shift, and go to state 37
+    SEMICOLON  shift, and go to state 38
+    IF         shift, and go to state 39
+    WHILE      shift, and go to state 40
 
-    Statement         vai para estado 174
-    MethodInvocation  vai para estado 45
-    Assignment        vai para estado 46
-    ParseArgs         vai para estado 47
+    Statement         go to state 174
+    MethodInvocation  go to state 45
+    Assignment        go to state 46
+    ParseArgs         go to state 47
 
 
-Estado 172
+State 172
 
    20 CommaTypeIdRep: COMMA Type ID CommaTypeIdRep •
 
-    $default  redução com regra 20 (CommaTypeIdRep)
+    $default  reduce using rule 20 (CommaTypeIdRep)
 
 
-Estado 173
+State 173
 
    48 ParseArgs: PARSEINT LPAR ID LSQ Expr RSQ RPAR •
 
-    $default  redução com regra 48 (ParseArgs)
+    $default  reduce using rule 48 (ParseArgs)
 
 
-Estado 174
+State 174
 
    28 Statement: IF LPAR Expr RPAR Statement ELSE Statement •
 
-    $default  redução com regra 28 (Statement)
+    $default  reduce using rule 28 (Statement)
