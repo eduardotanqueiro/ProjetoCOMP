@@ -655,7 +655,6 @@ void check_two_part_op(no *node, char *func_name, int isLogical, char *func_para
 	else
 		op_type2 = node->filho->irmao->notation;
 
-
 	if (op_type2 != NULL && !strcmp(op_type2, "bool"))
 	{
 		op_type2 = strdup("boolean");
@@ -836,7 +835,6 @@ void check_two_part_op(no *node, char *func_name, int isLogical, char *func_para
 		// se chegarmos aqui, signifca que os dois operandos não têm o mesmo tipo.
 		printf("Line %d, col %d: Operator %s cannot be applied to types %s, %s\n", node->info->line, node->info->col, get_node_operator(node->tipo), op_type1, op_type2);
 		node->notation = op_type1;
-
 	}
 	else if (op_type1 != NULL && op_type2 != NULL && !strcmp(node->tipo, "ParseArgs"))
 	{
@@ -857,7 +855,6 @@ void check_two_part_op(no *node, char *func_name, int isLogical, char *func_para
 
 		if (op_type2 == NULL)
 			op_type2 = "undef";
-
 
 		if (!strcmp(node->tipo, "Lshift") || !strcmp(node->tipo, "Rshift"))
 		{
@@ -909,7 +906,6 @@ void check_two_part_op(no *node, char *func_name, int isLogical, char *func_para
 			printf("Line %d, col %d: Operator %s cannot be applied to types %s, %s\n", node->info->line, node->info->col, get_node_operator(node->tipo), op_type1, op_type2);
 			node->notation = "undef";
 		}
-
 	}
 }
 
@@ -935,7 +931,6 @@ void check_one_part_op(no *node, char *func_name, int isLogical, char *func_para
 	}
 	else
 		op_type = node->filho->notation;
-
 
 	if (op_type != NULL && strcmp(op_type, "undef") && strcmp(op_type, "void"))
 	{ // não é null nem undef nem void
@@ -1024,7 +1019,6 @@ void check_one_part_op(no *node, char *func_name, int isLogical, char *func_para
 		{
 			node->notation = "int";
 
-
 			if (strcmp("String[]", node->filho->notation))
 			{
 				printf("Line %d, col %d: Operator .length cannot be applied to type %s\n", node->info->line, node->info->col, node->filho->notation);
@@ -1106,7 +1100,6 @@ void check_one_part_op(no *node, char *func_name, int isLogical, char *func_para
 					{
 						printf("Line %d, col %d: Incompatible type %s in return statement\n", node->filho->filho->info->line, node->filho->filho->info->col, op_type);
 					}
-
 				}
 			}
 		}
@@ -1145,13 +1138,13 @@ void check_one_part_op(no *node, char *func_name, int isLogical, char *func_para
 			printf("Line %d, col %d: Operator %s cannot be applied to type %s\n", node->info->line, node->info->col, get_node_operator(node->tipo), op_type);
 		}
 	}
-
 }
 
 int get_reallit(char *str_reallit)
 {
-	char *aux = (char *)malloc(sizeof(char) * 500);
-	int encontrou = 0, zeros = 1, i = 0, j = 0;
+	char *aux = (char *)malloc(sizeof(char) * 500); // variável auxiliar para ficar com o conteudo de str_reallit
+	int encontrou = 0, zero = 0, i = 0, j = 0;
+	double temp;
 
 	while (str_reallit[i] != '\0')
 	{
@@ -1159,11 +1152,13 @@ int get_reallit(char *str_reallit)
 		{
 			if (str_reallit[i] == 'e' || str_reallit[i] == 'E')
 			{
+				// Encontrou um expoente
 				encontrou = 1;
 			}
 			if (str_reallit[i] != '.' && str_reallit[i] != '0' && !encontrou)
 			{
-				zeros = 0;
+				// Ultimo resultado -> Se nunca encontrou um expoente e se ultimo valor é diferente de '.' e de '0'
+				zero = 1;
 			}
 			aux[j] = str_reallit[i];
 			j++;
@@ -1172,16 +1167,15 @@ int get_reallit(char *str_reallit)
 	}
 	aux[j] = '\0';
 
-	if (!zeros)
+	if (zero)
 	{
-		double temp = atof(aux);
+		temp = atof(aux);
 		if (temp > DBL_MAX || temp == 0 || isinf(temp))
 		{
 			return 1;
 		}
 	}
 	return 0;
-
 }
 
 char *remove_underscore(char *str)
@@ -1268,7 +1262,6 @@ bool isIntDoubleBool(no *node)
 			printf("Line %d, col %d: Number %s out of bounds\n", node->info->line, node->info->col, node->info->val);
 		}
 
-
 		node->notation = "double";
 		return true;
 	}
@@ -1337,7 +1330,6 @@ void check_call(no *node, tab_element *elem, char *func_name, char *func_params)
 			}
 		}
 
-
 		// Obter os parametros recebidos
 
 		char *temp;
@@ -1381,7 +1373,6 @@ void check_call(no *node, tab_element *elem, char *func_name, char *func_params)
 
 		aux_params = aux_params->irmao;
 	}
-
 
 	// temos de ir procurar qual/se existe o método com o nome recebido e que tenha como parâmetros as variáveis recebidas
 	char *return_type = search_method(symtab, node->filho->info->val, call_params);
