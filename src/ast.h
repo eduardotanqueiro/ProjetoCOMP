@@ -1,5 +1,7 @@
-//  Eduardo Carneiro - 2020240332
-//  Ricardo Silva - 2020227184
+/*
+	Eduardo Carneiro - 2020240332
+	Ricardo Silva - 2020227184
+*/
 #ifndef AST_H
 #define AST_H
 #include <stdlib.h>

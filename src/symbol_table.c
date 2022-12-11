@@ -1,6 +1,13 @@
 #include "symbol_table.h"
 #define DEBUG 0
 
+/*
+	Eduardo Carneiro - 2020240332
+	Ricardo Silva - 2020227184
+*/
+
+extern int flag_erro_semantic;
+
 extern tab_element *symtab;
 
 tab_element *insert_element(tab_element *tail, tab_element *new)
@@ -457,7 +464,7 @@ void make_notations_ast(no *node, tab_element *tab, char *func, char *func_param
 
 		// verificar se existe
 		if (search_symbol(tab, func_name, "", 0, 0, 0, "") != NULL)
-		{ // TODO VERIFICAR COM PARAMETROS -> não é necessário pois só verifica se existe ou não
+		{
 
 			char *new_func_params = get_method_params(node);
 
@@ -553,7 +560,8 @@ int one_part_op(char *tipo)
 char *get_var_type(no *var_node, char *func_name, char *func_params)
 {
 
-	tab_element *aux_tab = symtab->next;
+	// search for the function in the global table
+	tab_element *aux_tab = symtab->next; // TODO: NEXT OU NÃO?
 	tab_element *aux_method;
 	char *type = "undef";
 
@@ -568,7 +576,6 @@ char *get_var_type(no *var_node, char *func_name, char *func_params)
 			while (aux_method != NULL)
 			{
 
-				// printf("method_var %s | ext_var %s\n",aux_method->name,var_node->info->val);
 				if (aux_method->name != NULL && var_node->info != NULL)
 				{ // prevenir SEGFAULT
 
@@ -648,7 +655,7 @@ void check_two_part_op(no *node, char *func_name, int isLogical, char *func_para
 	else
 		op_type2 = node->filho->irmao->notation;
 
-	// printf("types %s %s\n",op_type1,op_type2);
+
 	if (op_type2 != NULL && !strcmp(op_type2, "bool"))
 	{
 		op_type2 = strdup("boolean");
@@ -722,7 +729,7 @@ void check_two_part_op(no *node, char *func_name, int isLogical, char *func_para
 					// sobra o eq e o ne, só dão erro se o tipo for String[]
 
 					if (!strcmp(op_type1, "String[]"))
-					{ // TODO void??
+					{
 						printf("Line %d, col %d: Operator %s cannot be applied to types %s, %s\n", node->info->line, node->info->col, get_node_operator(node->tipo), op_type1, op_type2);
 					}
 				}
@@ -810,6 +817,7 @@ void check_two_part_op(no *node, char *func_name, int isLogical, char *func_para
 			}
 			else if (!strcmp(node->tipo, "Assign"))
 			{
+
 				// CHECKAR SE ESTAMOS A DAR ASSIGN DE UM INT A UM DOUBLE, ERRO!!!
 				if (!strcmp(op_type1, "int") && !strcmp(op_type2, "double"))
 					printf("Line %d, col %d: Operator %s cannot be applied to types %s, %s\n", node->info->line, node->info->col, get_node_operator(node->tipo), op_type1, op_type2);
@@ -824,10 +832,11 @@ void check_two_part_op(no *node, char *func_name, int isLogical, char *func_para
 	}
 	else if (op_type1 != NULL && op_type2 != NULL && !strcmp(node->tipo, "Assign"))
 	{
+
 		// se chegarmos aqui, signifca que os dois operandos não têm o mesmo tipo.
-		// se o tipo da variável é bool, o outro tipo tem de ser obrigatoriamente bool, como não é o caso, temos erro
 		printf("Line %d, col %d: Operator %s cannot be applied to types %s, %s\n", node->info->line, node->info->col, get_node_operator(node->tipo), op_type1, op_type2);
 		node->notation = op_type1;
+
 	}
 	else if (op_type1 != NULL && op_type2 != NULL && !strcmp(node->tipo, "ParseArgs"))
 	{
@@ -848,6 +857,7 @@ void check_two_part_op(no *node, char *func_name, int isLogical, char *func_para
 
 		if (op_type2 == NULL)
 			op_type2 = "undef";
+
 
 		if (!strcmp(node->tipo, "Lshift") || !strcmp(node->tipo, "Rshift"))
 		{
@@ -899,6 +909,7 @@ void check_two_part_op(no *node, char *func_name, int isLogical, char *func_para
 			printf("Line %d, col %d: Operator %s cannot be applied to types %s, %s\n", node->info->line, node->info->col, get_node_operator(node->tipo), op_type1, op_type2);
 			node->notation = "undef";
 		}
+
 	}
 }
 
@@ -924,6 +935,7 @@ void check_one_part_op(no *node, char *func_name, int isLogical, char *func_para
 	}
 	else
 		op_type = node->filho->notation;
+
 
 	if (op_type != NULL && strcmp(op_type, "undef") && strcmp(op_type, "void"))
 	{ // não é null nem undef nem void
@@ -1012,6 +1024,7 @@ void check_one_part_op(no *node, char *func_name, int isLogical, char *func_para
 		{
 			node->notation = "int";
 
+
 			if (strcmp("String[]", node->filho->notation))
 			{
 				printf("Line %d, col %d: Operator .length cannot be applied to type %s\n", node->info->line, node->info->col, node->filho->notation);
@@ -1093,6 +1106,7 @@ void check_one_part_op(no *node, char *func_name, int isLogical, char *func_para
 					{
 						printf("Line %d, col %d: Incompatible type %s in return statement\n", node->filho->filho->info->line, node->filho->filho->info->col, op_type);
 					}
+
 				}
 			}
 		}
@@ -1131,6 +1145,7 @@ void check_one_part_op(no *node, char *func_name, int isLogical, char *func_para
 			printf("Line %d, col %d: Operator %s cannot be applied to type %s\n", node->info->line, node->info->col, get_node_operator(node->tipo), op_type);
 		}
 	}
+
 }
 
 int get_reallit(char *str_reallit)
@@ -1166,6 +1181,7 @@ int get_reallit(char *str_reallit)
 		}
 	}
 	return 0;
+
 }
 
 char *remove_underscore(char *str)
@@ -1252,6 +1268,7 @@ bool isIntDoubleBool(no *node)
 			printf("Line %d, col %d: Number %s out of bounds\n", node->info->line, node->info->col, node->info->val);
 		}
 
+
 		node->notation = "double";
 		return true;
 	}
@@ -1320,6 +1337,7 @@ void check_call(no *node, tab_element *elem, char *func_name, char *func_params)
 			}
 		}
 
+
 		// Obter os parametros recebidos
 
 		char *temp;
@@ -1363,6 +1381,7 @@ void check_call(no *node, tab_element *elem, char *func_name, char *func_params)
 
 		aux_params = aux_params->irmao;
 	}
+
 
 	// temos de ir procurar qual/se existe o método com o nome recebido e que tenha como parâmetros as variáveis recebidas
 	char *return_type = search_method(symtab, node->filho->info->val, call_params);
@@ -1449,7 +1468,7 @@ void check_call(no *node, tab_element *elem, char *func_name, char *func_params)
 	{
 		// a funcao existe e tem os mesmo tipo de parametros dos que foram recebidos na chamada
 		// no do nome do metodo com os tipos
-		node->filho->notation = (char *)malloc((strlen(call_params) + 3) * sizeof(char)); // MALLOC CORRUPTED TOP SIZE
+		node->filho->notation = (char *)malloc((strlen(call_params) + 3) * sizeof(char));
 		memset(node->filho->notation, 0, strlen(call_params) + 3);
 
 		snprintf(node->filho->notation, strlen(call_params) + 3, "(%s)", call_params);

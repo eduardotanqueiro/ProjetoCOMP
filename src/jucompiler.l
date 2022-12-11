@@ -1,6 +1,8 @@
 %{
-    //  Eduardo Carneiro - 2020240332
-    //  Ricardo Silva - 2020227184
+/*
+	Eduardo Carneiro - 2020240332
+	Ricardo Silva - 2020227184
+*/
     #include "ast.h"
     #include "y.tab.h"
     #include "symbol_table.h"   

@@ -1,5 +1,7 @@
-//  Eduardo Carneiro - 2020240332
-//  Ricardo Silva - 2020227184
+/*
+	Eduardo Carneiro - 2020240332
+	Ricardo Silva - 2020227184
+*/
 #include "ast.h"
 
 info *gen_token(char *val, int line, int col)
@@ -69,10 +71,6 @@ void print_AST(no *no, int level)
 {
     print_level(level);
 
-    // if(no == NULL){
-    //     //printf("null\n");
-    //     return;
-    // }
     if (no->notation == NULL)
     {
         if (strcmp(no->info->val, ""))
@@ -101,34 +99,5 @@ void print_AST(no *no, int level)
     if (no->irmao)
         print_AST(no->irmao, level);
 
-    // if printTree and hasError==False limpa a memória depois de printar!!
     free(no);
 }
-
-/*
-void print_AST(no *no, int level)
-{
-    print_level(level);
-
-    // if(no == NULL){
-    //     //printf("null\n");
-    //     return;
-    // }
-
-    if (strcmp(no->info->val,"") )
-    {
-        printf("%s(%s)\n", no->tipo, no->info->val);
-    }
-    else{
-        printf("%s\n", no->tipo);
-    }
-
-    if (no->filho)
-        print_AST(no->filho, level + 1);
-    if (no->irmao)
-        print_AST(no->irmao, level);
-
-    // if printTree and hasError==False limpa a memória depois de printar!!
-    free(no);
-}
-*/

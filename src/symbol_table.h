@@ -1,3 +1,7 @@
+/*
+	Eduardo Carneiro - 2020240332
+	Ricardo Silva - 2020227184
+*/
 #ifndef SYMBOL_TABLE_H
 #define SYMBOL_TABLE_H
 #include <errno.h>
@@ -12,27 +16,6 @@
 #include <ctype.h>
 #include <math.h>
 
-#define PARAMS_BUFFER_SIZE 512
-
-// typedef struct _t3{
-// 	char* name;
-// 	char* type;
-// 	struct _t3* next;
-// } vars;
-
-// typedef struct _t2{
-// 	char *name;
-// 	char* return_type;
-
-// 	struct vars* params_list;
-// 	struct vars* vars_list;
-// 	struct _t2* next;
-// } method;
-
-// typedef struct _t1{
-// 	char* name;
-// 	method* method_list;
-// } table_class;
 
 typedef struct _t
 {
