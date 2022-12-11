@@ -633,10 +633,10 @@ void check_two_part_op(no *node, char *func_name, int isLogical, char *func_para
 		op_type2 = node->filho->irmao->notation;
 
 	// printf("types %s %s\n",op_type1,op_type2);
-	// if (!strcmp(op_type2, "bool"))
-	// {
-	// 	op_type2=strdup("boolean");
-	// }
+	if (op_type2 != NULL && !strcmp(op_type2, "bool"))
+	{
+		op_type2 = strdup("boolean");
+	}
 
 	if (op_type1 != NULL && op_type2 != NULL && !strcmp(op_type1, op_type2))
 	{ // se ambos os operandos têm o mesmo tipo
