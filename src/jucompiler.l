@@ -235,13 +235,13 @@ if(flag_semantic){
     symtab = create_element(raiz->filho->info->val,"","", 0); // Criar elemento com o nome da classe
     create_table(symtab,raiz);
     make_notations_ast(raiz,symtab,NULL,NULL);
-    /* printf("fim anotacoes\n"); */
     
     if( !flag_erro_semantic ){
         printSymbolTable(symtab);
-        /* printf("fim symtab\n"); */
         print_AST(raiz,0);
     }
+
+    freeSymbolTable(symtab);
 }
 
 return 0;

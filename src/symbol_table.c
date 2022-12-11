@@ -1608,3 +1608,15 @@ char *get_node_operator(char *tipo_no)
 		return "^";
 	return NULL;
 }
+
+
+void freeSymbolTable(tab_element* node){
+
+	if(node->body)
+		freeSymbolTable(node->body);
+
+	if(node->next)
+		freeSymbolTable(node->next);
+	
+	free(node);
+}
