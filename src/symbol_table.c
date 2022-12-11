@@ -1528,14 +1528,14 @@ char *get_node_operator(char *tipo_no)
 	return NULL;
 }
 
+void freeSymbolTable(tab_element *node)
+{
 
-void freeSymbolTable(tab_element* node){
-
-	if(node->body)
+	if (node->body)
 		freeSymbolTable(node->body);
 
-	if(node->next)
+	if (node->next)
 		freeSymbolTable(node->next);
-	
+
 	free(node);
 }
