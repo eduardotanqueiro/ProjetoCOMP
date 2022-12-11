@@ -10,6 +10,7 @@
 #include <limits.h>
 #include <float.h>
 #include <ctype.h>
+#include <math.h>
 
 #define PARAMS_BUFFER_SIZE 512
 
@@ -57,7 +58,7 @@ void get_method_vars(tab_element *method_node, no *no_ast);
 void add_vars(tab_element *tail, no *no_ast);
 void printSymbolTable(tab_element *elem);
 char *get_type(char *original_type);
-char *search_symbol(tab_element *func, char *name, int isVar, int inMethod);
+char *search_symbol(tab_element *func, char *name, char *params, int isVar, int inMethod, int differentName, char *func_name);
 char *search_method(tab_element *func, char *name, char *params_list);
 void make_notations_ast(no *node, tab_element *elem, char *func, char *func_params);
 void check_two_part_op(no *node, char *func_name, int isLogical, char *func_params);

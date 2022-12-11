@@ -1,7 +1,4 @@
 #include "symbol_table.h"
-#include <stdio.h>
-#include <math.h>
-#include <float.h>
 #define DEBUG 0
 
 extern int flag_erro_semantic;
@@ -122,7 +119,7 @@ void get_method_header(tab_element *method_node, no *no_ast)
 	{ // iterar por todos os ParamDecl do metodo
 
 		// verificar se a variavel já existe
-		if (search_symbol(method_node->body, aux_node->filho->irmao->info->val, 1, 1) == NULL)
+		if (search_symbol(method_node->body, aux_node->filho->irmao->info->val, "", 1, 1, 0, "") == NULL)
 		{
 
 			// verificar se é reserved
@@ -205,7 +202,7 @@ void get_method_vars(tab_element *method_node, no *no_ast)
 		{ // só queremos adicionar na tabela quando são variáveis, statements não interessam aqui
 
 			// verificar se a variavel ainda nao está na tabela
-			if (search_symbol(method_node->body, aux_node->filho->irmao->info->val, 1, 1) == NULL)
+			if (search_symbol(method_node->body, aux_node->filho->irmao->info->val, "", 1, 1, 0, "") == NULL)
 			{
 
 				if (strlen(aux_node->filho->irmao->info->val) > 1 || isalpha(aux_node->filho->irmao->info->val[0]))
@@ -241,7 +238,7 @@ void add_vars(tab_element *tail, no *no_ast)
 	tab_element *aux_new_var;
 
 	// correr o corpo da classe
-	if (search_symbol(symtab, aux_node->filho->irmao->info->val, 1, 0) == NULL)
+	if (search_symbol(symtab, aux_node->filho->irmao->info->val, "", 1, 0, 0, "") == NULL)
 	{ // se a var global não existe
 
 		// verificar se não é reserved
@@ -300,22 +297,52 @@ char *search_method(tab_element *func, char *name, char *params_list)
 	return NULL;
 }
 
-char *search_symbol(tab_element *func, char *name, int isVar, int inMethod)
+char *search_symbol(tab_element *func, char *name, char *params, int isVar, int inMethod, int differentName, char *func_name)
 {
 
 	tab_element *aux = func;
 
 	while (aux != NULL)
 	{
-
-		if (!strcmp(aux->name, name))
+		if (strcmp("", params))
 		{
-			if (inMethod && isVar) // se estivermos a procurar uma variavel num metodo
-				return aux->type;
-			else if (!inMethod && isVar && aux->params_list == NULL) // se estivermos a procurar uma variavel global
-				return aux->type;
-			else if (!inMethod && !isVar) // se tivermos a procurar apenas se um método existe, devolvemos os parametro
-				return aux->type;		  // aux->params_list
+			if (!strcmp(aux->name, name) && !strcmp(aux->params_list, params))
+			{
+				if (inMethod && isVar) // se estivermos a procurar uma variavel num metodo
+					return aux->type;
+				else if (!inMethod && isVar && aux->params_list == NULL) // se estivermos a procurar uma variavel global
+					return aux->type;
+				else if (!inMethod && !isVar)
+				{ // se tivermos a procurar apenas se um método existe, devolvemos os parametro
+					// printf("func_name %s, aux->name %s\n", func_name, aux->name);
+					if (!differentName)
+						return aux->type; // aux->params_list
+					else if (strcmp(func_name, aux->name))
+					{
+						return aux->type;
+					}
+				}
+			}
+		}
+		else
+		{
+			if (!strcmp(aux->name, name))
+			{
+				if (inMethod && isVar) // se estivermos a procurar uma variavel num metodo
+					return aux->type;
+				else if (!inMethod && isVar && aux->params_list == NULL) // se estivermos a procurar uma variavel global
+					return aux->type;
+				else if (!inMethod && !isVar)
+				{ // se tivermos a procurar apenas se um método existe, devolvemos os parametro
+					// printf("func_name %s, aux->name %s\n", func_name, aux->name);
+					if (!differentName)
+						return aux->type; // aux->params_list
+					else if (strcmp(func_name, aux->name))
+					{
+						return aux->type;
+					}
+				}
+			}
 		}
 
 		if (inMethod)
@@ -323,7 +350,6 @@ char *search_symbol(tab_element *func, char *name, int isVar, int inMethod)
 		else
 			aux = aux->next;
 	}
-
 	return NULL;
 }
 
@@ -438,8 +464,8 @@ void make_notations_ast(no *node, tab_element *tab, char *func, char *func_param
 		char *func_name = (char *)strdup(node->filho->filho->irmao->info->val);
 
 		// verificar se existe
-		if (search_symbol(tab, func_name, 0, 0) != NULL)
-		{ // TODO VERIFICAR COM PARAMETROS
+		if (search_symbol(tab, func_name, "", 0, 0, 0, "") != NULL)
+		{ // TODO VERIFICAR COM PARAMETROS -> não é necessário pois só verifica se existe ou não
 
 			char *new_func_params = get_method_params(node);
 
@@ -1016,8 +1042,8 @@ void check_one_part_op(no *node, char *func_name, int isLogical, char *func_para
 					{
 						// raise error tipo incompativel
 						if (!(!strcmp(aux->type, "double") && !strcmp(op_type, "int")))
-						{ // estes tipos são compatíveis
-							if (node->filho->filho != NULL && strcmp(node->filho->tipo, "Not") && (two_part_op(node->filho->tipo) != 1))
+						{																		  // estes tipos são compatíveis
+							if (node->filho->filho != NULL && !strcmp(node->filho->tipo, "Call")) /*strcmp(node->filho->tipo, "Not") && (two_part_op(node->filho->tipo) != 1))*/
 							{
 								printf("Line %d, col %d: Incompatible type %s in return statement\n", node->filho->filho->info->line, node->filho->filho->info->col, op_type);
 								break;
@@ -1097,7 +1123,15 @@ void check_one_part_op(no *node, char *func_name, int isLogical, char *func_para
 				{
 					// checkar se a funcao devolve void ou não
 					// se for void, diferenciar entre um return; e um return *void*, por exemplo
-					char *return_type = search_symbol(symtab, func_name, 0, 0);
+					char *return_type;
+					if (node->filho != NULL && node->filho->filho != NULL)
+					{
+						return_type = search_symbol(symtab, func_name, func_params, 0, 0, 1, node->filho->filho->info->val);
+					}
+					else
+					{
+						return_type = search_symbol(symtab, func_name, func_params, 0, 0, 0, "");
+					}
 					// printf("return %s\n", return_type);
 					if (return_type != NULL && strcmp(return_type, "void"))
 					{ // se a funcao nao devolver void e não tivermos void, erro
@@ -1109,6 +1143,10 @@ void check_one_part_op(no *node, char *func_name, int isLogical, char *func_para
 						{
 							printf("Line %d, col %d: Incompatible type %s in return statement\n", node->info->line, node->info->col, op_type);
 						}
+					}
+					else if (node->filho != NULL && node->filho->filho != NULL)
+					{
+						printf("Line %d, col %d: Incompatible type %s in return statement\n", node->filho->filho->info->line, node->filho->filho->info->col, op_type);
 					}
 					// else // se a funcao devolve void
 					//  if (node->filho != NULL && node->filho->filho != NULL)
