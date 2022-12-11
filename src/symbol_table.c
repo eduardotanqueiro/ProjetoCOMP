@@ -1,4 +1,7 @@
 #include "symbol_table.h"
+#include <stdio.h>
+#include <math.h>
+#include <float.h>
 #define DEBUG 0
 
 extern int flag_erro_semantic;
@@ -227,6 +230,7 @@ void get_method_vars(tab_element *method_node, no *no_ast)
 	}
 }
 
+// Para variáveis globais
 void add_vars(tab_element *tail, no *no_ast)
 {
 
@@ -581,6 +585,11 @@ char *get_var_type(no *var_node, char *func_name, char *func_params)
 		aux_tab = aux_tab->next;
 	}
 
+	if (!strcmp(type, "bool"))
+	{
+		type = strdup("boolean");
+	}
+
 	return type;
 }
 
@@ -624,6 +633,10 @@ void check_two_part_op(no *node, char *func_name, int isLogical, char *func_para
 		op_type2 = node->filho->irmao->notation;
 
 	// printf("types %s %s\n",op_type1,op_type2);
+	// if (!strcmp(op_type2, "bool"))
+	// {
+	// 	op_type2=strdup("boolean");
+	// }
 
 	if (op_type1 != NULL && op_type2 != NULL && !strcmp(op_type1, op_type2))
 	{ // se ambos os operandos têm o mesmo tipo
@@ -633,7 +646,7 @@ void check_two_part_op(no *node, char *func_name, int isLogical, char *func_para
 			printf("Line %d, col %d: Operator %s cannot be applied to types %s, %s\n", node->info->line, node->info->col, get_node_operator(node->tipo), op_type1, op_type2);
 
 			if (isLogical == 1)
-				node->notation = "bool";
+				node->notation = "boolean";
 			else if (!strcmp(node->tipo, "ParseArgs"))
 				node->notation = "int";
 			else
@@ -731,7 +744,7 @@ void check_two_part_op(no *node, char *func_name, int isLogical, char *func_para
 				{
 					// ADD , SUB, MUL, DIV, MOD
 
-					if (!strcmp(op_type1, "boolean") || !strcmp(op_type1, "String[]"))
+					if (!strcmp(op_type1, "boolean") || !strcmp(op_type1, "String[]") || !strcmp(op_type2, "boolean") || !strcmp(op_type2, "String[]"))
 					{
 						node->notation = "undef";
 						printf("Line %d, col %d: Operator %s cannot be applied to types %s, %s\n", node->info->line, node->info->col, get_node_operator(node->tipo), op_type1, op_type2);
@@ -765,7 +778,7 @@ void check_two_part_op(no *node, char *func_name, int isLogical, char *func_para
 					 !strcmp(node->tipo, "Le") ||
 					 !strcmp(node->tipo, "Lt") ||
 					 !strcmp(node->tipo, "Ne"))
-			{ // se é um tipo de comparação, com são dois filhos númericos, não acontece nada TODO: retirar no futuro. Deixar agora para facilitar perceber o código
+			{ // se é um tipo de comparação, como são dois filhos númericos, não acontece nada TODO: retirar no futuro. Deixar agora para facilitar perceber o código
 			}
 			else if (!strcmp(node->tipo, "Lshift") || !strcmp(node->tipo, "Rshift"))
 			{
@@ -845,8 +858,48 @@ void check_two_part_op(no *node, char *func_name, int isLogical, char *func_para
 		if (op_type2 == NULL)
 			op_type2 = "undef";
 
-		// print error
-		printf("Line %d, col %d: Operator %s cannot be applied to types %s, %s\n", node->info->line, node->info->col, get_node_operator(node->tipo), op_type1, op_type2);
+		// // print error
+		// if (!strcmp(op_type1, "undef") || !strcmp(op_type2, "undef"))
+		// {
+		// 	printf("Line %d, col %d: Operator %s cannot be applied to types %s, %s\n", node->info->line, node->info->col, get_node_operator(node->tipo), op_type1, op_type2);
+		// }
+
+		if (!strcmp(node->tipo, "Lshift") || !strcmp(node->tipo, "Rshift"))
+		{
+			// LSHIFT RSHIFT
+			if (!(strcmp(op_type1, "int") || strcmp(op_type2, "int")))
+			{ // só aceitam ints
+				node->notation = "int";
+			}
+			else
+			{
+				printf("Line %d, col %d: Operator %s cannot be applied to types %s, %s\n", node->info->line, node->info->col, get_node_operator(node->tipo), op_type1, op_type2);
+				node->notation = "undef";
+			}
+		}
+
+		else if (!strcmp(node->tipo, "Eq") || !strcmp(node->tipo, "Ne"))
+		{
+			if (strcmp(op_type1, op_type2))
+				printf("Line %d, col %d: Operator %s cannot be applied to types %s, %s\n", node->info->line, node->info->col, get_node_operator(node->tipo), op_type1, op_type2);
+		}
+
+		else if (!strcmp(node->tipo, "Ge") ||
+				 !strcmp(node->tipo, "Gt") ||
+				 !strcmp(node->tipo, "Le") ||
+				 !strcmp(node->tipo, "Lt"))
+		{ // se é um tipo de comparação, nenhum dos operandos pode ser bool
+
+			if (!strcmp(op_type1, "boolean") || !strcmp(op_type2, "boolean") || !strcmp(op_type1, "String[]") || !strcmp(op_type2, "String[]"))
+				printf("Line %d, col %d: Operator %s cannot be applied to types %s, %s\n", node->info->line, node->info->col, get_node_operator(node->tipo), op_type1, op_type2);
+		}
+
+		else if (!strcmp(node->tipo, "Or") || !strcmp(node->tipo, "And"))
+		{ // se for or ou and, tem de ter expressao bolean em cada filho
+
+			// erro, pois sabemos que nenhum dos operandos é do tipo boolean
+			printf("Line %d, col %d: Operator %s cannot be applied to types %s, %s\n", node->info->line, node->info->col, get_node_operator(node->tipo), op_type1, op_type2);
+		}
 
 		if (isLogical == 1)
 
@@ -855,12 +908,13 @@ void check_two_part_op(no *node, char *func_name, int isLogical, char *func_para
 			else
 				node->notation = "boolean";
 
-		else
-
-			if (!strcmp(node->tipo, "ParseArgs"))
+		else if (!strcmp(node->tipo, "ParseArgs"))
 			node->notation = "int";
 		else
+		{
+			printf("Line %d, col %d: Operator %s cannot be applied to types %s, %s\n", node->info->line, node->info->col, get_node_operator(node->tipo), op_type1, op_type2);
 			node->notation = "undef";
+		}
 
 		// printf("debug filho1 %d | operator %d | filho2 %d\n",node->filho->info->col,node->info->col,node->filho->irmao->info->col);
 	}
@@ -904,8 +958,13 @@ void check_one_part_op(no *node, char *func_name, int isLogical, char *func_para
 			{ // se é um while, o filho tem de ser bool, isto é, a expressao entre parenteses
 
 				if (strcmp(op_type, "boolean"))
+				{
 					// raise error tipo incompativel
-					printf("Line %d, col %d: Incompatible type %s in while statement\n", node->filho->info->line, node->filho->info->col, op_type);
+					if (node->filho->filho != NULL && (two_part_op(node->filho->tipo) != 1))
+						printf("Line %d, col %d: Incompatible type %s in while statement\n", node->filho->filho->info->line, node->filho->filho->info->col, op_type);
+					else
+						printf("Line %d, col %d: Incompatible type %s in while statement\n", node->filho->info->line, node->filho->info->col, op_type);
+				}
 			}
 			else if (!strcmp(node->tipo, "Not"))
 			{ // Sobra a operação logica Not
@@ -918,7 +977,12 @@ void check_one_part_op(no *node, char *func_name, int isLogical, char *func_para
 			else if (!strcmp(node->tipo, "If"))
 			{
 				if (strcmp(op_type, "boolean"))
-					printf("Line %d, col %d: Incompatible type %s in %s statement\n", node->filho->info->line, node->filho->info->col, op_type, get_node_operator(node->tipo));
+				{
+					if (node->filho->filho != NULL && (two_part_op(node->filho->tipo) != 1))
+						printf("Line %d, col %d: Incompatible type %s in if statement\n", node->filho->filho->info->line, node->filho->filho->info->col, op_type);
+					else
+						printf("Line %d, col %d: Incompatible type %s in if statement\n", node->filho->info->line, node->filho->info->col, op_type);
+				}
 			}
 		}
 		else if (!strcmp(node->tipo, "Minus") || !strcmp(node->tipo, "Plus"))
@@ -953,8 +1017,16 @@ void check_one_part_op(no *node, char *func_name, int isLogical, char *func_para
 						// raise error tipo incompativel
 						if (!(!strcmp(aux->type, "double") && !strcmp(op_type, "int")))
 						{ // estes tipos são compatíveis
-							printf("Line %d, col %d: Incompatible type %s in return statement\n", node->filho->info->line, node->filho->info->col, op_type);
-							break;
+							if (node->filho->filho != NULL && strcmp(node->filho->tipo, "Not") && (two_part_op(node->filho->tipo) != 1))
+							{
+								printf("Line %d, col %d: Incompatible type %s in return statement\n", node->filho->filho->info->line, node->filho->filho->info->col, op_type);
+								break;
+							}
+							else
+							{ // ex: return inteiro quando funcao devolve boolean
+								printf("Line %d, col %d: Incompatible type %s in return statement\n", node->filho->info->line, node->filho->info->col, op_type);
+								break;
+							}
 						}
 					}
 				}
@@ -978,7 +1050,7 @@ void check_one_part_op(no *node, char *func_name, int isLogical, char *func_para
 
 			if (!strcmp(op_type, "String[]"))
 			{
-				if (node->filho->filho != NULL)
+				if (node->filho->filho != NULL && (two_part_op(node->filho->tipo) != 1))
 					printf("Line %d, col %d: Incompatible type %s in System.out.print statement\n", node->filho->filho->info->line, node->filho->filho->info->col, op_type);
 				else
 					printf("Line %d, col %d: Incompatible type %s in System.out.print statement\n", node->filho->info->line, node->filho->info->col, op_type);
@@ -999,7 +1071,7 @@ void check_one_part_op(no *node, char *func_name, int isLogical, char *func_para
 
 			if (op_type != NULL)
 			{
-				if (node->filho->filho != NULL)
+				if (node->filho->filho != NULL && (two_part_op(node->filho->tipo) != 1))
 					printf("Line %d, col %d: Incompatible type %s in System.out.print statement\n", node->filho->filho->info->line, node->filho->filho->info->col, op_type);
 				else if (node->filho != NULL)
 					printf("Line %d, col %d: Incompatible type %s in System.out.print statement\n", node->filho->info->line, node->filho->info->col, op_type);
@@ -1017,24 +1089,34 @@ void check_one_part_op(no *node, char *func_name, int isLogical, char *func_para
 				{ // se não for void, tem de ser undef
 
 					if (!strcmp(node->filho->tipo, "Call"))
-						printf("Line %d, col %d: Incompatible type %s in return statement\n", node->filho->info->line, node->filho->filho->info->col, op_type);
+						printf("Line %d, col %d: Incompatible type %s in return statement\n", node->filho->filho->info->line, node->filho->filho->info->col, op_type);
 					else
 						printf("Line %d, col %d: Incompatible type %s in return statement\n", node->filho->info->line, node->filho->info->col, op_type); // TODO filho?!
 				}
 				else
 				{
-
 					// checkar se a funcao devolve void ou não
 					// se for void, diferenciar entre um return; e um return *void*, por exemplo
 					char *return_type = search_symbol(symtab, func_name, 0, 0);
-					if (return_type != NULL && strcmp(return_type, "void")) // se a funcao nao devolver void e tivermos void, erro
-						printf("Line %d, col %d: Incompatible type %s in return statement\n", node->info->line, node->info->col, op_type);
-
-					else // se a funcao devolve void
+					// printf("return %s\n", return_type);
+					if (return_type != NULL && strcmp(return_type, "void"))
+					{ // se a funcao nao devolver void e não tivermos void, erro
 						if (node->filho != NULL && node->filho->filho != NULL)
+						{
 							printf("Line %d, col %d: Incompatible type %s in return statement\n", node->filho->filho->info->line, node->filho->filho->info->col, op_type);
-						else if (node->filho != NULL)
-							printf("Line %d, col %d: Incompatible type %s in return statement\n", node->filho->info->line, node->filho->info->col, op_type);
+						}
+						else
+						{
+							printf("Line %d, col %d: Incompatible type %s in return statement\n", node->info->line, node->info->col, op_type);
+						}
+					}
+					// else // se a funcao devolve void
+					//  if (node->filho != NULL && node->filho->filho != NULL)
+					//  	printf("Line %d, col %d: Incompatible type %s in return statement\n", node->filho->filho->info->line, node->filho->filho->info->col, op_type);
+					//  else if (node->filho != NULL)
+					//  	printf("Line %d, col %d: Incompatible type %s in return statement\n", node->filho->info->line, node->filho->info->col, op_type);
+					//  if (node->filho!=NULL && strcmp(node->filho->notation,"void"))
+					//  	printf("Line %d, col %d: Incompatible type %s in return statement\n", node->filho->filho->info->line, node->filho->filho->info->col, op_type);
 				}
 			}
 		}
@@ -1042,19 +1124,34 @@ void check_one_part_op(no *node, char *func_name, int isLogical, char *func_para
 		{
 
 			if (strcmp(op_type, "boolean"))
+			{
 				// raise error tipo incompativel
-				printf("Line %d, col %d: Incompatible type %s in while statement\n", node->filho->info->line, node->filho->info->col, op_type);
+				if (node->filho->filho != NULL && (two_part_op(node->filho->tipo) != 1))
+					printf("Line %d, col %d: Incompatible type %s in while statement\n", node->filho->filho->info->line, node->filho->filho->info->col, op_type);
+				else
+					printf("Line %d, col %d: Incompatible type %s in while statement\n", node->filho->info->line, node->filho->info->col, op_type);
+			}
 		}
 		else if (!strcmp(node->tipo, "If"))
 		{
-
 			if (strcmp(op_type, "boolean"))
-				printf("Line %d, col %d: Incompatible type %s in %s statement\n", node->filho->info->line, node->filho->info->col, op_type, get_node_operator(node->tipo));
+			{
+				if (node->filho->filho != NULL && (two_part_op(node->filho->tipo) != 1))
+					printf("Line %d, col %d: Incompatible type %s in if statement\n", node->filho->filho->info->line, node->filho->filho->info->col, op_type);
+				else
+					printf("Line %d, col %d: Incompatible type %s in if statement\n", node->filho->info->line, node->filho->info->col, op_type);
+			}
+		}
+
+		else if (!strcmp(node->tipo, "Not"))
+		{
+			if (strcmp(op_type, "boolean"))
+				printf("Line %d, col %d: Operator %s cannot be applied to type %s\n", node->info->line, node->info->col, get_node_operator(node->tipo), op_type);
+			node->notation = "boolean";
 		}
 		else
 		{
-
-			// NOT, MINUS, PLUS
+			// MINUS, PLUS
 			printf("Line %d, col %d: Operator %s cannot be applied to type %s\n", node->info->line, node->info->col, get_node_operator(node->tipo), op_type);
 		}
 	}
@@ -1064,19 +1161,50 @@ void check_one_part_op(no *node, char *func_name, int isLogical, char *func_para
 
 int get_reallit(char *str_reallit)
 {
+	char *aux = (char *)malloc(sizeof(char) * 500);
+	int encontrou = 0, zeros = 1, i = 0, j = 0;
 
-	char *lixo;
-	char *aux = remove_underscore(str_reallit);
+	while (str_reallit[i] != '\0')
+	{
+		if ((str_reallit[i] >= '0' && str_reallit[i] <= '9') || str_reallit[i] == 'e' || str_reallit[i] == 'E' || str_reallit[i] == '.' || str_reallit[i] == '-')
+		{
+			if (str_reallit[i] == 'e' || str_reallit[i] == 'E')
+			{
+				encontrou = 1;
+			}
+			if (str_reallit[i] != '.' && str_reallit[i] != '0' && !encontrou)
+			{
+				zeros = 0;
+			}
+			aux[j] = str_reallit[i];
+			j++;
+		}
+		i++;
+	}
+	aux[j] = '\0';
 
-	errno = 0;
-	char *end;
-	double result = 0;
-	result = strtod(aux, &end); // tentar converter a string para double
-
-	if (result == 0 && (errno != 0 || end == aux)) // se der erro
-		return 1;
-
+	if (!zeros)
+	{
+		double temp = atof(aux);
+		if (temp > DBL_MAX || temp == 0 || isinf(temp))
+		{
+			return 1;
+		}
+	}
 	return 0;
+
+	// char *lixo;
+	// char *aux = remove_underscore(str_reallit);
+
+	// errno = 0;
+	// char *end;
+	// double result = 0;
+	// result = strtod(aux, &end); // tentar converter a string para double
+
+	// if (result == 0 && (errno != 0 || end == aux)) // se der erro
+	// 	return 1;
+
+	// return 0;
 }
 
 char *remove_underscore(char *str)
